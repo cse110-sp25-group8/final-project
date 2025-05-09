@@ -1,0 +1,212 @@
+/* -------------------- */
+/* 🌈 General Styles */
+/* -------------------- */
+
+:root {
+  --main-bg: #f0f0f0;
+  --main-color: #2b7a78;
+  --accent-color: orange;
+  --highlight: color(display-p3 0.6 0.2 0.8);
+  --fallback-color: var(--highlight, #d47dd4); /* fallback example */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--main-bg, #ffffff);
+  margin: 2rem;
+  padding: 1rem;
+  line-height: 1.6;
+}
+
+/* -------------------- */
+/* 📦 Header */
+/* -------------------- */
+
+header {
+  background-color: var(--main-color);
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+  border-bottom: 5px solid var(--accent-color);
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* -------------------- */
+/* 📄 Sections */
+/* -------------------- */
+
+section {
+  background-color: white;
+  padding: 20px;
+  margin: 2vh auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  max-width: 800px;
+  border: 2px solid #ddd;
+}
+
+/* Box Model - longhand */
+section {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border-style: solid;
+  border-color: #ddd;
+  border-width: 2px;
+  border-radius: 8px;
+}
+
+/* Shorthand */
+section.feedback {
+  margin: 10px 20px 30px 40px;
+  padding: 10px 15px 10px 15px;
+  border: 1px dashed #aaa;
+}
+
+/* Example of inline block */
+h3 {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* -------------------- */
+/* 🎨 Color Examples */
+/* -------------------- */
+
+h2 {
+  color: rgb(33, 150, 243);
+}
+
+p {
+  color: hsl(210, 15%, 30%);
+}
+
+li {
+  color: #333;
+}
+
+/* -------------------- */
+/* 🧍 Attendance & Forms */
+/* -------------------- */
+
+li:hover {
+  background-color: #e6f2ff;
+  font-weight: bold;
+}
+
+form {
+  border: 2px solid #bbb;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+input[type="text"] {
+  background-color: #e3f2fd;
+}
+
+button:hover {
+  background-color: #2b7a78;
+  color: white;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* -------------------- */
+/* 🔲 Layout: Flexbox + Grid */
+/* -------------------- */
+
+.flex-box {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grid-box {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+}
+
+/* Must use 3 flex/grid props */
+.flex-box > div,
+.grid-box > div {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  min-width: 0;
+  height: auto;
+}
+
+/* -------------------- */
+/* 🆕 Modern Selectors */
+/* -------------------- */
+
+section:has(video) {
+  border: 2px dotted #2b7a78;
+}
+
+fieldset legend {
+  color: var(--accent-color);
+}
+
+h3.attendance {
+  color: darkred;
+}
+
+section > p {
+  font-style: italic;
+}
+
+ul + p {
+  color: blue;
+}
+
+ul ~ p {
+  background-color: #fcfcfc;
+}
+
+/* -------------------- */
+/* 👥 Combined Selectors */
+/* -------------------- */
+
+section.grid, section.flex-box {
+  border-left: 6px solid var(--accent-color);
+}
+
+/* -------------------- */
+/* 📱 Responsive Design */
+/* -------------------- */
+
+@media (max-width: 768px) {
+  body {
+    background-color: #fff7f0;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  .flex-box {
+    flex-direction: column;
+  }
+
+  .grid-box {
+    grid-template-columns: 1fr
+  }
+}
