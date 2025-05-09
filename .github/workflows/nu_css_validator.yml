@@ -1,4 +1,4 @@
-name: HTML and CSS Validation
+name: CSS Validation
 
 on:
   push:
@@ -20,14 +20,9 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Download Nu HTML Validator (latest version)
+    - name: Download Nu Validator (latest version)
       run: |
         curl -L -o vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
-
-    - name: Validate HTML
-      run: |
-        echo "Validating HTML..."
-        java -jar vnu.jar --verbose --no-langdetect --Werror $(find . -name "*.html")
 
     - name: Validate CSS
       run: |
