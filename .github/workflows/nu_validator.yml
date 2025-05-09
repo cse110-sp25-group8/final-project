@@ -27,7 +27,7 @@ jobs:
     - name: Validate HTML
       run: |
         echo "Validating HTML..."
-        java -jar vnu.jar --errors-only --skip-non-html --html **/*.html
+        java -jar vnu.jar --html **/*.html
 
     - name: Validate CSS
       run: |
