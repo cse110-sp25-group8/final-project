@@ -1,4 +1,4 @@
-name: HTML Validation
+name: HTML and CSS Validation
 
 on:
   push:
@@ -27,9 +27,9 @@ jobs:
     - name: Validate HTML
       run: |
         echo "Validating HTML..."
-        java -jar vnu.jar --verbose --no-langdetect --Werror --skip-non-html $(find . -name "*.html")
+        java -jar vnu.jar --verbose --no-langdetect --Werror $(find . -name "*.html")
 
     - name: Validate CSS
       run: |
         echo "Validating CSS..."
-        java -jar vnu.jar --verbose --errors-only --skip-non-css --css **/*.css
+        java -jar vnu.jar --verbose --no-langdetect --Werror $(find . -name "*.css")
