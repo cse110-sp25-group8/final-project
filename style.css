@@ -207,6 +207,6 @@ section.grid, section.flex-box {
   }
 
   .grid-box {
-    grid-template-columns: 1fr
+    grid-template-columns 1fr
   }
 }
