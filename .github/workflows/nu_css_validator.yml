@@ -27,4 +27,4 @@ jobs:
     - name: Validate CSS
       run: |
         echo "Validating CSS..."
-        java -jar vnu.jar --errors-only --Werror --verbose $(find . -name "*.css")
+        java -jar vnu.jar --errors-only --Werror --verbose --css $(find . -name "*.css")
