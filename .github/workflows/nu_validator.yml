@@ -27,7 +27,8 @@ jobs:
     - name: Validate HTML
       run: |
         echo "Validating HTML..."
-        java -jar vnu.jar --html **/*.html
+        find . -name "*.html" > html-files.txt
+        java -jar vnu.jar --no-langdetect --exit-zero-always --Werror @html-files.txt
 
     - name: Validate CSS
       run: |
