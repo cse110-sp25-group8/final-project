@@ -1,0 +1,30 @@
+name: JS Validation
+
+on:
+  push:
+    branches: ["*"]
+    paths-ignore:
+      - "README.md"
+
+jobs:
+  js-validator:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Download Nu Validator (latest version)
+        run: |
+          curl -L -o vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
+
+      - name: Validate JS
+        run: |
+          echo "Validating JS..."
+          java -jar vnu.jar --errors-only --verbose --js $(find . -name "*.js")
