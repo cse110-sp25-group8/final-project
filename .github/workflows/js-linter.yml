@@ -29,6 +29,6 @@ jobs:
           fi
           for file in $JS_FILES; do
             echo "Checking $file"
-            node --check "$file"
+            node --check "$file" || exit 1
           done
 
