@@ -22,9 +22,16 @@ jobs:
       - name: Install ESLint
         run: |
           echo "Initializing ESLint..."
-          npm ci
+          npm init -y
+          npm install eslint --save-dev
 
       - name: Validate JS
         run: |
           echo "Running ESLint..."
-          npx eslint . --ext .js --max-warnings 0
+          npx eslint . --max-warnings 0
+
+      - name: Clean up
+        run: |
+          echo "Cleaning up node_modules..."
+          rm -rf node_modules
+          rm -rf package-lock.json
