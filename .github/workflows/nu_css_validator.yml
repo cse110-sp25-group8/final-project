@@ -27,4 +27,9 @@ jobs:
     - name: Validate CSS
       run: |
         echo "Validating CSS..."
-        java -jar vnu.jar --errors-only --Werror --verbose --css $(find . -name "*.css")
+        CSS_FILES=$(find . -name "*.css")
+        if [ -z "$CSS_FILES" ]; then
+          echo "No CSS files found. Skipping validation."
+          exit 0
+        fi
+        java -jar vnu.jar --verbose --no-langdetect --Werror --css $CSS_FILES

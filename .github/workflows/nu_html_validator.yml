@@ -27,4 +27,9 @@ jobs:
     - name: Validate HTML
       run: |
         echo "Validating HTML..."
-        java -jar vnu.jar --verbose --no-langdetect --Werror $(find . -name "*.html")
+        HTML_FILES=$(find . -name "*.html")
+        if [ -z "$HTML_FILES" ]; then
+          echo "No HTML files found. Skipping validation."
+          exit 0
+        fi
+        java -jar vnu.jar --verbose --no-langdetect --Werror $HTML_FILES
