@@ -18,6 +18,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+      
+      - name: Check for JS Files
+        run: |
+          if [ -z "$(find . -name '*.js')" ]; then
+            echo "No JS files found, skipping linting."
+            exit 0
+          fi
 
       - name: Install ESLint
         run: |
