@@ -1,0 +1,44 @@
+name: JS Validation
+
+on:
+  push:
+    branches: ["*"]
+    paths-ignore:
+      - "README.md"
+
+jobs:
+  js-validator:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Check for JS Files
+        run: |
+          if [ -z "$(find . -name '*.js')" ]; then
+            echo "No JS files found, skipping linting."
+            exit 0
+          fi
+
+      - name: Install ESLint
+        run: |
+          echo "Initializing ESLint..."
+          npm init -y
+          npm install eslint --save-dev
+
+      - name: Validate JS
+        run: |
+          echo "Running ESLint..."
+          npx eslint . --max-warnings 0
+
+      - name: Clean up
+        run: |
+          echo "Cleaning up node_modules..."
+          rm -rf node_modules
+          rm -rf package-lock.json
