@@ -10,6 +10,7 @@ function init() {
         calories: 1
     };
 
+    // To change based on what the buttons are in the future.
     const addButton = document.getElementById('add-card');
     const recipeList = document.getElementById('recipe-list');
 
