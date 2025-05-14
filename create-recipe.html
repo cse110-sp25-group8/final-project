@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Create Recipe</title>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+    <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
+  </head>
+  <body>
+    <main>
+        <h1>Welcome to My Website</h1>  
+        <div>
+            <form>
+                <label>Name of Recipe</label><br>
+                <input type="text"></input>
+                <br>
+                <span>
+                    <label>Time taken to cook</label><br>
+                    <input type="text"> min</input>
+                    <br>
+
+                    <label>Calories</label><br>
+                    <input type="text"> kcal</input>
+                    <br>
+                </span>
+              
+                <label>Instructions</label><br>
+                <ul>
+                  <li><input type="text"></li><br>
+                  <li><input type="text"></li><br>
+                </ul>
+                <button>+</button><br>
+                
+                <input type="file" id="myFile" name="recipe"><br>
+                <label>Ingredients</label> <br>
+                <input type="text" placeholder="Search for Ingredients">
+                <div>
+                    <span>Noodle</span>
+                    <span>Chicken</span>
+                    <span>Carrots</span>
+                </div>
+            </form>
+            <button>Save Recipe</button>
+            <button>Cancel</button>
+
+        </div>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
