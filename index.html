@@ -1,16 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Let Me Cook - Home</title>
+  <link rel="stylesheet" href="index.css">
 </head>
+    <body>
+        <header class="site-header">
 
-<body>
-    <main>
-        <section id="recipe-list"></section>
-    </main>
-</body>
+            <!-- Top navigation bar containing logo, search, and favorite button -->
+            <nav class="top-nav">
+                <a href="/" class="logo-section">
+                    <img src="recipe.png" alt="Logo" />
+                    <span>LET ME COOK</span>
+                </a>
 
+                <div class="search-bar">
+                    <input type="text" placeholder="Search Recipe" />
+                </div>
+
+                <button class="button-fav" type="button">Favorite</button>
+            </nav>
+
+            
+            <!-- Bottom section containing filters and action buttons -->
+            <nav class="sub-nav">
+                <ul class="filters">
+                    <li>
+                        <select class="btn-filter" name="filter1">
+                            <option disabled selected>Filter #1</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="btn-filter" name="filter2">
+                            <option disabled selected>Filter #2</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="btn-filter" name="filter 3">
+                            <option disabled selected>Filter #3</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="btn-filter" name="filter4">
+                            <option disabled selected>Filter #4</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                    </li>
+                </ul>
+
+                <!-- Action buttons (Shuffle/Add) -->
+                <div class="actions">
+                    <button class="btn-shuffle" type="button">Shuffle</button>
+                    <button class="btn-add" type="button">Add</button>
+                </div>
+                
+            </nav>
+        </header>
+    </body>
 </html>
