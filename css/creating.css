@@ -1,0 +1,76 @@
+.rows{
+    display:flex;
+}
+
+input{
+    border:solid ;
+    border-color:#86d0ce;
+}
+
+label{
+    float:left;
+    display:block;
+}
+
+.boxes{
+
+    display:block;
+    margin-right: 10px;
+}
+
+.information{
+    display:inline;
+}
+
+button{
+    position:relative;
+    
+}
+
+.parent{
+    display:flex;
+}
+
+.right-side{
+    right:50%;
+    flex: 1; 
+}
+.left-side{
+    flex: 1; 
+}
+
+button{
+    border-radius: 8px;
+    background-color:#009c99;
+    border-color:#009c99;
+    color:white;
+    margin-bottom:20px;
+    padding:5px;
+}
+
+.search-box{
+    margin-top:5px;
+    padding:3px;
+    border-radius:8px;
+    
+}
+
+#myFile{
+    margin-bottom:20px;
+}
+
+form{
+    width:100vh
+}
+
+main{
+    margin:auto;
+}
+* {
+    font-size:30px;
+}
+
+h1{
+    font-size:40px;
+}
+

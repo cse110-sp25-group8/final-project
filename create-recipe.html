@@ -3,26 +3,37 @@
   <head>
     <meta charset="UTF-8">
     <title>Create Recipe</title>
-    <!-- <link rel="stylesheet" href="./style.css"> -->
+    <link rel="stylesheet" href="./css/creating.css">
     <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
   </head>
   <body>
     <main>
-        <h1>Welcome to My Website</h1>  
-        <div>
-            <form>
+        <h1>Add Recipe</h1>  
+
+          <div class="parent">
+            <div class="left-side">
+              <form>
                 <label>Name of Recipe</label><br>
                 <input type="text"></input>
                 <br>
-                <span>
-                    <label>Time taken to cook</label><br>
-                    <input type="text"> min</input>
-                    <br>
-
-                    <label>Calories</label><br>
-                    <input type="text"> kcal</input>
-                    <br>
-                </span>
+                  <div class="rows">
+                    <div class="boxes">
+                      <label>Time taken to cook</label><br>
+                      <input class ="units" type="text"></input>
+                      <span class="information">min</span>
+                      <br>
+                    </div>
+  
+                    <div class="boxes">
+                      <label>Calories</label><br>
+                      <input class ="units" type="text"></input>
+                      <span class="information">kcal</span>
+                      <br>
+                    </div>
+                  </div>
+                  
+  
+             
               
                 <label>Instructions</label><br>
                 <ul>
@@ -30,20 +41,30 @@
                   <li><input type="text"></li><br>
                 </ul>
                 <button>+</button><br>
-                
-                <input type="file" id="myFile" name="recipe"><br>
-                <label>Ingredients</label> <br>
-                <input type="text" placeholder="Search for Ingredients">
-                <div>
-                    <span>Noodle</span>
-                    <span>Chicken</span>
-                    <span>Carrots</span>
-                </div>
-            </form>
-            <button>Save Recipe</button>
-            <button>Cancel</button>
+              </form>
+            </div>
+             
+            <div class="right-side">
+  
+              <button>Save Recipe</button>
+              <button>Cancel</button><br>
+  
+              <input type="file" id="myFile" name="recipe"><br>
+  
+              <label>Ingredients</label> <br>
+              <input class="search-box" type="text" placeholder="Search for Ingredients">
+              <div>
+                  <span>Noodle</span>
+                  <span>Chicken</span>
+                  <span>Carrots</span>
+              </div>
+            </div>
 
-        </div>
+          </div>
+
+          
+
+
     </main>
     <script src="index.js"></script>
   </body>
