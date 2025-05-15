@@ -1,0 +1,48 @@
+:root {
+  --color-background: #ffffff;
+  --color-accent:   #00b8b8;
+  --color-text:     #000000;
+  --color-fav-bg:   #00b8b8;
+  --color-fav-text: #ffffff;
+  --btn-shadow:     0 2px 4px rgba(0, 0, 0, 0.2);
+
+  --font-sm:  0.875rem;
+  --font-md:  1rem;
+  --font-lg:  1.125rem;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.site-header {
+  background: var(--color-accent);
+  padding: 1rem;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-section img {
+  height: 2rem;        
+  margin-right: 0.5rem;
+}
+
+.logo-section span {
+  font-size: var(--font-lg);
+  font-weight: bold;
+  color: var(--color-text);
+}
