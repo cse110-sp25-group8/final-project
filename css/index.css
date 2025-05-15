@@ -46,3 +46,57 @@ body {
   font-weight: bold;
   color: var(--color-text);
 }
+
+
+.sub-nav {
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--btn-shadow);
+}
+
+.filters {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.filters select {
+  padding: 0.6rem 1rem;
+  font-weight: bold;
+  font-size: var(--font-md);
+  border: none;
+  background-color: #f2f2f2;
+  border-radius: 999px;
+  box-shadow: var(--btn-shadow);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-shuffle::before {
+  content: "🔀 ";
+}
+
+.btn-add::before {
+  content: "🗂️ ";
+}
+
+.btn-shuffle,
+.btn-add {
+  background-color: var(--color-accent);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: var(--font-md);
+  box-shadow: var(--btn-shadow);
+  cursor: pointer;
+}
