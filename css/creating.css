@@ -8,16 +8,34 @@ input{
 }
 
 .input_text{
-    width: 765px;     /* You can set this to any value (px, %, em, etc.) */
-    height: 40px;     /* Adjusts the height of the textbox */
-    padding: 5px;     /* Optional: adds space inside the box */
-    font-size: 16px;  /* Optional: adjusts text size */
-    box-sizing: border-box; /* Ensures padding is included in width/height */
+    width: 100%;           /* Fills its container */
+    max-width: 550px;       /* Prevents overflow */
+    height: 40px;
+    padding: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
 
 }
 
+
+.parent {
+  display: flex;
+  gap: 300px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+
+.left-side, .right-side {
+  flex: 1;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
 .right-side {
-  align-self: flex-start; /* Align to top of left-side */
+  align-self: flex-start;
+  flex: 1;
 }
 
 
@@ -33,40 +51,15 @@ label{
 }
 
 .units-input {
-  display: inline-flex; /* puts the input and 'min' side by side */
-  align-items: center;  /* vertically aligns them */
-  gap: 8px;             /* space between input and "min" */
+    width: 100%;            /* Fills its container */
+    max-width: 270px;       /* Prevents overflow */
+    display: inline-flex;   /* puts the input and 'min' side by side */
+    align-items: center;    /* vertically aligns them */
+    gap: 8px;               /* space between input and "min" */
 }
 
 .information {
   color: #333;
-}
-
-button{
-    position:relative;
-    
-}
-
-.parent{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 60px;
-  padding: 60px 20px;
-}
-
-
-.left-side, .right-side {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  flex: 1 1 400px;
-  max-width: 600px;
-}
-
-.right-side{
-    right: 50%;
-    flex: 1; 
 }
 
 
@@ -77,6 +70,7 @@ button{
     color:white;
     margin-bottom:20px;
     padding:5px;
+    position:relative;
 }
 
 .search-box{
