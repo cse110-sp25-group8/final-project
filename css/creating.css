@@ -7,6 +7,20 @@ input{
     border-color:#86d0ce;
 }
 
+.input_text{
+    width: 765px;     /* You can set this to any value (px, %, em, etc.) */
+    height: 40px;     /* Adjusts the height of the textbox */
+    padding: 5px;     /* Optional: adds space inside the box */
+    font-size: 16px;  /* Optional: adjusts text size */
+    box-sizing: border-box; /* Ensures padding is included in width/height */
+
+}
+
+.right-side {
+  align-self: flex-start; /* Align to top of left-side */
+}
+
+
 label{
     float:left;
     display:block;
@@ -18,8 +32,14 @@ label{
     margin-right: 10px;
 }
 
-.information{
-    display:inline;
+.units-input {
+  display: inline-flex; /* puts the input and 'min' side by side */
+  align-items: center;  /* vertically aligns them */
+  gap: 8px;             /* space between input and "min" */
+}
+
+.information {
+  color: #333;
 }
 
 button{
@@ -28,16 +48,27 @@ button{
 }
 
 .parent{
-    display:flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 60px;
+  padding: 60px 20px;
+}
+
+
+.left-side, .right-side {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1 1 400px;
+  max-width: 600px;
 }
 
 .right-side{
-    right:50%;
+    right: 50%;
     flex: 1; 
 }
-.left-side{
-    flex: 1; 
-}
+
 
 button{
     border-radius: 8px;

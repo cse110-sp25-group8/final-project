@@ -1,3 +1,8 @@
+<!-- you can nested the entire form into a div or span and then do css: align-cetner
+     Change font and fix the responsiveness.
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,43 +19,50 @@
             <div class="left-side">
               <form>
                 <label>Name of Recipe</label><br>
-                <input type="text"></input>
-                <br>
-                  <div class="rows">
-                    <div class="boxes">
-                      <label>Time taken to cook</label><br>
-                      <input class ="units" type="text"></input>
+                <input class="input_text" type="text"></input>
+                <br><br>
+
+                  <span class="rows">
+                    <span class="boxes">
+                    <label>Time taken to cook</label><br>
+                    <div class="units-input">
+                      <input type="text">
                       <span class="information">min</span>
-                      <br>
                     </div>
-  
-                    <div class="boxes">
+                    <br>
+                    </span>
+                    
+                    <span class="boxes">
                       <label>Calories</label><br>
-                      <input class ="units" type="text"></input>
-                      <span class="information">kcal</span>
+                      <div class="units-input">
+                        <input class ="units" type="text"></input>
+                        <span class="information">kcal</span>
+                      </div>
+
                       <br>
-                    </div>
-                  </div>
+                    </span>
+                  </span>
                   
-  
-             
-              
+                
                 <label>Instructions</label><br>
                 <ul>
                   <li><input type="text"></li><br>
                   <li><input type="text"></li><br>
                 </ul>
-                <button>+</button><br>
+                <button type="button">+</button><br>
               </form>
+
+
             </div>
-             
+          
+
             <div class="right-side">
-  
+
               <button>Save Recipe</button>
               <button>Cancel</button><br>
-  
+
               <input type="file" id="myFile" name="recipe"><br>
-  
+
               <label>Ingredients</label> <br>
               <input class="search-box" type="text" placeholder="Search for Ingredients">
               <div>
@@ -59,8 +71,8 @@
                   <span>Carrots</span>
               </div>
             </div>
-
           </div>
+
 
           
 
