@@ -1,5 +1,5 @@
 export default function () {
-    return ` <section class="sub-nav">
+	return ` <section class="sub-nav">
             <ul class="filters">
                 <li>
                     <select class="btn-filter" name="filter1">
