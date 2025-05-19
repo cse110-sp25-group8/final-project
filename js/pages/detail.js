@@ -1,5 +1,5 @@
 export default function () {
-    return `<!-- Left Column - Ingredients and Instructions -->
+	return `<!-- Left Column - Ingredients and Instructions -->
         <section id="ingredients">
             <h2>Ingredients</h2>
             <ul>

@@ -1,5 +1,5 @@
 export default function () {
-    return `
+	return `
         <main class="main-area">
           
 
@@ -66,6 +66,6 @@ export default function () {
           
 
 
-    </main> `
+    </main> `;
 
 }
