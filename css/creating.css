@@ -1,0 +1,106 @@
+.rows {
+    display: flex;
+}
+
+
+#input-area {
+    border: solid;
+    border-color: #86d0ce;
+}
+
+.input_text {
+    width: 100%;
+    /* Fills its container */
+    max-width: 550px;
+    /* Prevents overflow */
+    height: 40px;
+    padding: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+
+}
+
+
+.parent {
+    display: flex;
+    gap: 300px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+
+.left-side,
+.right-side {
+    flex: 1;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.right-side {
+    align-self: flex-start;
+    flex: 1;
+}
+
+
+.labeling {
+    float: left;
+    display: block;
+}
+
+.boxes {
+    display: block;
+    margin-right: 10px;
+}
+
+.units-input {
+    width: 100%;
+    /* Fills its container */
+    max-width: 270px;
+    /* Prevents overflow */
+    display: inline-flex;
+    /* puts the input and 'min' side by side */
+    align-items: center;
+    /* vertically aligns them */
+    gap: 8px;
+    /* space between input and "min" */
+}
+
+.information {
+    color: #333;
+}
+
+
+.Button {
+    border-radius: 8px;
+    background-color: #009c99;
+    border-color: #009c99;
+    color: white;
+    margin-bottom: 20px;
+    padding: 5px;
+    position: relative;
+}
+
+.search-box {
+    margin-top: 5px;
+    padding: 3px;
+    border-radius: 8px;
+
+}
+
+#myFile {
+    margin-bottom: 20px;
+}
+
+.form-to-fill {
+    width: 100vh
+}
+
+.main-area {
+    margin: auto;
+}
+
+
+.heading {
+    font-size: 40px;
+}
