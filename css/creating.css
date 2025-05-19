@@ -19,7 +19,8 @@ input{
 
 .parent {
   display: flex;
-  gap: 300px;
+  flex-wrap: wrap;
+  gap: 50px;
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px;
@@ -84,7 +85,8 @@ button{
 }
 
 form{
-    width:100vh
+    width:100%;
+    max-width: 600px;
 }
 
 main{
@@ -97,6 +99,33 @@ main{
 h1{
     font-size:40px;
 }
+
+@media (max-width: 768px) {
+    .parent {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .left-side, .right-side {
+      max-width: 90%;
+      width: 100%;
+    }
+  
+    button {
+      width: 100%;
+    }
+  
+    .input_text, .units-input {
+      max-width: 100%;
+    }
+  }
+
+  * {
+    font-size: clamp(16px, 2.5vw, 24px);
+  }
+  h1 {
+    font-size: clamp(24px, 4vw, 40px);
+  }
 
 .right-side > button {
     display: inline-block;
