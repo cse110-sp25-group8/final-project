@@ -1,13 +1,13 @@
 class RecipeCard extends HTMLElement {
-	constructor() {
-		super();
-		this.attachShadow({ mode: 'open' });
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
 
-		const articleContainer = document.createElement('article');
+        const articleContainer = document.createElement('article');
 
-		// TO ADD: styling rules
-		const styleElement = document.createElement('style');
-		styleElement.textContent = `
+        // TO ADD: styling rules
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
             article {
                 width: 250px;
                 height: 353px;
@@ -98,19 +98,19 @@ class RecipeCard extends HTMLElement {
             }
         `;
 
-		this.shadowRoot.appendChild(articleContainer);
-		this.shadowRoot.appendChild(styleElement);
-	}
+        this.shadowRoot.appendChild(articleContainer);
+        this.shadowRoot.appendChild(styleElement);
+    }
 
-	set data(data) {
-		// Check to see if nothing was passed in
-		if (!data) {
-			return;
-		}
+    set data(data) {
+        // Check to see if nothing was passed in
+        if (!data) {
+            return;
+        }
 
-		// Dumym values to be removed
-		const article = this.shadowRoot.querySelector('article');
-		article.innerHTML = `
+        // Dumym values to be removed
+        const article = this.shadowRoot.querySelector('article');
+        article.innerHTML = `
             <!-- <img src="${data.imgSrc}" alt="${data.imgAlt}"> -->
             <div class="pic-box">
                 <button>
@@ -129,7 +129,7 @@ class RecipeCard extends HTMLElement {
             </section>
             <p class="ingredients">Ingredient_1, Ingredient_2, Ingredient_3</p>
         `;
-	}
+    }
 }
 
 customElements.define('recipe-card', RecipeCard); 
