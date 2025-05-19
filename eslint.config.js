@@ -13,7 +13,7 @@ export default [
         'camelcase': 'error',
         'eqeqeq': 'error',
         'curly': 'error',
-        'indent': ['error', 4],
+        'indent': ['error', 'tab'],
         'no-tabs': 'off',
       },
     },
