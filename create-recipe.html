@@ -12,30 +12,30 @@
     <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
   </head>
   <body>
-    <main>
-        <h1>Add Recipe</h1>  
+    <main class="main-area">
+        <h1 class="heading">Add Recipe</h1>  
 
           <div class="parent">
             <div class="left-side">
-              <form>
-                <label>Name of Recipe</label><br>
-                <input class="input_text" type="text">
+              <form class="form-to-fill">
+                <label class="labeling" >Name of Recipe</label><br>
+                <input class="input_text" id="input-area" type="text">
                 <br><br>
 
                   <span class="rows">
                     <span class="boxes">
-                    <label>Time taken to cook</label><br>
+                    <label class="labeling">Time taken to cook</label><br>
 
-                      <input class="units-input" type="text">
+                      <input class="units-input" id="input-area" type="text">
                       <span class="information">min</span>
 
                     <br>
                     </span>
                     
                     <span class="boxes">
-                      <label>Calories</label><br>
+                      <label class="labeling">Calories</label><br>
 
-                        <input class="units-input" type="text">
+                        <input class="units-input"  id="input-area" type="text">
                         <span class="information">kcal</span>
 
 
@@ -44,12 +44,12 @@
                   </span>
                   
                 
-                <label>Instructions</label><br>
+                <label class="labeling">Instructions</label><br>
                 <ul>
-                  <li><input type="text"></li>
-                  <li><input type="text"></li>
+                  <li><input id="input-area" type="text"></li>
+                  <li><input id="input-area" type="text"></li>
                 </ul>
-                <button type="button">+</button><br>
+                <button class="Button" type="button">+</button><br>
               </form>
 
 
@@ -58,13 +58,13 @@
 
             <div class="right-side">
 
-              <button>Save Recipe</button>
-              <button>Cancel</button><br>
+              <button class="Button">Save Recipe</button>
+              <button class="Button">Cancel</button><br>
 
               <input type="file" id="myFile" name="recipe"><br>
 
-              <label>Ingredients</label> <br>
-              <input class="search-box" type="text" placeholder="Search for Ingredients">
+              <label class="labeling">Ingredients</label> <br>
+              <input class="search-box"  id="input-area" type="text" placeholder="Search for Ingredients">
               <div>
                   <span>Noodle</span>
                   <span>Chicken</span>

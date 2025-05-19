@@ -2,7 +2,8 @@
     display:flex;
 }
 
-input{
+
+#input-area{
     border:solid ;
     border-color:#86d0ce;
 }
@@ -39,7 +40,7 @@ input{
 }
 
 
-label{
+.labeling{
     float:left;
     display:block;
 }
@@ -63,7 +64,7 @@ label{
 }
 
 
-button{
+.Button{
     border-radius: 8px;
     background-color:#009c99;
     border-color:#009c99;
@@ -84,18 +85,18 @@ button{
     margin-bottom:20px;
 }
 
-form{
+.form-to-fill{
     width:100vh
 }
 
-main{
+.main-area{
     margin:auto;
 }
 * {
     font-size:30px;
 }
 
-h1{
+.heading{
     font-size:40px;
 }
 
