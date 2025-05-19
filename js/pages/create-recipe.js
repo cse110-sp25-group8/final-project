@@ -1,10 +1,11 @@
 export default function () {
     return `
         <main class="main-area">
-        <h1 class="heading">Add Recipe</h1>  
+          
 
           <div class="parent">
             <div class="left-side">
+              <h1 class="heading">Add Recipe</h1>
               <form class="form-to-fill">
                 <label class="labeling" >Name of Recipe</label><br>
                 <input class="input_text" id="input-area" type="text">
@@ -66,5 +67,5 @@ export default function () {
 
 
     </main> `
-    
+
 }
