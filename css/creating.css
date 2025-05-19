@@ -1,5 +1,5 @@
 .rows{
-    display:flex;
+    display:flex; 
 }
 
 input{
@@ -20,7 +20,7 @@ input{
 .parent {
   display: flex;
   flex-wrap: wrap;
-  gap: 50px;
+  gap: 300px;
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px;
@@ -62,6 +62,9 @@ label{
   color: #333;
 }
 
+.boxes input.units-input {
+    width: 180px;
+  }
 
 button{
     border-radius: 8px;
