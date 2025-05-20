@@ -20,7 +20,7 @@
             <div class="left-side">
               <form>
                 <label>Name of Recipe</label><br>
-                <input class="input_text" type="text">
+                <input class="input_text" id="recipe-name" type="text">
                 <br><br>
 
                   <span class="rows">
@@ -28,7 +28,7 @@
                     <label>Time taken to cook</label><br>
                     <div class="input-row">
 
-                      <input class="units-input" type="text">
+                      <input class="units-input" id="time-cook" type="text">
                       <span class="information">min</span>
                     </div>
                     <br>
@@ -38,7 +38,7 @@
                       <label>Calories</label><br>
                       <div class="input-row">
 
-                        <input class="units-input" type="text">
+                        <input class="units-input" id="calories" type="text">
                         <span class="information">kcal</span>
                       <br>
                       </div>
@@ -60,20 +60,15 @@
 
             <div class="right-side">
 
-              <button>Save Recipe</button>
-              <button>Cancel</button><br>
+              <button type="button" id="save">Save Recipe</button>
+              <button type="button" id="cancel">Cancel</button><br>
 
               <input type="file" id="myFile" name="recipe"><br>
 
               <label>Ingredients</label> <br>
               <input class="search-box" type="text" placeholder="Search for Ingredients">
-              <div>
-                  <span>Noodle</span>
-                  <span>Chicken</span>
-                  <span>Carrots</span>
-              </div>
+
             </div>
-          </div>
 
 
           
