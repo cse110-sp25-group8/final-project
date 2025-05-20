@@ -1,0 +1,85 @@
+<!-- you can nested the entire form into a div or span and then do css: align-cetner
+     Change font and fix the responsiveness.
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Recipe</title>
+    <link rel="stylesheet" href="./css/creating.css">
+    <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
+  </head>
+  <body>
+    <main>
+        <h1>Add Recipe</h1>  
+
+          <div class="parent">
+            <div class="left-side">
+              <form>
+                <label>Name of Recipe</label><br>
+                <input class="input_text" type="text">
+                <br><br>
+
+                  <span class="rows">
+                    <span class="boxes">
+                    <label>Time taken to cook</label><br>
+                    <div class="input-row">
+
+                      <input class="units-input" type="text">
+                      <span class="information">min</span>
+                    </div>
+                    <br>
+                    </span>
+                    
+                    <span class="boxes">
+                      <label>Calories</label><br>
+                      <div class="input-row">
+
+                        <input class="units-input" type="text">
+                        <span class="information">kcal</span>
+                      <br>
+                      </div>
+                    </span>
+                  </span>
+                  
+                
+                <label>Instructions</label><br>
+                <ul>
+                  <li><input type="text"></li>
+                  <li><input type="text"></li>
+                </ul>
+                <button type="button">+</button><br>
+              </form>
+
+
+            </div>
+          
+
+            <div class="right-side">
+
+              <button>Save Recipe</button>
+              <button>Cancel</button><br>
+
+              <input type="file" id="myFile" name="recipe"><br>
+
+              <label>Ingredients</label> <br>
+              <input class="search-box" type="text" placeholder="Search for Ingredients">
+              <div>
+                  <span>Noodle</span>
+                  <span>Chicken</span>
+                  <span>Carrots</span>
+              </div>
+            </div>
+          </div>
+
+
+          
+
+
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
