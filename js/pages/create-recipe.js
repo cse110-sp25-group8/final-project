@@ -1,71 +1,90 @@
-export default function () {
-	return `
-        <main class="main-area">
-          
-
-          <div class="parent">
-            <div class="left-side">
-              <h1 class="heading">Add Recipe</h1>
-              <form class="form-to-fill">
-                <label class="labeling" >Name of Recipe</label><br>
-                <input class="input_text" id="input-area" type="text">
-                <br><br>
-
-                  <span class="rows">
-                    <span class="boxes">
-                    <label class="labeling">Time taken to cook</label><br>
-
-                      <input class="units-input" id="input-area" type="text">
-                      <span class="information">min</span>
-
-                    <br>
-                    </span>
-                    
-                    <span class="boxes">
-                      <label class="labeling">Calories</label><br>
-
-                        <input class="units-input"  id="input-area" type="text">
-                        <span class="information">kcal</span>
+// Make event listeners for each input (4 text inputs)
+window.addEventListener('DOMContentLoaded', init);
 
 
-                      <br>
-                    </span>
-                  </span>
-                  
-                
-                <label class="labeling">Instructions</label><br>
-                <ul>
-                  <li><input id="input-area" type="text"></li>
-                  <li><input id="input-area" type="text"></li>
-                </ul>
-                <button class="Button" type="button">+</button><br>
-              </form>
+function init()
+{
+    //When the user click "Save" button, start collecting data
+    const saveButton = document.getElementById("save");
+    const cancelButton = document.getElementById("cancel");
 
 
-            </div>
-          
-
-            <div class="right-side">
-
-              <button class="Button">Save Recipe</button>
-              <button class="Button">Cancel</button><br>
-
-              <input type="file" id="myFile" name="recipe"><br>
-
-              <label class="labeling">Ingredients</label> <br>
-              <input class="search-box"  id="input-area" type="text" placeholder="Search for Ingredients">
-              <div>
-                  <span>Noodle</span>
-                  <span>Chicken</span>
-                  <span>Carrots</span>
-              </div>
-            </div>
-          </div>
 
 
-          
+    saveButton.addEventListener("click", () =>
+        {
 
 
-    </main> `;
+        //name of recipe line 23
+        const recipe_name = document.getElementById("recipe-name").innerText;
+       
+        //time taken to cook line 31
+        const time_cook = document.getElementById("time-cook").innerText;
+        time_cook = parseInt(time_cook, 10);
+        // Check if it's a valid strictly positive integer
+        if (isNaN(time_cook) || time_cook <= 0 || !Number.isInteger(time_cook))
+        {
+            throw new Error("Invalid cook time: must be a strictly positive integer.");
+        }
 
+
+        //calories line 41
+        const calories = document.getElementById("calories").innerText;
+        calories = parseInt(calories, 10);
+        // Check if it's a valid strictly positive integer
+        if (isNaN(calories) || calories <= 0 || !Number.isInteger(calories))
+        {
+            throw new Error("Invalid calories: must be a strictly positive integer.");
+        }
+
+
+
+
+
+
+        //ingredients line 70-74
+       
+   
+
+
+
+
+        // Make data structure for cards (easy for indexdb)
+
+
+       
+
+
+       
+
+
+        // Grab to localStorage - Lab 6
+
+
+        let recipe = JSON.parse(localStorage.getItem("recipes")) || [];
+        recipe.push(recipeData);
+        localStorage.setItem("recipes", Json.stringify(recipe));
+
+
+        alert("Recipe Saved")
+
+
+
+
+
+
+    });
+
+
+    cancelButton.addEventListener("click", () => {
+        ["recipe-name", "time-cook", "calories"].forEach(id => {
+          document.getElementById(id).value = "";
+        });
+     
+        document.querySelectorAll(".instruction").forEach(input => input.value = "");
+        document.querySelectorAll(".ingredient.selected").forEach(tag => tag.classList.remove("selected"));
+    });
 }
+<!-- you can nested the entire form into a div or span and then do css: align-cetner
+     Change font and fix the responsiveness.
+-->
