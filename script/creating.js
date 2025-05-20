@@ -35,6 +35,7 @@ function init()
 
 
         //ingredients line 70-74
+        
     
 
 
@@ -46,7 +47,11 @@ function init()
 
         // Grab to localStorage - Lab 6
 
-        let recipe = JSON.parse 
+        let recipe = JSON.parse(localStorage.getItem("recipes")) || [];
+        recipe.push(recipeData);
+        localStorage.setItem("recipes", Json.stringify(recipe));
+
+        alert("Recipe Saved")
 
 
 
