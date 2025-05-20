@@ -8,14 +8,14 @@ export default function () {
               <h1 class="heading">Add Recipe</h1>
               <form class="form-to-fill">
                 <label class="labeling" >Name of Recipe</label><br>
-                <input class="input_text" id="input-area" type="text">
+                <input class="input_text" id="recipe-name" type="text">
                 <br><br>
 
                   <span class="rows">
                     <span class="boxes">
                     <label class="labeling">Time taken to cook</label><br>
 
-                      <input class="units-input" id="input-area" type="text">
+                      <input class="units-input" id="time-cook" type="text">
                       <span class="information">min</span>
 
                     <br>
@@ -24,7 +24,7 @@ export default function () {
                     <span class="boxes">
                       <label class="labeling">Calories</label><br>
 
-                        <input class="units-input"  id="input-area" type="text">
+                        <input class="units-input"  id="calories" type="text">
                         <span class="information">kcal</span>
 
 
@@ -35,8 +35,8 @@ export default function () {
                 
                 <label class="labeling">Instructions</label><br>
                 <ul>
-                  <li><input id="input-area" type="text"></li>
-                  <li><input id="input-area" type="text"></li>
+                  <li><input class="step1" type="text"></li>
+                  <li><input class="step2" type="text"></li>
                 </ul>
                 <button class="Button" type="button">+</button><br>
               </form>
@@ -47,8 +47,8 @@ export default function () {
 
             <div class="right-side">
 
-              <button class="Button">Save Recipe</button>
-              <button class="Button">Cancel</button><br>
+              <button class="Button" id="save">Save Recipe</button>
+              <button class="Button" id="cancel">Cancel</button><br>
 
               <input type="file" id="myFile" name="recipe"><br>
 
@@ -61,11 +61,9 @@ export default function () {
               </div>
             </div>
           </div>
-
-
-          
-
-
-    </main> `;
+        </main> 
+  <script>
+    console.log("hi");
+  </script>;`
 
 }

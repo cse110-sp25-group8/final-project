@@ -3,7 +3,7 @@
 }
 
 
-#input-area {
+#recipe-name, #time-cook, #calories, #instrc {
     border: solid;
     border-color: #86d0ce;
 }
