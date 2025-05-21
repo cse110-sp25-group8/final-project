@@ -25,8 +25,13 @@ class RecipeCard extends HTMLElement {
                 margin-top: 10px;
                 height: 175px;
                 width: 228px;
-                background-color: gray;
+                background-color:rgb(179, 178, 178);
                 border-radius: 25px;
+
+                background-image: url('../../assets/images/pasta.webp');
+                background-size: contain;       
+                background-position: center;  
+                background-repeat: no-repeat;
             }
 
             .pic-box button {
@@ -123,9 +128,9 @@ class RecipeCard extends HTMLElement {
             <p class="recipe-title">${data.recipe}</p>
             <section class="time-and-calories">
                 <img src="../assets/time.svg" alt="time">
-                <time>${data.time}</time>
+                <time>${data.time} min</time>
                 <img src="../assets/calories.svg" alt="calories">
-                <p class="calories">${data.calories}</p>
+                <p class="calories">${data.calories} kcal</p>
             </section>
             <p class="ingredients">${data.step1}, ${data.step2}</p>
         `;

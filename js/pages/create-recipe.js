@@ -1,12 +1,12 @@
-import {init} from '../../creating.js';
+import { init } from '../../creating.js';
 
 
 export default function () {
 
-  requestAnimationFrame(()=>{
+  requestAnimationFrame(() => {
     init();
   });
-	return `
+  return `
         <main class="main-area">
           
 
@@ -14,39 +14,49 @@ export default function () {
             <div class="left-side">
               <h1 class="heading">Add Recipe</h1>
               <form class="form-to-fill">
-                <label class="labeling" >Name of Recipe</label><br>
-                <input class="input_text" name="recipe" id="recipe-name" type="text">
-                <br><br>
+                <fieldset class="boxes">
+                  <label class="labeling" >Name of Recipe <span class="red-text">*</span></label>
+                  <input class="input-text" name="recipe" id="recipe-name" type="text">
+                </fieldset>
 
-                  <span class="rows">
-                    <span class="boxes">
-                    <label class="labeling">Time taken to cook</label><br>
-
-                      <input class="units-input" name="time" id="time-cook" type="text">
-                      <span class="information">min</span>
-
-                    <br>
-                    </span>
+                  <div class="rows">
+                    <fieldset class="boxes">
+                      <label class="labeling">Time taken to cook</label>
+                      <div class="rows">
+                        <input class="input-text" name="time" id="time-cook" type="text">
+                        <span class="information">min</span>
+                      </div>
+                    </fieldset>
                     
-                    <span class="boxes">
-                      <label class="labeling">Calories</label><br>
-
-                        <input class="units-input" name="calories" id="calories" type="text">
+                    <fieldset class="boxes">
+                      <label class="labeling">Calories</label>
+                      <div class="rows">
+                        <input class="input-text" name="calories" id="calories" type="text">
                         <span class="information">kcal</span>
-
-
-                      <br>
-                    </span>
-                  </span>
+                      </div>
+                    </fieldset>
+                  </div>
                   
+                <fieldset class="boxes">
+                <label class="labeling">Instructions</label>
+                <ul id="instruction-list">
+                    <li class="instruction-item" draggable="true">
+                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
+                      <input class="step1" name="step1" type="text">
+                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
+                    </li>
+                    <li class="instruction-item" draggable="true">
+                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
+                      <input class="step2" name="step2" type="text">
+                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
+                    </li>
+                  </ul>
+                <button class="add-button" type="button">+</button><br>
+                </fieldset>
+
                 
-                <label class="labeling">Instructions</label><br>
-                <ul>
-                  <li><input class="step1" name="step1" type="text"></li>
-                  <li><input class="step2" name="step2" type="text"></li>
-                </ul>
-                <button class="Button" type="button">+</button><br>
-                <input type="submit" class="Button" id="save"></input>
+                <button type="submit" class="Button" id="save">Save Recipe</button>
+                <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
               </form>
 
 
@@ -54,13 +64,18 @@ export default function () {
           
 
             <div class="right-side">
+              <div class="button-group">
+                
+                
+              </div>
 
-              
-              <button class="Button" id="cancel">Cancel</button><br>
 
-              <input type="file" id="myFile" name="recipe"><br>
+              <label class="labeling">Photo</label>
+              <div class="photo-box">
+                <input type="file" id="myFile" name="recipe">
+              </div>
 
-              <label class="labeling">Ingredients</label> <br>
+              <label class="labeling">Ingredients <span class="red-text">*</span></label> 
               <input class="search-box"  id="input-area" type="text" placeholder="Search for Ingredients">
               <div>
                   <span>Noodle</span>

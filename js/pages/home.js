@@ -1,10 +1,10 @@
-import {init} from '../../display.js';
+import { init } from '../../display.js';
 
 export default function () {
-    requestAnimationFrame(()=>{
-    init();
+    requestAnimationFrame(() => {
+        init();
     });
-	return ` 
+    return ` 
             <section class="sub-nav">
             <ul class="filters">
                 <li>
@@ -45,12 +45,11 @@ export default function () {
                     </select>
                 </li>
             </ul>
-            <main> </main>
 
             <!-- Action buttons (Shuffle/Add) -->
             <div class="actions">
                 <button class="btn-shuffle" type="button">Shuffle</button>
-                <button class="btn-add" type="button">Add Recipe Card</button>
+                <button class="btn-add" type="button" onclick="location.hash = '#/create'">Add Recipe Card</button>
             </div>
 
         </section>`;
