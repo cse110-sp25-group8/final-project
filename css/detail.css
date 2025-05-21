@@ -1,27 +1,3 @@
-/* Variables and Universal styling*/
-:root {
-  /* use variables in this root only for the styling in this css */
-  --primary-color: cyan;
-  --tag-color: white;
-  --text-color: black;
-  --body-font: "Inter", "Roboto", sans-serif;
-}
-
-* {
-  font-family: var(--body-font);
-  font-size: 0.8vmax;
-  color: var(--text-color);
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-nav {
-  display: block;
-  height: 6rem;
-  background-color: var(--primary-color);
-}
-
 /* Ingredients */
 #ingredients {
   margin-top: 5rem;
@@ -46,8 +22,9 @@ nav {
   margin-top: 0.8rem;
 }
 
-#ingredients ul > li {
-  display: inline-block; /* so they can sit horizontally, side-by-side*/
+#ingredients ul>li {
+  display: inline-block;
+  /* so they can sit horizontally, side-by-side*/
   text-align: center;
   box-shadow: 0 1px 3px black;
   border-radius: 2rem;
@@ -83,15 +60,16 @@ nav {
   gap: 1.5rem;
 }
 
-#instructions ol > li {
+#instructions ol>li {
   font-size: 1.4rem;
 
   display: grid;
 }
 
-#instructions ol > li::before {
+#instructions ol>li::before {
   /* need this to make custom counter*/
-  content: counter(instruction-counter); /* custom counter*/
+  content: counter(instruction-counter);
+  /* custom counter*/
 }
 
 /* Timer */
@@ -116,5 +94,4 @@ nav {
 
 #hours,
 #minutes,
-#seconds {
-}
+#seconds {}

@@ -8,8 +8,8 @@
   --color-text: #000000;
 
   --font-sm: 0.875rem;
-  --font-md: 1rem;
-  --font-lg: 1.75rem;
+  --font-md: 0.85rem;
+  --font-lg: 1.65rem;
 
 }
 
@@ -26,7 +26,7 @@ body {
   align-items: center;
   justify-content: space-between;
   background: var(--color-accent-light);
-  padding: 0.75rem 1rem;
+  padding: 0.35rem 0.7rem;
 }
 
 .logo-section {
@@ -36,7 +36,7 @@ body {
 }
 
 .logo-section img {
-  height: 3rem;
+  height: 3.5rem;
   margin-right: 1rem;
 }
 
@@ -65,7 +65,7 @@ body {
 
 .search-bar input {
   width: 80%;
-  padding: 0.7rem 1rem 0.7rem 4rem;
+  padding: 0.7rem 1rem 0.7rem 2.7rem;
   border: none;
   border-radius: 999px;
   font-family: inherit;

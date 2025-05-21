@@ -1,5 +1,5 @@
 export default function () {
-	return `
+  return `
         <main class="main-area">
           
 
@@ -7,38 +7,50 @@ export default function () {
             <div class="left-side">
               <h1 class="heading">Add Recipe</h1>
               <form class="form-to-fill">
-                <label class="labeling" >Name of Recipe</label><br>
-                <input class="input_text" id="input-area" type="text">
-                <br><br>
+                <fieldset class="boxes">
+                  <label class="labeling" >Name of Recipe <span class="red-text">*</span></label>
+                  <input class="input-text" id="input-area" type="text">
+                </fieldset>
 
-                  <span class="rows">
-                    <span class="boxes">
-                    <label class="labeling">Time taken to cook</label><br>
+                  <div class="rows">
+                    <fieldset class="boxes">
+                      <label class="labeling" for="cook-time">Time taken to cook</label>
+                      <div class="rows">
+                        <input class="input-text" id="cook-time" type="text">
+                        <span class="information">min</span>
+                      </div>
+                    </fieldset>
 
-                      <input class="units-input" id="input-area" type="text">
-                      <span class="information">min</span>
-
-                    <br>
-                    </span>
-                    
-                    <span class="boxes">
-                      <label class="labeling">Calories</label><br>
-
-                        <input class="units-input"  id="input-area" type="text">
+                    <fieldset class="boxes">
+                      <label class="labeling" for="calories">Calories</label>
+                      <div class="rows">
+                        <input class="input-text" id="calories" type="text">
                         <span class="information">kcal</span>
-
-
-                      <br>
-                    </span>
-                  </span>
+                      </div>
+                    </fieldset>
+                  </div>
                   
-                
-                <label class="labeling">Instructions</label><br>
-                <ul>
-                  <li><input id="input-area" type="text"></li>
-                  <li><input id="input-area" type="text"></li>
-                </ul>
-                <button class="Button" type="button">+</button><br>
+                <fieldset class="boxes">
+                  <label class="labeling">Instructions</label>
+                  <ul id="instruction-list">
+                    <li class="instruction-item" draggable="true">
+                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
+                      <input class="input-text" type="text">
+                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
+                    </li>
+                    <li class="instruction-item" draggable="true">
+                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
+                      <input class="input-text" type="text">
+                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
+                    </li>
+                    <li class="instruction-item" draggable="true">
+                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
+                      <input class="input-text" type="text">
+                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
+                    </li>
+                  </ul>
+                  <button class="add-button" type="button">+</button>
+                </fieldset>
               </form>
 
 
@@ -46,13 +58,18 @@ export default function () {
           
 
             <div class="right-side">
+              <div class="button-group">
+                <button class="Button">Save Recipe</button>
+                <button class="Button">Cancel</button>
+              </div>
 
-              <button class="Button">Save Recipe</button>
-              <button class="Button">Cancel</button><br>
 
-              <input type="file" id="myFile" name="recipe"><br>
+              <label class="labeling">Photo</label>
+              <div class="photo-box">
+                <input type="file" id="myFile" name="recipe">
+              </div>
 
-              <label class="labeling">Ingredients</label> <br>
+              <label class="labeling">Ingredients <span class="red-text">*</span></label> 
               <input class="search-box"  id="input-area" type="text" placeholder="Search for Ingredients">
               <div>
                   <span>Noodle</span>
