@@ -127,7 +127,7 @@ class RecipeCard extends HTMLElement {
                 <img src="../assets/calories.svg" alt="calories">
                 <p class="calories">${data.calories}</p>
             </section>
-            <p class="ingredients">${data.step1,data.step2}</p>
+            <p class="ingredients">${data.step1}, ${data.step2}</p>
         `;
     }
 }

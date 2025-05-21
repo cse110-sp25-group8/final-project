@@ -15,7 +15,7 @@ function init(){
 }
 
 function get_from_storage(){
-    const cards=JSON.parse(localStorage.getItem('recipies'));
+    const cards=JSON.parse(localStorage.getItem('recipe'));
 
     if (cards==null){
         return [];

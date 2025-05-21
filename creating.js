@@ -1,22 +1,13 @@
 
 
 function init(){
-    let recipes=get_from_storage();
-    const main_section=document.querySelector('main');
-    console.log("main elem: ",main_section);
-
-    //populate main with recipies from local storage
-    recipes.forEach((x)=> {
-        const addition=document.createElement('recipe-card');
-        addition.data=x;
-        main_section.appendChild(addition);
-    })
+    //populate main with recipe from local storage
 
     handle_create();
 }
 
 function get_from_storage(){
-    const cards=JSON.parse(localStorage.getItem('recipies'));
+    const cards=JSON.parse(localStorage.getItem('recipe'));
 
     if (cards==null){
         return [];
@@ -33,7 +24,7 @@ function handle_create(){
 
     form.addEventListener("submit", (e) =>{
         console.log("running");
-        e.preventDefault();
+
         let form_data=new FormData(form);
         console.log("form:", form_data.get('Text'));
 
@@ -46,12 +37,9 @@ function handle_create(){
         const recipe_card=document.createElement('recipe-card');
         recipe_card.data=card_object;
 
-        const main_section=document.querySelector('main');
-        main_section.appendChild(recipe_card);
-
         let storedCards=get_from_storage();
         storedCards.push(card_object);
-        localStorage.setItem('recipies',JSON.stringify(storedCards));
+        localStorage.setItem('recipe',JSON.stringify(storedCards));
 
     })
    
