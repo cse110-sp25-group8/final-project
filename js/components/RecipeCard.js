@@ -120,14 +120,14 @@ class RecipeCard extends HTMLElement {
                     <img src="../assets/horizontal.svg" alt="star">
                 </button>
             </div>
-            <p class="recipe-title">Dummy Recipe</p>
+            <p class="recipe-title">${data.recipe}</p>
             <section class="time-and-calories">
                 <img src="../assets/time.svg" alt="time">
-                <time>2 hr</time>
+                <time>${data.time}</time>
                 <img src="../assets/calories.svg" alt="calories">
-                <p class="calories">300 kcal</p>
+                <p class="calories">${data.calories}</p>
             </section>
-            <p class="ingredients">Ingredient_1, Ingredient_2, Ingredient_3</p>
+            <p class="ingredients">${data.step1,data.step2}</p>
         `;
     }
 }

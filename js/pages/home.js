@@ -1,4 +1,9 @@
+import {init} from '../../display.js';
+
 export default function () {
+    requestAnimationFrame(()=>{
+    init();
+    });
 	return ` 
             <section class="sub-nav">
             <ul class="filters">

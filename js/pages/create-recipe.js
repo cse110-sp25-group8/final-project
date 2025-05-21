@@ -1,4 +1,11 @@
+import {init} from '../../creating.js';
+
+
 export default function () {
+
+  requestAnimationFrame(()=>{
+    init();
+  });
 	return `
         <main class="main-area">
           

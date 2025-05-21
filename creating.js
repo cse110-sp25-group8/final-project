@@ -1,6 +1,4 @@
 
-window.addEventListener('DOMContentLoaded', init);
-
 
 function init(){
     let recipes=get_from_storage();
@@ -30,19 +28,6 @@ function get_from_storage(){
 function handle_create(){
 
     const form=document.getElementsByClassName("form-to-fill")[0];
-    // const time = parseInt(form.get("time").trim(), 10);
-    // const calories = parseInt(form.get("calories").trim(), 10);
-     
-    // // Validate time and calories
-    // if (
-    //   isNaN(time) || time <= 0 || !Number.isInteger(time) ||
-    //   isNaN(calories) || calories <= 0 || !Number.isInteger(calories)
-    // ) {
-    // // Stop submission
-    //   alert("Time and Calories must be strictly positive whole numbers");
-    //   return; 
-    // }
-
 
     console.log(form);
 
@@ -73,4 +58,6 @@ function handle_create(){
 
 }
 
+
+export{init};
 
