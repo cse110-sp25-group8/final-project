@@ -24,5 +24,5 @@ function init() {
 }
 
 function addRecipesToDocument(recipes) {
-
+	
 }

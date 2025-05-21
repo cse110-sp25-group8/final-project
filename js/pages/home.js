@@ -50,7 +50,7 @@ export default function () {
             <!-- Action buttons (Shuffle/Add) -->
             <div class="actions">
                 <button class="btn-shuffle" type="button">Shuffle</button>
-                <button class="btn-add" type="button">Add Recipe Card</button>
+                <button class="btn-add" type="button" onclick="location.hash = '#/create'">Add Recipe Card</button>
             </div>
 
         </section>`;
