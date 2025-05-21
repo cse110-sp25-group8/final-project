@@ -11,7 +11,7 @@ function get_from_storage(){
 
     if (cards==null){
         return [];
-    }else{
+    } else{
         return cards;
     }   
 }
@@ -46,6 +46,6 @@ function handle_create(){
 
 }
 
-
 export{init};
+
 

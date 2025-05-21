@@ -4,6 +4,7 @@ function init() {
     console.log("main elem: ", main_section);
     console.log(recipes);
 
+
     const card_grid = document.createElement('div');
     card_grid.classList.add('card-grid');
 
@@ -13,10 +14,12 @@ function init() {
 
         addition.data = x;
         console.log(addition.data);
+
         card_grid.appendChild(addition);
     })
 
     main_section.appendChild(card_grid);
+
 }
 
 function get_from_storage() {

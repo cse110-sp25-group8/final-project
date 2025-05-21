@@ -6,6 +6,7 @@ export default function () {
   requestAnimationFrame(() => {
     init();
   });
+
   return `
         <main class="main-area">
           
@@ -22,6 +23,7 @@ export default function () {
                   <div class="rows">
                     <fieldset class="boxes">
                       <label class="labeling">Time taken to cook</label>
+
                       <div class="rows">
                         <input class="input-text" name="time" id="time-cook" type="text">
                         <span class="information">min</span>
@@ -30,6 +32,7 @@ export default function () {
                     
                     <fieldset class="boxes">
                       <label class="labeling">Calories</label>
+
                       <div class="rows">
                         <input class="input-text" name="calories" id="calories" type="text">
                         <span class="information">kcal</span>
@@ -38,8 +41,11 @@ export default function () {
                   </div>
                   
                 <fieldset class="boxes">
+
                 <label class="labeling">Instructions</label>
                 <ul id="instruction-list">
+
+
                     <li class="instruction-item" draggable="true">
                       <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
                       <input class="step1" name="step1" type="text">
@@ -51,12 +57,14 @@ export default function () {
                       <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
                     </li>
                   </ul>
+
                 <button class="add-button" type="button">+</button><br>
                 </fieldset>
 
                 
                 <button type="submit" class="Button" id="save">Save Recipe</button>
                 <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
+
               </form>
 
 
@@ -65,8 +73,6 @@ export default function () {
 
             <div class="right-side">
               <div class="button-group">
-                
-                
               </div>
 
 

@@ -45,6 +45,7 @@ export default function () {
                     </select>
                 </li>
             </ul>
+            <main> </main>
 
             <!-- Action buttons (Shuffle/Add) -->
             <div class="actions">
