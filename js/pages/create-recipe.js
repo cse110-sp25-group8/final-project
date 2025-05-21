@@ -1,4 +1,10 @@
+import { init } from '../../creating.js';
+
 export default function () {
+  requestAnimationFrame(() => {
+    init();
+  });
+
   return `
         <main class="main-area">
           
@@ -9,14 +15,14 @@ export default function () {
               <form class="form-to-fill">
                 <fieldset class="boxes">
                   <label class="labeling" >Name of Recipe <span class="red-text">*</span></label>
-                  <input class="input-text" id="input-area" type="text">
+                  <input class="input-text" name="recipe" id="recipe-name" type="text">
                 </fieldset>
 
                   <div class="rows">
                     <fieldset class="boxes">
                       <label class="labeling" for="cook-time">Time taken to cook</label>
                       <div class="rows">
-                        <input class="input-text" id="cook-time" type="text">
+                        <input class="input-text" name="time" id="time-cook" type="text">
                         <span class="information">min</span>
                       </div>
                     </fieldset>
@@ -24,7 +30,7 @@ export default function () {
                     <fieldset class="boxes">
                       <label class="labeling" for="calories">Calories</label>
                       <div class="rows">
-                        <input class="input-text" id="calories" type="text">
+                        <input class="input-text" name="calories" id="calories" type="text">
                         <span class="information">kcal</span>
                       </div>
                     </fieldset>
@@ -35,17 +41,12 @@ export default function () {
                   <ul id="instruction-list">
                     <li class="instruction-item" draggable="true">
                       <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
-                      <input class="input-text" type="text">
+                      <input class="step1" name="step1" type="text">
                       <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
                     </li>
                     <li class="instruction-item" draggable="true">
                       <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
-                      <input class="input-text" type="text">
-                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
-                    </li>
-                    <li class="instruction-item" draggable="true">
-                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
-                      <input class="input-text" type="text">
+                      <input class="step2" name="step2" type="text">
                       <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
                     </li>
                   </ul>
@@ -59,8 +60,8 @@ export default function () {
 
             <div class="right-side">
               <div class="button-group">
-                <button class="Button">Save Recipe</button>
-                <button class="Button">Cancel</button>
+                <button type="submit" class="Button" class="save">Save Recipe</button>
+                <button class="Button" id="cancel">Cancel</button>
               </div>
 
 

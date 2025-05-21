@@ -1,5 +1,11 @@
+import { init } from '../../display.js';
+
 export default function () {
-	return ` <section class="sub-nav">
+    requestAnimationFrame(() => {
+        init();
+    });
+    return ` 
+            <section class="sub-nav">
             <ul class="filters">
                 <li>
                     <select class="btn-filter" name="filter1">
@@ -39,6 +45,7 @@ export default function () {
                     </select>
                 </li>
             </ul>
+            <main> </main>
 
             <!-- Action buttons (Shuffle/Add) -->
             <div class="actions">
