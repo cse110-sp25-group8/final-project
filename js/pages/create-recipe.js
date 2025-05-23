@@ -62,8 +62,7 @@ export default function () {
                 </fieldset>
 
                 
-                <button type="submit" class="Button" id="save">Save Recipe</button>
-                <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
+                
 
               </form>
 
@@ -73,6 +72,8 @@ export default function () {
 
             <div class="right-side">
               <div class="button-group">
+                <button type="submit" class="Button" id="save">Save Recipe</button>
+                <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
               </div>
 
 
