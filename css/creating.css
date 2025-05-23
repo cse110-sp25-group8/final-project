@@ -23,7 +23,8 @@
     font-size: 16px;
     box-sizing: border-box;
     border: solid 1.8px;
-    border-color: #86d0ce;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
 }
 
 .step1 {
@@ -34,6 +35,7 @@
     box-sizing: border-box;
     border: solid 1.8px;
     border-color: #86d0ce;
+    background-color: var(--color-background-card);
 }
 
 .step2 {
@@ -44,6 +46,7 @@
     box-sizing: border-box;
     border: solid 1.8px;
     border-color: #86d0ce;
+    background-color: var(--color-background-card);
 }
 
 
@@ -159,7 +162,7 @@ fieldset {
 .photo-box {
     width: 400px;
     height: 300px;
-    background-color: rgb(247, 247, 247);
+    background-color: var(--color-background-card);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,7 +174,6 @@ fieldset {
     margin-top: 5px;
     padding: 3px;
     border-radius: 8px;
-
 }
 
 

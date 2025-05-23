@@ -11,6 +11,7 @@ class RecipeCard extends HTMLElement {
             article {
                 width: 250px;
                 height: 353px;
+                background-color: var(--color-background-card);
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
                 border-radius: 30px;
                 display: flex;
@@ -25,7 +26,7 @@ class RecipeCard extends HTMLElement {
                 margin-top: 10px;
                 height: 175px;
                 width: 228px;
-                background-color:rgb(179, 178, 178);
+                background-color: var(--color-image-background-card);
                 border-radius: 25px;
 
                 background-image: url('../../assets/images/pasta.webp');
@@ -72,7 +73,7 @@ class RecipeCard extends HTMLElement {
                 margin-top: 7px;
                 gap: 10px;
                 font-size: 14.5px;
-                color: gray;
+                color: var(--color-time-and-calorites);
             }
 
             .time-and-calories time,
@@ -89,12 +90,12 @@ class RecipeCard extends HTMLElement {
                 padding: 6px 0 6px 0;
                 font-size: 14px;
                 border: none;
-                border-top: 2.7px solid #F4F5F4;
-                border-bottom: 2.7px solid #F4F5F4;
+                border-top: 2.7px solid var(--color-ing-border);
+                border-bottom: 2.7px solid var(--color-ing-border);
                 margin-top: 18px;
                 margin-left: 17px;
                 margin-right: 17px;
-                color: #302F2F;
+                color: var(--color-text);
             }
 
             p {

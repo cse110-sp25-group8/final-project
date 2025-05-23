@@ -70,8 +70,10 @@
 #instructions ol li {
   position: relative;
   counter-increment: counter-instruction;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   padding-left: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
 #instructions ol li::before {
@@ -79,7 +81,7 @@
   content: counter(counter-instruction);
   position: absolute;
   left: 0;
-  top: 0;
+  top: 1;
   width: 2rem;
   height: 2rem;
   border-radius: 50%;

@@ -45,24 +45,29 @@ export default function () {
                 <label class="labeling">Instructions</label>
                 <ul id="instruction-list">
 
+                  <li class="instruction-item" draggable="true">
+                    <span class="drag-handle">
+                      <img src="../../assets/instruction_row.svg" draggable="false">
+                    </span>
+                    <input class="step1" name="step1" type="text">
+                    <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
+                  </li>
 
-                    <li class="instruction-item" draggable="true">
-                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
-                      <input class="step1" name="step1" type="text">
-                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
-                    </li>
-                    <li class="instruction-item" draggable="true">
-                      <span class="drag-handle"><img src="../../assets/instruction_row.svg" draggable="false"></span>
-                      <input class="step2" name="step2" type="text">
-                      <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
-                    </li>
-                  </ul>
+                  <li class="instruction-item" draggable="true">
+                    <span class="drag-handle">
+                      <img src="../../assets/instruction_row.svg" draggable="false">
+                    </span>
+                    <input class="step2" name="step2" type="text">
+                    <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
+                  </li>
+
+                </ul>
 
                 <button class="add-button" type="button">+</button><br>
-                </fieldset>
 
-                
-                
+                <button type="submit" class="Button" id="save">Save Recipe</button>
+                <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
+                </fieldset>
 
               </form>
 
@@ -72,8 +77,7 @@ export default function () {
 
             <div class="right-side">
               <div class="button-group">
-                <button type="submit" class="Button" id="save">Save Recipe</button>
-                <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
+                
               </div>
 
 
