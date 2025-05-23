@@ -109,3 +109,9 @@
   border-radius: 20px;
   width: 80%;
 }
+
+@media (max-width: 600px) {
+  .detail-layout {
+    flex-direction: column;
+  }
+}
