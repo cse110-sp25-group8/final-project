@@ -1,3 +1,11 @@
+.detail-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: felx-start;
+  padding: 2rem;
+}
+
+
 /* Ingredients */
 #ingredients {
   margin-top: 5rem;
