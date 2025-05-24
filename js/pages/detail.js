@@ -1,4 +1,17 @@
+import { startTimerFromInputs, clearTimer } from '../components/timer.js';
 export default function () {
+    setTimeout(() => {
+    document.getElementById("timer-set")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        startTimerFromInputs();
+    });
+
+    document.getElementById("timer-clear")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        clearTimer();
+    });
+    }, 0);
+
 	return `<!-- Left Column - Ingredients and Instructions -->
         <section id="ingredients">
             <h2>Ingredients</h2>
@@ -48,4 +61,5 @@ export default function () {
                     </fieldset>
                 </form>
             </section>`;
+
 }
