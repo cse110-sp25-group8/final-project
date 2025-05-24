@@ -1,12 +1,12 @@
 import { startTimerFromInputs, clearTimer } from '../components/timer.js';
 export default function () {
     setTimeout(() => {
-    document.getElementById("timer-set")?.addEventListener("click", (e) => {
+    document.getElementById('timer-set')?.addEventListener('click', (e) => {
         e.preventDefault();
         startTimerFromInputs();
     });
 
-    document.getElementById("timer-clear")?.addEventListener("click", (e) => {
+    document.getElementById('timer-clear')?.addEventListener('click', (e) => {
         e.preventDefault();
         clearTimer();
     });

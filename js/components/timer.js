@@ -8,20 +8,24 @@ function updateDisplay(displayEl, totalSeconds) {
 }
 
 export function startTimerFromInputs() {
-  const h = parseInt(document.getElementById("hours")?.value) || 0;
-  const m = parseInt(document.getElementById("minutes")?.value) || 0;
-  const s = parseInt(document.getElementById("seconds")?.value) || 0;
+  const h = parseInt(document.getElementById('hours')?.value) || 0;
+  const m = parseInt(document.getElementById('minutes')?.value) || 0;
+  const s = parseInt(document.getElementById('seconds')?.value) || 0;
   const total = h * 3600 + m * 60 + s;
 
-  if (total <= 0) return;
-
-  if (total >= 43200) {
-    alert("Timer cannot exceed 12 hours (11:59:59).");
+  if (total <= 0) {
     return;
   }
 
-  const display = document.querySelector(".timer-display");
-  if (!display) return;
+  if (total >= 43200) {
+    alert('Timer cannot exceed 12 hours (11:59:59).');
+    return;
+  }
+
+  const display = document.querySelector('.timer-display');
+  if (!display) {
+    return;
+  }
 
   clearInterval(intervalId);
   updateDisplay(display, total);
@@ -32,8 +36,8 @@ export function startTimerFromInputs() {
     remaining--;
     if (remaining <= 0) {
       clearInterval(intervalId);
-      display.textContent = "00:00:00";
-      alert("Time's up!");
+      display.textContent = '00:00:00';
+      alert('Time up!');
       return;
     }
     updateDisplay(display, remaining);
@@ -43,8 +47,8 @@ export function startTimerFromInputs() {
 export function clearTimer() {
   clearInterval(intervalId);
   intervalId = null;
-  const display = document.querySelector(".timer-display");
+  const display = document.querySelector('.timer-display');
   if (display) {
-    display.textContent = "00:00:00";
+    display.textContent = '00:00:00';
   }
 }
