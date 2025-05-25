@@ -133,6 +133,7 @@ nav {
   border: none;
   border-radius: 10px;
   padding: 0.5rem;
+  font-weight: bold;
 }
 
 form {
@@ -156,4 +157,11 @@ fieldset {
   background: white;
   border: none;
   font-weight: bold;
+}
+
+#timer-container h3 {
+  font-size: 1.5rem;
+}
+#recipe-card h2{
+  font-size: 1.9rem;
 }
