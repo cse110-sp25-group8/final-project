@@ -8,6 +8,11 @@ export class RecipeStore {
     async addRecipe(data) {
         try {
             const id = await this.idbService.set(data);
+
+            // Add id for recognition.
+            // const updatedData = { ...data, id };
+            // await this.idbService.set(updatedData);
+
             return id;
         } catch (error) {
             console.error(`Failed to add recipe to storage: ${error}`);
@@ -18,10 +23,6 @@ export class RecipeStore {
     async getRecipe(id) {
         try {
             const recipe = await this.idbService.get(id);
-            
-            if (!recipe || !recipe.image) {
-                throw new Error(``)
-            }
 
             return recipe;
         } catch (error) {
@@ -33,6 +34,11 @@ export class RecipeStore {
     async getRecipeImageURL(id) {
         try {
             const recipe = await this.idbService.get(id);
+
+            if (!recipe || !recipe.image) {
+                throw new Error(``)
+            }
+
             return recipe.image;
         } catch (error) {
             console.error(`Failed to get recipe image (ID #${id}) from storage: ${error}`);
