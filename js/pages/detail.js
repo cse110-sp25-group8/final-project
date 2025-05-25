@@ -39,25 +39,30 @@ export default function () {
             <article id="recipe-card">
                 <h2>Recipe Details</h2>
                 <!-- shadow DOM here-->
-            </article>
-
+            </article><br>
+            
+            <h3>Cooking Timer</h3>
             <section id="timer-container">
-                <h3>Cooking Timer</h3>
                 <div class="timer-display">1:14:00</div>
 
                 <form>
                     <fieldset>
+                    <div class="input-row">
                         <input type="number" id="hours" name="hours" min="0" max="12">
                         <label for="hours">hr</label>
-
+                        </div>
+                    <div class="input-row">
                         <input type="number" id="minutes" name="minutes" min="0" max="59">
                         <label for="minutes">min</label>
-
+                        </div>
+                    <div class="input-row">
                         <input type="number" id="seconds" name="seconds" min="0" max="59">
                         <label for="seconds">sec</label>
-
+                        </div>
+                    <div class="button-row">
                         <button id="timer-set">Set</button>
                         <button id="timer-clear">Clear</button>
+                        </div>
                     </fieldset>
                 </form>
             </section>`;
