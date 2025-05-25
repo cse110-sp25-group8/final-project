@@ -16,7 +16,7 @@ export class IDBService {
 			request.onupgradeneeded = (event) => {
 				const db = event.target.result;
 				if (!db.objectStoreNames.contains(this.storeName)) {
-					db.createObjectStore(this.storeName);
+					db.createObjectStore(this.storeName, { keypath: "id", autoIncrement: true });
 				}
 			}
 
@@ -39,9 +39,8 @@ export class IDBService {
 					const store = transaction.objectStoreNames(this.storeName);
 					const request = store.get(key);
 
-					request.onsuccess = (event) => {
-						const result = event.target.result;
-						resolve(result !== undefined ? result : defaultValue);
+					request.onsuccess = () => {
+						resolve(request.result);
 					};
 
 					request.onerror = (event) => { 
@@ -52,16 +51,17 @@ export class IDBService {
 		});
 	}
 
-	async set(key, value) {
+	async set(value) {
 		return new Promise((resolve, reject) => {
 			this.openDatabase()
 				.then((database) => {
 					const transaction = database.transaction([this.storeName], 'readwrite');
 					const store = transaction.objectStoreNames(this.storeName);
-					const request = store.put(value, key);
+					const request = store.put(value);
 
-					request.onsuccess = () => {
-						resolve();
+					request.onsuccess = (event) => {
+						const id = event.target.result;
+						resolve(id);
 					};
 
 					request.onerror = (event) => { 
