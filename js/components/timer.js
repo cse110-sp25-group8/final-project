@@ -13,6 +13,10 @@ export function startTimerFromInputs() {
   const s = parseInt(document.getElementById('seconds')?.value) || 0;
   const total = h * 3600 + m * 60 + s;
 
+  if (h < 0 || m < 0 || s < 0) {
+    return
+  }
+  
   if (total <= 0) {
     return;
   }
