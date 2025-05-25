@@ -235,17 +235,60 @@ body {
 }
 
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #3B3B3B;
-    --color-accent: #6fd3d0;
-    --color-accent-light: #00b8b8;
-    --color-text: white;
-    --color-filters: #525252;
 
-    --color-background-card: #525252;
-    --color-image-background-card: rgb(179, 178, 178);
-    --color-ing-border: #767676;
-    --color-time-and-calorites: white;
-  }
+
+.darkmode-toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-left: 1rem;
+  vertical-align: middle;
+}
+
+.darkmode-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.darkmode-toggle .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.3s;
+}
+
+.darkmode-toggle .slider::before {
+  content: "";
+  position: absolute;
+  height: 18px; 
+  width: 18px;
+  left: 3px; 
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+/* Checked state */
+.darkmode-toggle input:checked + .slider {
+  background-color: var(--color-accent);
+}
+.darkmode-toggle input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+:root:has(#darkmode-toggle:checked) {
+  --color-background: #3B3B3B;
+  --color-accent: #6fd3d0;
+  --color-accent-light: #00b8b8;
+  --color-text: white;
+  --color-filters: #525252;
+  --color-background-card: #525252;
+  --color-image-background-card: rgb(179, 178, 178);
+  --color-ing-border: #767676;
+  --color-time-and-calorites: white;
 }

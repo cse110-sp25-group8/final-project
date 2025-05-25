@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/creating.css">
     <script src="js/components/shadow-handler.js"></script>
     <script src="js/components/RecipeCard.js"></script>
+    <script src="js/themes/darkmode.js" defer></script>
 </head>
 
 <body>
@@ -28,6 +29,11 @@
             </div>
 
             <button class="btn-favorite" type="button">Favorites</button>
+
+            <label class="darkmode-toggle" title="Toggle dark mode">
+                <input type="checkbox" id="darkmode-toggle">
+                <span class="slider"></span>
+            </label>
         </nav>
 
         <!-- Bottom section containing filters and action buttons -->
@@ -40,7 +46,7 @@
 
     <script type="module" src="./js/router.js"></script>
     <script type="module" src="creating.js"></script>
-    <!-- <script type="module" src="display.js"></script> -->
+    <script type="module" src="display.js"></script>
 </body>
 
 </html>
