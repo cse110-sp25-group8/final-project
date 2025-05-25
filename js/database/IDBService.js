@@ -1,23 +1,94 @@
 export class IDBService {
-  constructor(storeName) {
-    this.databaseName = 'AppStorage';
-    this.storeName = storeName;
-    this.database = null;
-  }
+	constructor (storeName) {
+		this.databaseName = 'AppStorage';
+		this.storeName = storeName;
+		this.database = null;
+	}
 
-  async openDatabase() {
+	async openDatabase() {
+	    return new Promise((resolve, reject) => {
+			if (this.database) {
+				resolve(this.database);
+				return;
+			}
 
-  }
+			const request = indexedDB.open(this.databaseName, 1);
+			request.onupgradeneeded = (event) => {
+				const db = event.target.result;
+				if (!db.objectStoreNames.contains(this.storeName)) {
+					db.createObjectStore(this.storeName);
+				}
+			}
 
-  async get(key) {
-    // TODO: Retrieve value by key from object store
-  }
+			request.onsuccess = (event) => {
+				this.database = event.target.result;
+				resolve(this.database);
+			}
 
-  async set(key, value) {
-    // TODO: Insert or update value by key in object store
-  }
+			request.onerror = (event) => {
+				reject(new Error(`IndexedDB error: ${event.target.error}`));
+			}
+		});
+  	}
 
-  async delete(key) {
-    // TODO: Delete entry by key from object store
-  }
+  	async get(key) { 
+		return new Promise((resolve, reject) => {
+			this.openDatabase()
+				.then((database) => {
+					const transaction = database.transaction([this.storeName], 'readonly');
+					const store = transaction.objectStoreNames(this.storeName);
+					const request = store.get(key);
+
+					request.onsuccess = (event) => {
+						const result = event.target.result;
+						resolve(result !== undefined ? result : defaultValue);
+					};
+
+					request.onerror = (event) => { 
+						reject(new Error(`Failed to get data: ${event.target.error}`));
+					};
+				})
+				.catch(reject);
+		});
+	}
+
+	async set(key, value) {
+		return new Promise((resolve, reject) => {
+			this.openDatabase()
+				.then((database) => {
+					const transaction = database.transaction([this.storeName], 'readwrite');
+					const store = transaction.objectStoreNames(this.storeName);
+					const request = store.put(value, key);
+
+					request.onsuccess = () => {
+						resolve();
+					};
+
+					request.onerror = (event) => { 
+						reject(new Error(`Failed to get data: ${event.target.error}`));
+					};
+				})
+				.catch(reject);
+		});
+	}
+
+	async delete(key) {
+		return new Promise((resolve, reject) => {
+			this.openDatabase()
+				.then((database) => {
+					const transaction = database.transaction([this.storeName], 'readwrite');
+					const store = transaction.objectStoreNames(this.storeName);
+					const request = store.delete(key);
+
+					request.onsuccess = () => {
+						resolve();
+					};
+
+					request.onerror = (event) => { 
+						reject(new Error(`Failed to get data: ${event.target.error}`));
+					};
+				})
+				.catch(reject);
+		});
+	}
 }
