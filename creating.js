@@ -28,6 +28,16 @@ function handle_create(){
         let form_data=new FormData(form);
         console.log("form:", form_data.get('Text'));
 
+        const time = parseInt(form_data.get("time").trim(), 10);
+        const calories = parseInt(form_data.get("calories").trim(), 10);
+
+        // Validate time and calories
+        if ( isNaN(time) || time <= 0 || !Number.isInteger(time) || isNaN(calories) || calories <= 0 || !Number.isInteger(calories)) 
+        {
+            alert("Time and Calories must be strictly positive whole numbers.");
+            return; // Stop submission
+        }
+
         let card_object={};
         for(const[key,value] of form_data){
             card_object[key]=value;
