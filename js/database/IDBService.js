@@ -16,7 +16,7 @@ export class IDBService {
 			request.onupgradeneeded = (event) => {
 				const db = event.target.result;
 				if (!db.objectStoreNames.contains(this.storeName)) {
-					db.createObjectStore(this.storeName, { keypath: "id", autoIncrement: true });
+					db.createObjectStore(this.storeName, { keypath: 'id', autoIncrement: true });
 				}
 			}
 
@@ -51,12 +51,32 @@ export class IDBService {
 		});
 	}
 
+	async getAll() {
+		return new Promise((resolve, reject) => {
+			this.openDatabase()
+				.then((database) => {
+					const transaction = database.transaction([this.storeName], 'readonly');
+					const store = transaction.objectStore(this.storeName);
+					const request = store.getAll();
+
+					request.onsuccess = () => {
+						resolve(request.result);
+					};
+
+					request.onerror = (event) => {
+						reject(new Error(`Failed to get all data: ${event.target.error}`));
+					};
+				})
+				.catch(reject);
+		});
+	}
+
 	async set(value) {
 		return new Promise((resolve, reject) => {
 			this.openDatabase()
 				.then((database) => {
 					const transaction = database.transaction([this.storeName], 'readwrite');
-					const store = transaction.objectStoreNames(this.storeName);
+					const store = transaction.objectStore(this.storeName);
 					const request = store.put(value);
 
 					request.onsuccess = (event) => {
