@@ -81,7 +81,7 @@
   content: counter(counter-instruction);
   position: absolute;
   left: 0;
-  top: 1;
+  top: 1rem;
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
