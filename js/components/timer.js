@@ -15,7 +15,7 @@ export function startTimerFromInputs() {
 
   if (h < 0 || m < 0 || s < 0 || h > 12 || m > 59 || s > 59) {
 	alert('Invalid timer input. Check hours, minutes, and seconds. Cannot exceed 12 hours total');
-    return
+    return;
   }
 
   if (total <= 0) {
