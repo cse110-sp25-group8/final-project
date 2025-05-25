@@ -36,7 +36,7 @@ export class IDBService {
 			this.openDatabase()
 				.then((database) => {
 					const transaction = database.transaction([this.storeName], 'readonly');
-					const store = transaction.objectStoreNames(this.storeName);
+					const store = transaction.objectStore(this.storeName);
 					const request = store.get(key);
 
 					request.onsuccess = () => {
