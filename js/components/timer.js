@@ -13,16 +13,18 @@ export function startTimerFromInputs() {
   const s = parseInt(document.getElementById('seconds')?.value) || 0;
   const total = h * 3600 + m * 60 + s;
 
-  if (h < 0 || m < 0 || s < 0) {
+  if (h < 0 || m < 0 || s < 0 || h > 12 || m > 59 || s > 59) {
+	alert('Invalid timer input. Check hours, minutes, and seconds. Cannot exceed 12 hours total');
     return
   }
-  
+
   if (total <= 0) {
+	alert('Timer must be greater than 0');
     return;
   }
 
-  if (total >= 43200) {
-    alert('Timer cannot exceed 12 hours (11:59:59).');
+  if (total > 43200) {
+    alert('Timer cannot exceed 12 hours');
     return;
   }
 
