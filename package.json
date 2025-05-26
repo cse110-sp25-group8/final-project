@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"lint": "eslint . --max-warnings 0"
+		"lint": "eslint . --max-warnings 0",
+		"docs": "jsdoc -c jsdoc.json"
 	},
 	"devDependencies": {
 		"eslint": "^8.57.1"

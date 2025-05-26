@@ -1,0 +1,23 @@
+name: Generate JSDoc
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-jsdoc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install JSDoc globally
+        run: npm install -g jsdoc
+
+      - name: Generate JSDoc
+        run: jsdoc -c jsdoc.json
