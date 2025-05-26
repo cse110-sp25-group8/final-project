@@ -77,7 +77,7 @@ export class IDBService {
 				.then((database) => {
 					const transaction = database.transaction([this.storeName], 'readwrite');
 					const store = transaction.objectStore(this.storeName);
-					const request = store.put(value);W
+					const request = store.put(value);
 
 					request.onsuccess = (event) => {
 						const id = event.target.result;
