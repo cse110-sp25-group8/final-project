@@ -77,16 +77,7 @@ export class IDBService {
 				.then((database) => {
 					const transaction = database.transaction([this.storeName], 'readwrite');
 					const store = transaction.objectStore(this.storeName);
-					const request = store.put(value);
-
-					// let request;
-					// if (value.id !== undefined) {
-					// 	// Update existing record or add if not exists
-					// 	request = store.put(value); 
-					// } else {
-					// 	// No id, add new record
-					// 	request = store.add(value);
-					// }
+					const request = store.put(value);W
 
 					request.onsuccess = (event) => {
 						const id = event.target.result;

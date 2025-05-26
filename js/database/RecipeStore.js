@@ -8,11 +8,6 @@ export class RecipeStore {
     async addRecipe(data) {
         try {
             const id = await this.idbService.set(data);
-
-            // Add id for recognition.
-            // const updatedData = { ...data, id };
-            // await this.idbService.set(updatedData);
-
             return id;
         } catch (error) {
             console.error(`Failed to add recipe to storage: ${error}`);
