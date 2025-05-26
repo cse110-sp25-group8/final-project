@@ -1,9 +1,0 @@
-{
-  "source": {
-    "include": ["js/database"],
-    "exclude": ["node_modules"]
-  },
-  "opts": {
-    "destination": "docs"
-  }
-}
