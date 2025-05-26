@@ -34,10 +34,10 @@ export default function () {
 
 
 	const section = document.createElement('section');
-	section.className = 'sub-nav'
+	section.className = 'sub-nav';
 
 	const filters = document.createElement('ul');
-	filters.className = 'filters'
+	filters.className = 'filters';
 
 	const mealFilter = createFilter('filter1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Snacks', 'Beverages']);
 	const cuisineFilter = createFilter('filter2', 'Cuisine', ['Asian', 'European', 'Latin American', 'African', 'Middle Eastern']);
