@@ -97,17 +97,15 @@ export default function () {
 	right_side.className = 'right-side';
 
 	right_side.innerHTML = `
+		<label class="labeling">Photo</label>
+		<div class="photo-box">
+			<input type="file" id="myFile" name="recipe">
+		</div>
+
 		<div class="button-group">
 			<button type="submit" class="Button" id="save">Save Recipe</button>
 			<button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
 		</div>
-
-		<label class="labeling">Photo</label>
-			<div class="photo-box">
-				<input type="file" id="myFile" name="recipe">
-			</div>
-
-		
 	`;
 
 	parent.appendChild(left_side);

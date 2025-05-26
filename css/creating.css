@@ -10,12 +10,6 @@
     gap: 10px;
 }
 
-/* #input-area {
-    margin-top: 7px;
-    border: solid 1.8px;
-    border-color: #86d0ce;
-} */
-
 .input-text {
     width: 100%;
     height: 40px;
@@ -49,7 +43,6 @@
     background-color: var(--color-background-card);
 }
 
-
 .parent {
     margin-top: 10px;
     display: flex;
@@ -58,7 +51,6 @@
     align-items: flex-start;
     padding: 40px 0;
 }
-
 
 .left-side {
     flex: 0 0 75%;
@@ -72,7 +64,6 @@
     box-sizing: border-box;
     align-self: flex-start;
 }
-
 
 .labeling {
     margin: 20px 0 10px 0;
@@ -95,7 +86,7 @@ fieldset {
 }
 
 .information {
-    color: #333;
+    color: var(--color-text);
 }
 
 #instruction-list {
@@ -142,8 +133,9 @@ fieldset {
 
 .button-group {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    gap: 1rem;
 }
 
 .Button {
@@ -160,15 +152,13 @@ fieldset {
 }
 
 .photo-box {
-    width: 400px;
+    width: min(400px, 90vw);
     height: 300px;
-    background-color: var(--color-background-card);
+    background-color: #C0BFBF;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-
 
 .search-box {
     margin-top: 5px;
@@ -176,11 +166,46 @@ fieldset {
     border-radius: 8px;
 }
 
-
 .form-to-fill {
     width: 100%
 }
 
 .main-area {
     margin: auto;
+}
+
+.button-group #cancel {
+    background-color: #dd4a4a; 
+}
+
+@media (max-width: 600px) {
+    .parent {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.2rem;
+    }
+
+    .search-box {
+        width: 90%;
+        margin: 0.5rem;
+    }
+
+    .right-side {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right-side .button-group {
+        order: 2;
+        margin-top: 1rem; 
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .right-side .labeling,
+    .right-side .photo-box {
+        order: 0;
+    }
+
+    
 }
