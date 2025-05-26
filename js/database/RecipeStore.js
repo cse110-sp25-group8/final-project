@@ -47,7 +47,7 @@ export class RecipeStore {
     /**
      * Retrieves a recipe's image from the app's IndexedDB database.
      * @param {number} id - A number corresponding to the target recipe's id.
-     * @returns {Promise<Blob>} - A Promise that resolves to the recipe's image as a File.
+     * @returns {Promise<string>} - A Promise that resolves to an Object URL (via `URL.createObjectURL`) for use in <img> tags.
      */
     async getRecipeImageURL(id) {
         try {
@@ -119,9 +119,10 @@ export class RecipeStore {
     }
 
     /**
-     * Synchronizes
-     * @param {Object} recipe - A number corresponding to the target recipe's id.
-     * @param {string} mode - A number corresponding to the target recipe's id.
+     * Synchronizes localStorage and IndexedDB to hold the equivalent recipe info.
+     * @param {Object} recipe - The full recipe object to sync.
+     * @param {string} mode - The sync mode: 'insert', 'update', or 'delete'.
+	 * @private
      */
     async syncToLocalStorage(recipe, mode) {
         const metadata = {

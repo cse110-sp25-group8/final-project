@@ -1,7 +1,16 @@
+/**
+ * Key used to store recipe metadata in localStorage.
+ * @constant {string}
+ * @private
+ */
 const LOCAL_STORAGE_KEY = 'recipe_metadata';
 
+/**
+ * Inserts or updates a recipe's metadata entry in localStorage.
+ * @param {Object} metadata - The metadata object to upsert. Must include a valid `id` field.
+ * @private
+ */
 export function upsertMetadata(metadata) {
-    // TODO: Insert or update recipe metadata entry in localStorage
     if (typeof metadata.id !== 'number') {
         throw new Error('Require id in the metadata to store');
     }
@@ -10,18 +19,22 @@ export function upsertMetadata(metadata) {
     const idIndex = fetchAllMeta.findIndex((item) => item.id === metadata.id);
 
     if (idIndex >= 0) {
-        // update the existing metadata
+        // Update the existing metadata
         fetchAllMeta[idIndex] = metadata;
     } else {
-        // insert
+        // Insert
         fetchAllMeta.push(metadata);
     }
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(fetchAllMeta));
 }
 
+/**
+ * Deletes a recipe's metadata entry from localStorage.
+ * @param {number} id - The recipe ID whose metadata should be removed.
+ * @private
+ */
 export function deleteMetadata(id) {
-    // TODO: Remove metadata entry by recipe ID from localStorage
     if (!id || typeof id !== 'number') {
         throw new Error('Require id to remove the metadata');
     }
@@ -32,14 +45,23 @@ export function deleteMetadata(id) {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filteredMetadata));
 }
 
+/**
+ * Retrieves all recipe metadata entries from localStorage.
+ * @returns {Object[]} - An array of metadata objects stored in localStorage.
+ */
 export function getAllMetadata() {
-    // TODO: Retrieve all recipe metadata from localStorage
     const dataItems = localStorage.getItem(LOCAL_STORAGE_KEY);
     return dataItems ? JSON.parse(dataItems) : [];
 }
 
+/**
+ * Checks if a given recipe matches a set of filter criteria.
+ * @param {Object} recipe - A single recipe metadata entry.
+ * @param {Object} filters - An object containing filter criteria.
+ * @returns {boolean} - `true` if the recipe matches all criteria, otherwise `false`.
+ * @private
+ */
 function matchFilters(recipe, filters) {
-    // TODO: Check if a recipe's metadata matches given filters
     if (!filters || Object.keys(filters).length === 0) {
         return true;
     }
@@ -71,14 +93,18 @@ function matchFilters(recipe, filters) {
             }
         }
         if (key === 'recipeIngredient' && recipe.recipeIngredient !== value) {
-            // TODO: work on this after our new Ingredient architech
+            // TODO: work on this after our new Ingredient architecture
         }
     }
     return true;
 }
 
+/**
+ * Filters stored recipe metadata based on the provided filter criteria.
+ * @param {Object} filters - An object representing filters to apply (e.g., category, cuisine, time).
+ * @returns {Object[]} - An array of metadata objects that match the filter.
+ */
 export function filterMetadata(filters) {
-    // TODO: Return metadata entries matching the provided filters
     const fetchAllMeta = getAllMetadata();
     return fetchAllMeta.filter((recipe) => matchFilters(recipe, filters));
 }
