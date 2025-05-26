@@ -15,7 +15,7 @@
   --color-ing-border: #F4F5F4;
 
   --font-sm: 0.875rem;
-  --font-md: 0.85rem;
+  --font-md: 1rem;
   --font-lg: 1.65rem;
 
 }
@@ -205,37 +205,83 @@ body {
   }
 
   .sub-nav {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     padding: 0;
   }
 
-  .actions {
-    order: 1;
+  .sub-nav > .actions {
+    order: 0;
+    align-items: center;
     width: 100%;
-    display: flex;
-    gap: 0.5rem;
-    padding: 1rem 1rem;
+    padding: 0.5rem;
+    justify-content: space-between;
   }
 
-  .filters {
-    order: 2;
-    flex-wrap: wrap;
+  .sub-nav > .filters {
+    order: 1;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
   }
+
+  .sub-nav > main {
+    order: 2;
+    width: 100%;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
 }
 
+@media (max-width: 400px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ----------PLACEHOLDER COLORS IN CARD GRID------------------ */
 .card-grid {
+  background-color: #95a4b1;
+  min-height: 300px;
+
+  /* 1) Give us a fixed row-height so the horizontal lines line up */
+  grid-auto-rows: 160px;
+  /* ← adjust this to your expected card height */
+
+  /* 2) Draw red vertical stripes at every 1/5 of the width (5 columns) */
+  /*    and blue horizontal stripes at every 160px (row height) */
+  background-image:
+    linear-gradient(to right,
+      transparent 19.8%,
+      rgba(255, 0, 0, 0.2) 20%,
+      transparent 20%),
+    linear-gradient(to bottom,
+      transparent calc(160px - 1px),
+      rgba(0, 0, 255, 0.2) 160px,
+      transparent 160px);
+
+  /* 3) Tile each “stripe” across the container */
+  background-size: 20% 100%,
+    /* one column wide */
+    100% 160px;
+  /* one row tall */
+  background-repeat: repeat, repeat;
+
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 5px;
   padding: 20px 40px;
   row-gap: 20px;
 }
-
-
-
 
 .darkmode-toggle {
   position: relative;
@@ -255,7 +301,10 @@ body {
 .darkmode-toggle .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #ccc;
   border-radius: 34px;
   transition: background-color 0.3s;
@@ -264,9 +313,9 @@ body {
 .darkmode-toggle .slider::before {
   content: "";
   position: absolute;
-  height: 18px; 
+  height: 18px;
   width: 18px;
-  left: 3px; 
+  left: 3px;
   top: 3px;
   background-color: white;
   border-radius: 50%;
@@ -274,10 +323,11 @@ body {
 }
 
 /* Checked state */
-.darkmode-toggle input:checked + .slider {
+.darkmode-toggle input:checked+.slider {
   background-color: var(--color-accent);
 }
-.darkmode-toggle input:checked + .slider::before {
+
+.darkmode-toggle input:checked+.slider::before {
   transform: translateX(26px);
 }
 
