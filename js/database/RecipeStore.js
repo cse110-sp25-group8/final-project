@@ -18,7 +18,6 @@ export class RecipeStore {
     async getRecipe(id) {
         try {
             const recipe = await this.idbService.get(id);
-
             return recipe;
         } catch (error) {
             console.error(`Failed to get recipe (ID #${id}) from storage: ${error}`);
@@ -31,7 +30,7 @@ export class RecipeStore {
             const recipe = await this.idbService.get(id);
 
             if (!recipe || !recipe.image) {
-                throw new Error(``)
+                throw new Error('');
             }
 
             return recipe.image;
