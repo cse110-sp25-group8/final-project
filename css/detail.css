@@ -95,25 +95,81 @@
 /* Timer */
 #timer-container {
   position: relative;
-  /* bottom: 7px;
-  right: 2px; */
-  margin-top: 10%;
-  margin-left: 10%;
-  margin-right: 0%;
-  margin-bottom: 0%;
-  width: 5%;
-  height: 30px;
-  /* padding: 10px; */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  justify-content: flex-end;
 }
 
+/*Making timer display a circle*/
 .timer-display {
   border-style: solid;
-  border-radius: 20px;
-  width: 80%;
+  border-radius: 50%;
+  width: 150px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border: 2px solid lightgray;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+
+#hours,
+#minutes,
+#seconds {
+  width: 60px;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
+}
+
+form {
+  padding: 1rem 2rem;
+}
+
+fieldset {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border: none;
+  flex-direction: column;
+}
+
+#timer-set,
+#timer-clear {
+  width: 60px;
+  height: 30px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  font-weight: bold;
+  display: inline-block;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+}
+
+h3{
+  font-size: 1.5rem;
+}
+
+#recipe-card h2{
+  font-size: 1.9rem;
+}
+
+.input-row{
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-items: center;
 
 @media (max-width: 600px) {
   .detail-layout {
     flex-direction: column;
-  }
+
 }

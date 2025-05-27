@@ -1,3 +1,4 @@
+import { startTimerFromInputs, clearTimer } from '../components/timer.js';
 export default function () {
     const layout = document.createElement('div');
     layout.className = 'detail-layout';
@@ -107,6 +108,18 @@ export default function () {
     aside.append(recipeCard, timerSection);
 
     layout.append(main, aside);
+  
+    requestAnimationFrame(() => {
+        document.getElementById('timer-set')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            startTimerFromInputs();
+        });
+
+        document.getElementById('timer-clear')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearTimer();
+        });
+    });  
 
     return layout;
 
