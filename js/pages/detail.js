@@ -1,70 +1,186 @@
 import { startTimerFromInputs, clearTimer } from '../components/timer.js';
 export default function () {
-    setTimeout(() => {
-    document.getElementById('timer-set')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        startTimerFromInputs();
+    const layout = document.createElement('div');
+    layout.className = 'detail-layout';
+
+    const main = document.createElement('div');
+    main.className = 'detail-main';
+
+    // Ingredients Section
+    const ingredientsSection = document.createElement('section');
+    ingredientsSection.id = 'ingredients';
+
+    const ingredientsTitle = document.createElement('h2');
+    ingredientsTitle.textContent = 'Ingredients';
+
+    const ingredientsList = document.createElement('ul');
+    ['Butter', 'Chicken', 'Pasta', 'Sugar', 'Black Pepper', 'Rice'].forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ingredientsList.appendChild(li);
     });
 
-    document.getElementById('timer-clear')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        clearTimer();
+    ingredientsSection.append(ingredientsTitle, ingredientsList);
+
+    // Instruction Section
+    const instructionsSection = document.createElement('section');
+    instructionsSection.id = 'instructions';
+
+    const instructionsTitle = document.createElement('h2');
+    instructionsTitle.textContent = 'Instructions';
+
+    const instructionsList = document.createElement('ol');
+    ['First step goes here five cups of water', 'Step 2 goes here', 'Step 3 and so on...'].forEach(step => {
+        const li = document.createElement('li');
+        li.textContent = step;
+        instructionsList.appendChild(li);
     });
-    }, 0);
 
-	return `<!-- Left Column - Ingredients and Instructions -->
-        <section id="ingredients">
-            <h2>Ingredients</h2>
-            <ul>
-                <li>Butter</li>
-                <li>Chicken</li>
-                <li>Pasta</li>
-                <li>Sugar</li>
-                <li>Black Pepper</li>
-                <li>Rice</li>
-            </ul>
-        </section>
+    instructionsSection.append(instructionsTitle, instructionsList);
+    main.append(ingredientsSection, instructionsSection);
 
-        <section id="instructions">
-            <h2>Instructions</h2>
-            <ol>
-                <li>First step goes here five cups of water</li>
-                <li>Step 2 goes here</li>
-                <li>Step 3 and so on...</li>
-            </ol>
-        </section>
+    // Aside Section
+    const aside = document.createElement('aside');
+    aside.className = 'detail-aside';
 
-        <!-- Right Column - Card and Timer -->
-        <aside>
-            <article id="recipe-card">
-                <h2>Recipe Details</h2>
-                <!-- shadow DOM here-->
-            </article><br>
-            
-            <h3>Cooking Timer</h3>
-            <section id="timer-container">
-                <div class="timer-display">1:14:00</div>
+    // Recipe Card
+    const recipeCard = document.createElement('article');
+    recipeCard.id = 'recipe-card';
 
-                <form>
-                    <fieldset>
-                    <div class="input-row">
-                        <input type="number" id="hours" name="hours" min="0" max="12">
-                        <label for="hours">hr</label>
-                        </div>
-                    <div class="input-row">
-                        <input type="number" id="minutes" name="minutes" min="0" max="59">
-                        <label for="minutes">min</label>
-                        </div>
-                    <div class="input-row">
-                        <input type="number" id="seconds" name="seconds" min="0" max="59">
-                        <label for="seconds">sec</label>
-                        </div>
-                    <div class="button-row">
-                        <button id="timer-set">Set</button>
-                        <button id="timer-clear">Clear</button>
-                        </div>
-                    </fieldset>
-                </form>
-            </section>`;
+    const cardTitle = document.createElement('h2');
+    cardTitle.textContent = 'Recipe Details';
 
+    // You can attach a shadow DOM here
+
+    recipeCard.appendChild(cardTitle);
+
+    // Timer
+    const timerSection = document.createElement('section');
+    timerSection.id = 'timer-container';
+
+    const timerTitle = document.createElement('h3');
+    timerTitle.textContent = 'Cooking Timer';
+
+    const timerDisplay = document.createElement('div');
+    timerDisplay.className = 'timer-display';
+    timerDisplay.textContent = '1:14:00';
+
+    const form = document.createElement('form');
+    const fieldset = document.createElement('fieldset');
+
+    const inputs = [
+        { id: 'hours', label: 'hr', max: 12 },
+        { id: 'minutes', label: 'min', max: 59 },
+        { id: 'seconds', label: 'sec', max: 59 },
+    ];
+
+    inputs.forEach(({ id, label, max }) => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = id;
+        input.name = id;
+        input.min = 0;
+        input.max = String(max);
+
+        const labelEl = document.createElement('label');
+        labelEl.htmlFor = id;
+        labelEl.textContent = label;
+
+        fieldset.append(input, labelEl);
+    })
+
+    const setBtn = document.createElement('button');
+    setBtn.id = 'timer-set';
+    setBtn.textContent = 'Set';
+
+    const clearBtn = document.createElement('button');
+    clearBtn.id = 'timer-clear';
+    clearBtn.textContent = 'Clear';
+
+    fieldset.append(setBtn, clearBtn);
+    form.appendChild(fieldset);
+
+    timerSection.append(timerTitle, timerDisplay, form);
+
+    timerSection.append(timerTitle, timerDisplay, form);
+
+
+    aside.append(recipeCard, timerSection);
+
+    layout.append(main, aside);
+  
+    requestAnimationFrame(() => {
+        document.getElementById('timer-set')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            startTimerFromInputs();
+        });
+
+        document.getElementById('timer-clear')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearTimer();
+        });
+    });  
+
+    return layout;
+
+
+
+    //     return `
+    // <div class="detail-layout">
+
+    //     <div class="detail-main">
+    //         <section id="ingredients">
+    //             <h2>Ingredients</h2>
+    //             <ul>
+    //                 <li>Butter</li>
+    //                 <li>Chicken</li>
+    //                 <li>Pasta</li>
+    //                 <li>Sugar</li>
+    //                 <li>Black Pepper</li>
+    //                 <li>Rice</li>
+    //             </ul>
+    //         </section>
+
+
+    //         <section id="instructions">
+    //             <h2>Instructions</h2>
+    //             <ol>
+    //                 <li>First step goes here five cups of water</li>
+    //                 <li>Step 2 goes here</li>
+    //                 <li>Step 3 and so on...</li>
+    //             </ol>
+    //         </section>
+    //     </div>
+
+
+    //     <aside class="detail-aside">
+    //         <article id="recipe-card">
+    //             <h2>Recipe Details</h2>
+    //             <!-- shadow DOM here-->
+    //         </article>
+
+    //         <section id="timer-container">
+    //             <h3>Cooking Timer</h3>
+    //             <div class="timer-display">1:14:00</div>
+
+    //             <form>
+    //                 <fieldset>
+    //                     <input type="number" id="hours" name="hours" min="0" max="12">
+    //                     <label for="hours">hr</label>
+
+    //                     <input type="number" id="minutes" name="minutes" min="0" max="59">
+    //                     <label for="minutes">min</label>
+
+    //                     <input type="number" id="seconds" name="seconds" min="0" max="59">
+    //                     <label for="seconds">sec</label>
+
+    //                     <button id="timer-set">Set</button>
+    //                     <button id="timer-clear">Clear</button>
+    //                 </fieldset>
+    //             </form>
+    //         </section>
+    //     </aside>
+
+    // </div>
+    // `;
 }

@@ -1,38 +1,31 @@
-/* Variables and Universal styling*/
-:root {
-  /* use variables in this root only for the styling in this css */
-  --primary-color: cyan;
-  --tag-color: white;
-  --text-color: black;
-  --body-font: "Inter", "Roboto", sans-serif;
+.detail-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 2rem;
 }
 
-* {
-  font-family: var(--body-font);
-  font-size: 0.8vmax;
-  color: var(--text-color);
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+.detail-main {
+  flex: 2;
 }
 
-nav {
-  display: block;
-  height: 6rem;
-  background-color: var(--primary-color);
+.detail-aside {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
 
 /* Ingredients */
 #ingredients {
-  margin-top: 5rem;
-  margin-bottom: 2rem;
+  margin-top: 4rem;
   margin-left: 4rem;
 }
 
 #ingredients h2 {
-  font-size: 2rem;
+  font-size: var(--font-lg);
   font-weight: bold;
-
   margin-bottom: 0.5rem;
 }
 
@@ -46,18 +39,12 @@ nav {
   margin-top: 0.8rem;
 }
 
-#ingredients ul > li {
-  display: inline-block; /* so they can sit horizontally, side-by-side*/
-  text-align: center;
-  box-shadow: 0 1px 3px black;
-  border-radius: 2rem;
-
-  font-size: 1.2rem;
-  font-weight: 500;
-  background-color: var(--tag-color);
-
-  width: auto;
-  padding: 0.2rem 1rem;
+#ingredients ul li {
+  background: var(--color-background);
+  border: 1px solid var(--color-accent-light);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: var(--font-sm);
 }
 
 /* Instructions */
@@ -68,30 +55,41 @@ nav {
 }
 
 #instructions h2 {
-  font-size: 2rem;
+  font-size: var(--font-lg);
   font-weight: bold;
-
   margin-bottom: 1rem;
 }
 
 #instructions ol {
-  display: grid;
-  list-style-type: None;
-  text-align: left;
-
-  padding-left: 1rem;
-  gap: 1.5rem;
+  counter-reset: counter-instruction;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-#instructions ol > li {
-  font-size: 1.4rem;
-
-  display: grid;
+#instructions ol li {
+  position: relative;
+  counter-increment: counter-instruction;
+  margin-bottom: 1.5rem;
+  padding-left: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
-#instructions ol > li::before {
-  /* need this to make custom counter*/
-  content: counter(instruction-counter); /* custom counter*/
+#instructions ol li::before {
+  /* custom counter*/
+  content: counter(counter-instruction);
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 
 /* Timer */
@@ -117,6 +115,7 @@ nav {
   justify-content: center;
   align-items: center;
 }
+
 
 #hours,
 #minutes,
@@ -168,4 +167,9 @@ h3{
   align-items: center;
   gap: 0.6rem;
   align-items: center;
+
+@media (max-width: 600px) {
+  .detail-layout {
+    flex-direction: column;
+
 }
