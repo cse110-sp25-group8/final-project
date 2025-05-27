@@ -109,17 +109,46 @@
   justify-content: flex-end;
 }
 
-/*Making timer display a circle*/
+.svg-timer-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.svg-timer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
 .timer-display {
-  border-style: solid;
-  border-radius: 50%;
-  width: 10rem;
-  height: 10rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 1.2rem;
-  border: 2px solid lightgray;
+  z-index: 1;
+  color: black;
+  text-align: center;
+  pointer-events: none;
+  border: 3px solid lightgray;
+  border-radius: 50%;
+  width: 160px;
+  height: 160px;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: -1;
+}
+
+.timer-progress {
+  stroke: #88cfcd;
+  stroke-width: 2;
+  fill: none;
+  transition: stroke-dashoffset 1s linear;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
 }
 
 .timer-inputs {
@@ -135,7 +164,6 @@
 }
 
 
-
 #hours,
 #minutes,
 #seconds {
@@ -144,7 +172,7 @@
   border: none;
   border-radius: 10px;
   padding: 0.5rem;
-  font-weight: bold;
+  font-weight: 500;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
 }
 

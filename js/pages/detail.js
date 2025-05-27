@@ -1,4 +1,4 @@
-import { startTimerFromInputs, clearTimer } from '../components/timer.js';
+import { startTimerFromInputs, clearTimer, updateTimerPreview } from '../components/timer.js';
 export default function () {
     const layout = document.createElement('div');
     layout.className = 'detail-layout';
@@ -52,7 +52,7 @@ export default function () {
         const recipeCardElement = document.createElement('recipe-card');
         recipeCardElement.style.setProperty('--card-width', '320px');
         recipeCardElement.style.setProperty('--card-height', '380px');
-        recipeCardElement.data = recipes[1]; // use the first recipe
+        recipeCardElement.data = recipes[0]; // use the first recipe
         recipeCard.appendChild(recipeCardElement);
     } else {
         const emptyMsg = document.createElement('p');
@@ -67,9 +67,32 @@ export default function () {
     const timerSection = document.createElement('section');
     timerSection.id = 'timer-container';
 
+    // this is NOT library or 
+    const svgNS = "http://www.w3.org/2000/svg";
+
+    const svgWrapper = document.createElement('div');
+    svgWrapper.className = 'svg-timer-wrapper';
+
     const timerDisplay = document.createElement('div');
     timerDisplay.className = 'timer-display';
     timerDisplay.textContent = '00:00:00';
+
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.classList.add('svg-timer');
+
+    const progressCircle = document.createElementNS(svgNS, 'circle');
+    progressCircle.setAttribute('cx', '50');
+    progressCircle.setAttribute('cy', '50');
+    progressCircle.setAttribute('r', '45');
+    progressCircle.setAttribute('class', 'timer-progress');
+    progressCircle.style.strokeDasharray = '282.6'; // 2πr
+    progressCircle.style.strokeDashoffset = '0';
+
+    svg.append(progressCircle);
+    
+    svgWrapper.append(svg, timerDisplay);
+
 
     const form = document.createElement('form');
     const fieldset = document.createElement('fieldset');
@@ -94,6 +117,9 @@ export default function () {
         input.name = id;
         input.min = 0;
         input.max = String(max);
+        input.placeholder = '00';
+
+        input.addEventListener('input', updateTimerPreview);
 
         const labelEl = document.createElement('label');
         labelEl.htmlFor = id;
@@ -118,7 +144,8 @@ export default function () {
 
     fieldset.append(inputGroup, buttonGroup);
     form.appendChild(fieldset);
-    timerSection.append(timerDisplay, form);
+
+    timerSection.append(svgWrapper, form);
 
     aside.append(recipeCard, timerSection);
 
@@ -179,18 +206,26 @@ export default function () {
     //             <div class="timer-display">1:14:00</div>
 
     //             <form>
-    //                 <fieldset>
-    //                     <input type="number" id="hours" name="hours" min="0" max="12">
-    //                     <label for="hours">hr</label>
+    //                 <fieldset class="timer-form">
+    //                     <div class="timer-input">
+    //                         <div class="input-row">
+    //                             <input type="number" id="hours" name="hours" min="0" max="12">
+    //                             <label for="hours">hr</label>
+    //                         </div>
+    //                         <div class="input-row">
+    //                             <input type="number" id="minutes" name="minutes" min="0" max="59">
+    //                             <label for="minutes">min</label>
+    //                         </div>
+    //                         <div class="input-row">
+    //                             <input type="number" id="seconds" name="seconds" min="0" max="59">
+    //                             <label for="seconds">sec</label>
+    //                         </div>
+    //                     </div>
 
-    //                     <input type="number" id="minutes" name="minutes" min="0" max="59">
-    //                     <label for="minutes">min</label>
-
-    //                     <input type="number" id="seconds" name="seconds" min="0" max="59">
-    //                     <label for="seconds">sec</label>
-
-    //                     <button id="timer-set">Set</button>
-    //                     <button id="timer-clear">Clear</button>
+    //                     <div class="timer-buttons">
+    //                         <button id="timer-set">Set</button>
+    //                         <button id="timer-clear">Clear</button>
+    //                     </div>
     //                 </fieldset>
     //             </form>
     //         </section>
