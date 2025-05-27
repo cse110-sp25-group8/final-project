@@ -114,7 +114,6 @@ class RecipeCard extends HTMLElement {
 			return;
 		}
 
-		// Dumym values to be removed
 		const article = this.shadowRoot.querySelector('article');
 		article.innerHTML = `
 			<!-- <img src="${data.imgSrc}" alt="${data.imgAlt}"> -->

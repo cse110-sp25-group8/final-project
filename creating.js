@@ -1,51 +1,53 @@
 
 
-function init(){
+function init() {
 	//populate main with recipe from local storage
-
+	console.log('[init] running...');
 	handle_create();
 }
 
-function get_from_storage(){
-	const cards=JSON.parse(localStorage.getItem('recipe'));
+function get_from_storage() {
+	const cards = JSON.parse(localStorage.getItem('recipe'));
 
-	if (cards==null){
+	if (cards == null) {
 		return [];
-	} else{
+	} else {
 		return cards;
-	}   
+	}
 }
 
-function handle_create(){
+function handle_create() {
 
-	const form=document.getElementsByClassName("form-to-fill")[0];
+	const form = document.getElementsByClassName('parent')[0];
 
 	console.log(form);
 
-	form.addEventListener("submit", (e) =>{
+	form.addEventListener("submit", (e) => {
+
 		console.log("running");
 
-		let form_data=new FormData(form);
+		let form_data = new FormData(form);
 		console.log("form:", form_data.get('Text'));
 
-		let card_object={};
-		for(const[key,value] of form_data){
-			card_object[key]=value;
+		let card_object = {};
+		for (const [key, value] of form_data) {
+			card_object[key] = value;
 		}
 		console.log(card_object);
 
-		const recipe_card=document.createElement('recipe-card');
-		recipe_card.data=card_object;
+		const recipe_card = document.createElement('recipe-card');
+		recipe_card.data = card_object;
 
-		let storedCards=get_from_storage();
+		let storedCards = get_from_storage();
 		storedCards.push(card_object);
-		localStorage.setItem('recipe',JSON.stringify(storedCards));
+		localStorage.setItem('recipe', JSON.stringify(storedCards));
 
+		location.hash = '#/';
 	})
-   
+
 
 }
 
-export{init};
+export { init };
 
 
