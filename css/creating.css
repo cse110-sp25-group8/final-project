@@ -72,12 +72,14 @@
 
 .ingredient-box {
     height: 40px;
-    padding: 5px;
+    width: 45%;
+    padding: 10px 20px;
     font-size: 16px;
     box-sizing: border-box;
-    border: solid 1.8px;
-    border-color: #86d0ce;
-    background-color: var(--color-background-card);
+    border: none;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+
 }
 
 fieldset {
@@ -132,7 +134,7 @@ fieldset {
 
 .button-group {
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     margin-top: 1rem;
     gap: 1rem;
 }
@@ -159,11 +161,6 @@ fieldset {
     justify-content: center;
 }
 
-.search-box {
-    margin-top: 5px;
-    padding: 3px;
-    border-radius: 8px;
-}
 
 .form-to-fill {
     width: 100%
