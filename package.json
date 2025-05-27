@@ -1,14 +1,14 @@
 {
-    "name": "final-project",
-    "version": "1.0.0",
-    "description": "JavaScript linter configuration for final project",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "lint": "eslint . --max-warnings 0"
-    },
-    "devDependencies": {
-        "eslint": "^8.57.1"
-    },
-    "author": "Ryan"
+	"name": "final-project",
+	"version": "1.0.0",
+	"description": "JavaScript linter configuration for final project",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"lint": "eslint . --max-warnings 0"
+	},
+	"devDependencies": {
+		"eslint": "^8.57.1"
+	},
+	"author": "Ryan"
 }

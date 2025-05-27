@@ -1,0 +1,214 @@
+.heading {
+    font-size: 33px;
+    margin: 0 0 10px 0;
+}
+
+.rows {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-text {
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
+}
+
+.step {
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: #86d0ce;
+    background-color: var(--color-background-card);
+}
+
+.parent {
+    margin-top: 10px;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 0;
+}
+
+.left-side {
+    flex: 0 0 75%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+.right-side {
+    flex: 0 0 35%;
+    max-width: 400px;
+    box-sizing: border-box;
+    align-self: flex-start;
+}
+
+.labeling {
+    margin: 20px 0 10px 0;
+    display: block;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.red-text {
+    color: red;
+}
+
+.boxes {
+    display: block;
+    margin-right: 10px;
+}
+
+.ingredient-box {
+    height: 40px;
+    width: 45%;
+    padding: 10px 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+
+}
+
+fieldset {
+    all: unset;
+}
+
+.information {
+    color: var(--color-text);
+}
+
+#instruction-list {
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 8px;
+}
+
+.drag-handle {
+    cursor: grab;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.add-button {
+    display: block;
+    background-color: #f1f1f1;
+    color: #333333;
+    border: none;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    font-weight: 550;
+    border-radius: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 0 auto 0 auto;
+}
+
+.button-group {
+    display: flex;
+    /* justify-content: space-evenly; */
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.Button {
+    background-color: #009494;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: var(--font-md);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.photo-box {
+    width: min(400px, 90vw);
+    height: 300px;
+    background-color: #C0BFBF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.form-to-fill {
+    width: 100%
+}
+
+.main-area {
+    margin: auto;
+}
+
+.button-group #cancel {
+    background-color: #dd4a4a;
+}
+
+@media (max-width: 600px) {
+    .parent {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.2rem;
+    }
+
+    .search-box {
+        width: 90%;
+        margin: 0.5rem;
+    }
+
+    .right-side {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right-side .button-group {
+        order: 2;
+        margin-top: 1rem;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .right-side .labeling,
+    .right-side .photo-box {
+        order: 0;
+    }
+
+
+}
+
+.drag-indicator {
+    height: 2px;
+    background-color: #9bd1d0;
+    margin: 2px 0;
+    border-radius: 2px;
+}
