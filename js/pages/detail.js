@@ -68,7 +68,7 @@ export default function () {
     timerSection.id = 'timer-container';
 
     // this is NOT library or 
-    const svgNS = "http://www.w3.org/2000/svg";
+    const svgNS = 'http://www.w3.org/2000/svg';
 
     const svgWrapper = document.createElement('div');
     svgWrapper.className = 'svg-timer-wrapper';
@@ -127,7 +127,7 @@ export default function () {
 
         inputRow.append(input, labelEl);
         inputGroup.appendChild(inputRow);
-    })
+    });
 
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'timer-buttons';

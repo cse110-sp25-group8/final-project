@@ -11,22 +11,22 @@ const LOCAL_STORAGE_KEY = 'recipe_metadata';
  * @private
  */
 export function upsertMetadata(metadata) {
-	if (typeof metadata.id !== 'number') {
-		throw new Error('Require id in the metadata to store');
-	}
+    if (typeof metadata.id !== 'number') {
+        throw new Error('Require id in the metadata to store');
+    }
 
-	const fetchAllMeta = getAllMetadata();
-	const idIndex = fetchAllMeta.findIndex((item) => item.id === metadata.id);
+    const fetchAllMeta = getAllMetadata();
+    const idIndex = fetchAllMeta.findIndex((item) => item.id === metadata.id);
 
-	if (idIndex >= 0) {
-		// Update the existing metadata
-		fetchAllMeta[idIndex] = metadata;
-	} else {
-		// Insert
-		fetchAllMeta.push(metadata);
-	}
+    if (idIndex >= 0) {
+        // Update the existing metadata
+        fetchAllMeta[idIndex] = metadata;
+    } else {
+        // Insert
+        fetchAllMeta.push(metadata);
+    }
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(fetchAllMeta));
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(fetchAllMeta));
 }
 
 /**
@@ -35,14 +35,14 @@ export function upsertMetadata(metadata) {
  * @private
  */
 export function deleteMetadata(id) {
-	if (!id || typeof id !== 'number') {
-		throw new Error('Require id to remove the metadata');
-	}
+    if (!id || typeof id !== 'number') {
+        throw new Error('Require id to remove the metadata');
+    }
 
-	const fetchAllMeta = getAllMetadata();
-	const filteredMetadata = fetchAllMeta.filter((item) => item.id !== id);
+    const fetchAllMeta = getAllMetadata();
+    const filteredMetadata = fetchAllMeta.filter((item) => item.id !== id);
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filteredMetadata));
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filteredMetadata));
 }
 
 /**
@@ -50,8 +50,8 @@ export function deleteMetadata(id) {
  * @returns {Object[]} - An array of metadata objects stored in localStorage.
  */
 export function getAllMetadata() {
-	const dataItems = localStorage.getItem(LOCAL_STORAGE_KEY);
-	return dataItems ? JSON.parse(dataItems) : [];
+    const dataItems = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return dataItems ? JSON.parse(dataItems) : [];
 }
 
 /**
@@ -62,41 +62,41 @@ export function getAllMetadata() {
  * @private
  */
 function matchFilters(recipe, filters) {
-	if (!filters || Object.keys(filters).length === 0) {
-		return true;
-	}
-	for (const [key, value] of Object.entries(filters)) {
-		if (
-			value === null ||
+    if (!filters || Object.keys(filters).length === 0) {
+        return true;
+    }
+    for (const [key, value] of Object.entries(filters)) {
+        if (
+            value === null ||
             value === undefined ||
             (Array.isArray(value) && value.length === 0)
-		) {
-			continue; // skip if not valid value
-		}
+        ) {
+            continue; // skip if not valid value
+        }
 
-		if (key === 'isFavorite' && recipe.isFavorite !== value) {
-			return false;
-		}
-		if (key === 'recipeCategory' && recipe.recipeCategory !== value) {
-			return false;
-		}
-		if (key === 'recipeCuisine' && recipe.recipeCuisine !== value) {
-			return false;
-		}
-		if (key === 'estimatedTime') {
-			if (value === '<30mins' && recipe.estimatedTime >= 30) {
-				return false;
-			} else if (value === '<=1hr' && recipe.estimatedTime > 60) {
-				return false;
-			} else if (value === '>1hr' && recipe.estimatedTime <= 60) {
-				return false;
-			}
-		}
-		if (key === 'recipeIngredient' && recipe.recipeIngredient !== value) {
-			// TODO: work on this after our new Ingredient architecture
-		}
-	}
-	return true;
+        if (key === 'isFavorite' && recipe.isFavorite !== value) {
+            return false;
+        }
+        if (key === 'recipeCategory' && recipe.recipeCategory !== value) {
+            return false;
+        }
+        if (key === 'recipeCuisine' && recipe.recipeCuisine !== value) {
+            return false;
+        }
+        if (key === 'estimatedTime') {
+            if (value === '<30mins' && recipe.estimatedTime >= 30) {
+                return false;
+            } else if (value === '<=1hr' && recipe.estimatedTime > 60) {
+                return false;
+            } else if (value === '>1hr' && recipe.estimatedTime <= 60) {
+                return false;
+            }
+        }
+        if (key === 'recipeIngredient' && recipe.recipeIngredient !== value) {
+            // TODO: work on this after our new Ingredient architecture
+        }
+    }
+    return true;
 }
 
 /**
@@ -105,6 +105,6 @@ function matchFilters(recipe, filters) {
  * @returns {Object[]} - An array of metadata objects that match the filter.
  */
 export function filterMetadata(filters) {
-	const fetchAllMeta = getAllMetadata();
-	return fetchAllMeta.filter((recipe) => matchFilters(recipe, filters));
+    const fetchAllMeta = getAllMetadata();
+    return fetchAllMeta.filter((recipe) => matchFilters(recipe, filters));
 }

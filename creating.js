@@ -1,49 +1,47 @@
-
-
 function init() {
-	//populate main with recipe from local storage
-	console.log('[init] running...');
-	handle_create();
+    //populate main with recipe from local storage
+    console.log('[init] running...');
+    handleCreate();
 }
 
-function get_from_storage() {
-	const cards = JSON.parse(localStorage.getItem('recipe'));
+function getFromStorage() {
+    const cards = JSON.parse(localStorage.getItem('recipe'));
 
-	if (cards == null) {
-		return [];
-	} else {
-		return cards;
-	}
+    if (cards === null) {
+        return [];
+    } else {
+        return cards;
+    }
 }
 
-function handle_create() {
+function handleCreate() {
 
-	const form = document.getElementsByClassName('parent')[0];
+    const form = document.getElementsByClassName('parent')[0];
 
-	console.log(form);
+    console.log(form);
 
-	form.addEventListener("submit", (e) => {
+    form.addEventListener('submit', (e) => {
 
-		console.log("running");
+        console.log('running');
 
-		let form_data = new FormData(form);
-		console.log("form:", form_data.get('Text'));
+        let formData = new FormData(form);
+        console.log('form:', formData.get('Text'));
 
-		let card_object = {};
-		for (const [key, value] of form_data) {
-			card_object[key] = value;
-		}
-		console.log(card_object);
+        let cardObject = {};
+        for (const [key, value] of formData) {
+            cardObject[key] = value;
+        }
+        console.log(cardObject);
 
-		const recipe_card = document.createElement('recipe-card');
-		recipe_card.data = card_object;
+        const recipeCard = document.createElement('recipe-card');
+        recipeCard.data = cardObject;
 
-		let storedCards = get_from_storage();
-		storedCards.push(card_object);
-		localStorage.setItem('recipe', JSON.stringify(storedCards));
+        let storedCards = getFromStorage();
+        storedCards.push(cardObject);
+        localStorage.setItem('recipe', JSON.stringify(storedCards));
 
-		location.hash = '#/';
-	})
+        location.hash = '#/';
+    });
 
 
 }
