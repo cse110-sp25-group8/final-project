@@ -19,8 +19,8 @@
 
 /* Ingredients */
 #ingredients {
-  margin-top: 4rem;
-  margin-left: 4rem;
+  margin-top: 3rem;
+  margin-left: 3rem;
 }
 
 #ingredients h2 {
@@ -49,9 +49,9 @@
 
 /* Instructions */
 #instructions {
-  margin-top: 4rem;
+  margin-top: 3rem;
+  margin-left: 3rem;
   margin-bottom: 2rem;
-  margin-left: 4rem;
 }
 
 #instructions h2 {
@@ -81,7 +81,7 @@
   content: counter(counter-instruction);
   position: absolute;
   left: 0;
-  top: 1rem;
+  /* top: 1rem; */
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -154,22 +154,21 @@ fieldset {
   border-radius: 30px;
 }
 
-h3{
+h3 {
   font-size: 1.5rem;
 }
 
-#recipe-card h2{
-  font-size: 1.9rem;
-}
 
-.input-row{
+
+.input-row {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   align-items: center;
+}
 
 @media (max-width: 600px) {
   .detail-layout {
     flex-direction: column;
-
+  }
 }
