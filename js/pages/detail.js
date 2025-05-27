@@ -47,26 +47,36 @@ export default function () {
     const recipeCard = document.createElement('article');
     recipeCard.id = 'recipe-card';
 
-    const cardTitle = document.createElement('h2');
-    cardTitle.textContent = 'Recipe Details';
+    const recipes = JSON.parse(localStorage.getItem('recipe')) || [];
+    if (recipes.length > 0) {
+        const recipeCardElement = document.createElement('recipe-card');
+        recipeCardElement.style.setProperty('--card-width', '320px');
+        recipeCardElement.style.setProperty('--card-height', '380px');
+        recipeCardElement.data = recipes[1]; // use the first recipe
+        recipeCard.appendChild(recipeCardElement);
+    } else {
+        const emptyMsg = document.createElement('p');
+        emptyMsg.textContent = 'No recipe data found.';
+        recipeCard.appendChild(emptyMsg);
+    }
 
     // You can attach a shadow DOM here
 
-    recipeCard.appendChild(cardTitle);
 
     // Timer
     const timerSection = document.createElement('section');
     timerSection.id = 'timer-container';
 
-    const timerTitle = document.createElement('h3');
-    timerTitle.textContent = 'Cooking Timer';
-
     const timerDisplay = document.createElement('div');
     timerDisplay.className = 'timer-display';
-    timerDisplay.textContent = '1:14:00';
+    timerDisplay.textContent = '00:00:00';
 
     const form = document.createElement('form');
     const fieldset = document.createElement('fieldset');
+    fieldset.className = 'timer-form';
+
+    const inputGroup = document.createElement('div');
+    inputGroup.className = 'timer-inputs';
 
     const inputs = [
         { id: 'hours', label: 'hr', max: 12 },
@@ -75,6 +85,9 @@ export default function () {
     ];
 
     inputs.forEach(({ id, label, max }) => {
+        const inputRow = document.createElement('div');
+        inputRow.className = 'input-row';
+
         const input = document.createElement('input');
         input.type = 'number';
         input.id = id;
@@ -86,8 +99,12 @@ export default function () {
         labelEl.htmlFor = id;
         labelEl.textContent = label;
 
-        fieldset.append(input, labelEl);
+        inputRow.append(input, labelEl);
+        inputGroup.appendChild(inputRow);
     })
+
+    const buttonGroup = document.createElement('div');
+    buttonGroup.className = 'timer-buttons';
 
     const setBtn = document.createElement('button');
     setBtn.id = 'timer-set';
@@ -97,18 +114,16 @@ export default function () {
     clearBtn.id = 'timer-clear';
     clearBtn.textContent = 'Clear';
 
-    fieldset.append(setBtn, clearBtn);
+    buttonGroup.append(setBtn, clearBtn);
+
+    fieldset.append(inputGroup, buttonGroup);
     form.appendChild(fieldset);
-
-    timerSection.append(timerTitle, timerDisplay, form);
-
-    timerSection.append(timerTitle, timerDisplay, form);
-
+    timerSection.append(timerDisplay, form);
 
     aside.append(recipeCard, timerSection);
 
     layout.append(main, aside);
-  
+
     requestAnimationFrame(() => {
         document.getElementById('timer-set')?.addEventListener('click', (e) => {
             e.preventDefault();
@@ -119,7 +134,7 @@ export default function () {
             e.preventDefault();
             clearTimer();
         });
-    });  
+    });
 
     return layout;
 

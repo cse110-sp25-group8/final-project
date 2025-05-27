@@ -8,9 +8,15 @@ class RecipeCard extends HTMLElement {
 		// TO ADD: styling rules
 		const styleElement = document.createElement('style');
 		styleElement.textContent = `
+			:host {
+				display: block;
+				width: var(--card-width, 250px); 
+				height: var(--card-height, 353px); 
+			}
+
 			article {
-				width: 250px;
-				height: 353px;
+				width: 100%;
+				height: 100%;
 				background-color: var(--color-background-card);
 				box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 				border-radius: 30px;
@@ -24,8 +30,8 @@ class RecipeCard extends HTMLElement {
 			.pic-box {
 				position: relative;
 				margin-top: 10px;
-				height: 175px;
-				width: 228px;
+				height: 47%;
+				width: 91%;
 				background-color: var(--color-image-background-card);
 				border-radius: 25px;
 
