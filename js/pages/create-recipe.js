@@ -107,21 +107,35 @@ export default function () {
 
     timeRowWrapper.append(prepTimeField, cookTimeField, calField);
 
+    // Recipe labels row
+    const labelRowWrapper = document.createElement('div');
+    labelRowWrapper.className = 'rows';
+
     // Meal label selection
+    const mealTypeField = document.createElement('fieldset');
+    calField.className = 'boxes';
+
     const mealLabel = document.createElement('label');
     mealLabel.className = 'labeling';
     mealLabel.textContent = 'Meal type';
     const mealSelect = document.createElement('select');
     const mealSelection = createOption('recipeCategory', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
 
+    mealTypeField.append(mealLabel, mealSelection);
 
     // Cuisine label selection
+    const cuisineField = document.createElement('fieldset');
+    calField.className = 'boxes';
+
     const cuisineLabel = document.createElement('label');
     cuisineLabel.className = 'labeling';
     cuisineLabel.textContent = 'Cuisine type';
     const cuisineSelect = document.createElement('select');
     const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
     
+    cuisineField.append(cuisineLabel, cuisineSelection);
+
+    labelRowWrapper.append(mealTypeField, cuisineField);
 
     // Ingredients
     const ingredientLabel = document.createElement('label');
@@ -288,7 +302,8 @@ export default function () {
     instrField.append(instrLabel, instrList, addBtn);
 
     // Assemble left side
-    formToFill.append(nameField, timeRowWrapper, mealLabel, mealSelection, cuisineLabel, cuisineSelection, ingredientLabel, ingredientInput, ingredientList, instrField);
+    // mealLabel, mealSelection, cuisineLabel, cuisineSelection
+    formToFill.append(nameField, timeRowWrapper, labelRowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
     left.append(heading, formToFill);
 
     // Right Side

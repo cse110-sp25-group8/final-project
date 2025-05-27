@@ -117,7 +117,7 @@ export class IDBService {
                     };
 
                     request.onerror = (event) => { 
-                        reject(new Error(`Failed to get data: ${event.target.error}`));
+                        reject(new Error(`Failed to set data: ${event.target.error}`));
                     };
                 })
                 .catch(reject);

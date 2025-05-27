@@ -1,6 +1,6 @@
-import * as recipeStore from './js/database/RecipeStore.js';
+import { RecipeStore } from './js/database/RecipeStore.js';
 
-const RECIPE_STORE = new recipeStore.RecipeStore();
+const RECIPE_STORE = new RecipeStore();
 
 function init() {
     //populate main with recipe from local storage
@@ -33,6 +33,7 @@ function handleCreate() {
 
         let cardObject = {};
         for (const [key, value] of formData) {
+            console.log("Hello world");
             cardObject[key] = value;
         }
         console.log(cardObject);
@@ -43,8 +44,10 @@ function handleCreate() {
         // let storedCards = getFromStorage();
         // storedCards.push(cardObject);
         // localStorage.setItem('recipe', JSON.stringify(storedCards));
+        console.log("Running addRecipe ==> IndexedDB...");
         const currentId = await RECIPE_STORE.addRecipe(cardObject);
-x   
+        console.log("Current recipe ID = ", currentId);
+        
         location.hash = '#/';
     });
 
