@@ -1,3 +1,5 @@
+// Need to change from localStorage to IndexDB
+
 function init() {
     let recipes = getFromStorage();
     const mainSection = document.querySelector('main');

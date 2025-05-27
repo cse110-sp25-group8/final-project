@@ -28,38 +28,59 @@ export default function () {
 
     const nameInput = document.createElement('input');
     nameInput.className = 'input-text';
-    nameInput.name = 'recipe';
+    nameInput.name = 'name';
     nameInput.id = 'recipe-name';
     nameInput.type = 'text';
 
     nameField.append(nameLabel, nameInput);
 
     // Time & Calories Section
-    const rowWrapper = document.createElement('div');
-    rowWrapper.className = 'rows';
-
-    const timeField = document.createElement('fieldset');
-    timeField.className = 'boxes';
-
-    const timeLabel = document.createElement('label');
-    timeLabel.className = 'labeling';
-    timeLabel.textContent = 'Time taken to cook';
-
-    const timeRow = document.createElement('div');
-    timeRow.className = 'rows';
-
-    const timeInput = document.createElement('input');
-    timeInput.className = 'input-text';
-    timeInput.name = 'time';
-    timeInput.id = 'time-cook';
-    timeInput.type = 'text';
+    const timeRowWrapper = document.createElement('div');
+    timeRowWrapper.className = 'rows';
 
     const timeUnit = document.createElement('span');
     timeUnit.className = 'information';
     timeUnit.textContent = 'min';
 
-    timeRow.append(timeInput, timeUnit);
-    timeField.append(timeLabel, timeRow);
+    // Prep Time
+    const prepTimeField = document.createElement('fieldset');
+    prepTimeField.className = 'boxes';
+
+    const prepTimeLabel = document.createElement('label');
+    prepTimeLabel.className = 'labeling';
+    prepTimeLabel.textContent = 'Time to prep';
+
+    const prepTimeInput = document.createElement('input');
+    prepTimeInput.className = 'input-text';
+    prepTimeInput.name = 'prepTime';
+    prepTimeInput.id = 'time-prep';
+    prepTimeInput.type = 'text';
+
+    const prepTimeRow = document.createElement('div');
+    prepTimeRow.className = 'rows';
+
+    prepTimeRow.append(prepTimeInput, timeUnit);
+    prepTimeField.append(prepTimeLabel, prepTimeRow);
+
+    // Cook Time
+    const cookTimeField = document.createElement('fieldset');
+    cookTimeField.className = 'boxes';
+
+    const cookTimeLabel = document.createElement('label');
+    cookTimeLabel.className = 'labeling';
+    cookTimeLabel.textContent = 'Time to cook';
+
+    const cookTimeInput = document.createElement('input');
+    cookTimeInput.className = 'input-text';
+    cookTimeInput.name = 'cookTime';
+    cookTimeInput.id = 'time-cook';
+    cookTimeInput.type = 'text';
+
+    const cookTimeRow = document.createElement('div');
+    cookTimeRow.className = 'rows';
+
+    cookTimeRow.append(cookTimeInput, timeUnit);
+    cookTimeField.append(cookTimeLabel, cookTimeRow);
 
     const calField = document.createElement('fieldset');
     calField.className = 'boxes';
@@ -84,15 +105,14 @@ export default function () {
     calRow.append(calInput, calUnit);
     calField.append(calLabel, calRow);
 
-    rowWrapper.append(timeField, calField);
+    timeRowWrapper.append(prepTimeField, cookTimeField, calField);
 
     // Meal label selection
     const mealLabel = document.createElement('label');
     mealLabel.className = 'labeling';
     mealLabel.textContent = 'Meal type';
     const mealSelect = document.createElement('select');
-    const mealSelection = createOption('option1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
-
+    const mealSelection = createOption('recipeCategory', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
 
 
     // Cuisine label selection
@@ -100,10 +120,7 @@ export default function () {
     cuisineLabel.className = 'labeling';
     cuisineLabel.textContent = 'Cuisine type';
     const cuisineSelect = document.createElement('select');
-    const cuisineSelection = createOption('option2', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
-    
-
-    
+    const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
     
 
     // Ingredients
@@ -271,7 +288,7 @@ export default function () {
     instrField.append(instrLabel, instrList, addBtn);
 
     // Assemble left side
-    formToFill.append(nameField, rowWrapper, mealLabel, mealSelection, cuisineLabel, cuisineSelection, ingredientLabel, ingredientInput, ingredientList, instrField);
+    formToFill.append(nameField, timeRowWrapper, mealLabel, mealSelection, cuisineLabel, cuisineSelection, ingredientLabel, ingredientInput, ingredientList, instrField);
     left.append(heading, formToFill);
 
     // Right Side
@@ -287,7 +304,7 @@ export default function () {
 
     const photoInput = document.createElement('input');
     photoInput.type = 'file';
-    photoInput.name = 'recipe-photo';
+    photoInput.name = 'image';
     photoInput.id = 'myFile';
 
     photoBox.appendChild(photoInput);
