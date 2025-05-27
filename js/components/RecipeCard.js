@@ -5,7 +5,6 @@ class RecipeCard extends HTMLElement {
 
         const articleContainer = document.createElement('article');
 
-        // TO ADD: styling rules
         const styleElement = document.createElement('style');
         styleElement.textContent = `
 			:host {

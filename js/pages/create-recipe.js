@@ -86,6 +86,26 @@ export default function () {
 
     rowWrapper.append(timeField, calField);
 
+    // Meal label selection
+    const mealLabel = document.createElement('label');
+    mealLabel.className = 'labeling';
+    mealLabel.textContent = 'Meal type';
+    const mealSelect = document.createElement('select');
+    const mealSelection = createOption('option1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
+
+
+
+    // Cuisine label selection
+    const cuisineLabel = document.createElement('label');
+    cuisineLabel.className = 'labeling';
+    cuisineLabel.textContent = 'Cuisine type';
+    const cuisineSelect = document.createElement('select');
+    const cuisineSelection = createOption('option2', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
+    
+
+    
+    
+
     // Ingredients
     const ingredientLabel = document.createElement('label');
     ingredientLabel.className = 'labeling';
@@ -251,7 +271,7 @@ export default function () {
     instrField.append(instrLabel, instrList, addBtn);
 
     // Assemble left side
-    formToFill.append(nameField, rowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
+    formToFill.append(nameField, rowWrapper, mealLabel, mealSelection, cuisineLabel, cuisineSelection, ingredientLabel, ingredientInput, ingredientList, instrField);
     left.append(heading, formToFill);
 
     // Right Side
@@ -395,4 +415,25 @@ export default function () {
     //       </main> 
     // `
 
+}
+
+
+function createOption(name, label, options) {
+    const select = document.createElement('select');
+    select.className = 'btn-filter';
+    select.name = name;
+
+    const defaultOption = document.createElement('option');
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.textContent = label;
+    select.appendChild(defaultOption);
+
+    for (const opt of options) {
+        const option = document.createElement('option');
+        option.textContent = opt;
+        select.appendChild(option);
+    }
+
+    return select;
 }

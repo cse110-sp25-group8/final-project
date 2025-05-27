@@ -38,8 +38,8 @@ export default function () {
     const filters = document.createElement('ul');
     filters.className = 'filters';
 
-    const mealFilter = createFilter('filter1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Snacks', 'Beverages']);
-    const cuisineFilter = createFilter('filter2', 'Cuisine', ['Asian', 'European', 'Latin American', 'African', 'Middle Eastern']);
+    const mealFilter = createFilter('filter1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
+    const cuisineFilter = createFilter('filter2', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
     const timeFilter = createFilter('filter3', 'Estimated Time', ['Under 30 minutes', 'Under 1 Hour', 'Over 1 Hour']);
     const ingredientsFilter = createFilter('filter4', 'Ingredients', ['Meat', 'Vegetables', 'Dairy']);
 
