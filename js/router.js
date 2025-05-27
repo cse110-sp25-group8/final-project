@@ -16,8 +16,6 @@ const routes = {
 // 	app.innerHTML = page();
 // }
 
-
-
 function render() {
     const path = location.hash.replace('#', '') || '/';
     const page = routes[path] || (() => {

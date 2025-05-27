@@ -4,7 +4,6 @@ function init() {
     console.log('main elem: ', mainSection);
     console.log(recipes);
 
-
     const cardGrid = document.createElement('div');
     cardGrid.classList.add('card-grid');
 

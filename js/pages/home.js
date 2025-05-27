@@ -25,7 +25,6 @@ export default function () {
     addIcon.id = 'add-icon';
     addIcon.textContent = '➕';
 
-
     mobileActions.append(shuffleIcon, addIcon);
     mobileSearchActions.appendChild(mobileActions);
 
@@ -128,7 +127,6 @@ export default function () {
 
     //     </section>`;
 }
-
 
 function createFilter(name, label, options) {
     const li = document.createElement('li');
