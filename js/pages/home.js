@@ -41,7 +41,7 @@ export default function () {
     const mealFilter = createFilter('filter1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Snacks', 'Beverages']);
     const cuisineFilter = createFilter('filter2', 'Cuisine', ['Asian', 'European', 'Latin American', 'African', 'Middle Eastern']);
     const timeFilter = createFilter('filter3', 'Estimated Time', ['Under 30 minutes', 'Under 1 Hour', 'Over 1 Hour']);
-    const ingredientsFilter = createFilter('filter4', 'Ingredients', ['Meat', 'Vegetables', 'Dairy']);
+    const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
@@ -149,3 +149,35 @@ function createFilter(name, label, options) {
     li.appendChild(select);
     return li;
 }
+
+function createIngredientFilter(name, label) {
+    const li = document.createElement('li');
+
+    // fetch localStorage
+    const options = localStorage.getItem("ingredients");
+    let list_ingredients=JSON.parse(options);
+
+    // search bar 
+    const search_bar = document.createElement('input');
+    search_bar.className='search_bar';
+    search_bar.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            let toAdd=search_bar.value;
+            console.log(toAdd);
+            let newTag="";
+            for(x in list_ingredients){
+                console.log(x);
+                if(x === toAdd){
+                    newTag=x;
+                }
+            }
+        }
+
+        console.log(newTag);
+    });
+    search_bar.placeholder="Search..";
+
+    li.appendChild(search_bar);
+    return li;
+}
+

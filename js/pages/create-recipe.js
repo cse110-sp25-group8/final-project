@@ -102,7 +102,13 @@ export default function () {
         const span = document.createElement('span');
         span.textContent = item;
         ingredientList.appendChild(span);
-    });
+    });e
+
+    let to_Add = JSON.stringify(["Noodle", "Chicken", "Carrots"]);
+    localStorage.setItem("ingredients", to_Add);
+    
+
+
 
     // Instructions
     const instrField = document.createElement('fieldset');
