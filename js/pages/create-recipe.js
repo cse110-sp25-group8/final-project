@@ -98,17 +98,14 @@ export default function () {
     ingredientInput.placeholder = 'Type Ingredients';
 
     const ingredientList = document.createElement('div');
-    ['Noodle', 'Chicken', 'Carrots'].forEach(item => {
+    ['Noodle', 'Chicken', 'Carrots'].forEach((item) => {
         const span = document.createElement('span');
         span.textContent = item;
         ingredientList.appendChild(span);
-    });e
+    });
 
-    let to_Add = JSON.stringify(["Noodle", "Chicken", "Carrots"]);
-    localStorage.setItem("ingredients", to_Add);
-    
-
-
+    let to_Add = JSON.stringify(['Noodle', 'Chicken', 'Carrots']);
+    localStorage.setItem('ingredients', to_Add);
 
     // Instructions
     const instrField = document.createElement('fieldset');
@@ -171,8 +168,8 @@ export default function () {
     const dragIndicator = document.createElement('div');
     dragIndicator.className = 'drag-indicator';
 
-    // This first check whether there is instruction-item, then draggedItem is saved 
-    // so we know that is dragged 
+    // This first check whether there is instruction-item, then draggedItem is saved
+    // so we know that is dragged
     instrList.addEventListener('dragstart', (e) => {
         if (e.target && e.target.classList.contains('instruction-item')) {
             draggedItem = e.target;
@@ -198,7 +195,7 @@ export default function () {
         }
     });
 
-    // This part finalize the drop part. 
+    // This part finalize the drop part.
     // now actually drop using this
     instrList.addEventListener('drop', (e) => {
         e.preventDefault();
@@ -229,18 +226,25 @@ export default function () {
 
     // this is the helper function that helps calculating where to drop
     function getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll('.instruction-item:not([style*="display: none"])')];
+        const draggableElements = [
+            ...container.querySelectorAll(
+                '.instruction-item:not([style*="display: none"])'
+            ),
+        ];
 
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2;
+        return draggableElements.reduce(
+            (closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
 
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
-            }
-        }, { offset: Number.NEGATIVE_INFINITY }).element;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            },
+            { offset: Number.NEGATIVE_INFINITY }
+        ).element;
     }
 
     const addBtn = document.createElement('button');
@@ -257,7 +261,14 @@ export default function () {
     instrField.append(instrLabel, instrList, addBtn);
 
     // Assemble left side
-    formToFill.append(nameField, rowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
+    formToFill.append(
+        nameField,
+        rowWrapper,
+        ingredientLabel,
+        ingredientInput,
+        ingredientList,
+        instrField
+    );
     left.append(heading, formToFill);
 
     // Right Side
@@ -307,12 +318,10 @@ export default function () {
         init();
     });
 
-
     return main;
 
     // return `
     //       <main class="main-area">
-
 
     //         <form class="parent">
     //           <div class="left-side">
@@ -368,14 +377,11 @@ export default function () {
 
     //               <button class="add-button" type="button">+</button><br>
 
-
     //               </fieldset>
 
     //             </div>
 
-
     //           </div>
-
 
     //           <div class="right-side">
     //             <div class="button-group">
@@ -383,13 +389,12 @@ export default function () {
     //               <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
     //             </div>
 
-
     //             <label class="labeling">Photo</label>
     //             <div class="photo-box">
     //               <input type="file" id="myFile" name="recipe">
     //             </div>
 
-    //             <label class="labeling">Ingredients <span class="red-text">*</span></label> 
+    //             <label class="labeling">Ingredients <span class="red-text">*</span></label>
     //             <input class="search-box"  id="input-area" type="text" placeholder="Search for Ingredients">
     //             <div>
     //                 <span>Noodle</span>
@@ -398,7 +403,6 @@ export default function () {
     //             </div>
     //           </div>
     //         </form>
-    //       </main> 
+    //       </main>
     // `
-
 }
