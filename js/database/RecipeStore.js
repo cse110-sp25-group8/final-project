@@ -131,11 +131,13 @@ export class RecipeStore {
     async syncToLocalStorage(recipe, mode) {
         const metadata = {
             id: recipe.id,
+            name: recipe.name,
             isFavorite: false,
             recipeCategory: recipe.recipeCategory,
             recipeCuisine: recipe.recipeCuisine,
-            estimatedTime: recipe.estimatedTime,
+            totalTime: recipe.totalTime,
             recipeIngredient: recipe.recipeIngredient,
+            calories: recipe.calories
         };
 
         if (mode === 'delete') {

@@ -332,6 +332,10 @@ export default function () {
     saveBtn.className = 'Button';
     saveBtn.id = 'save';
     saveBtn.textContent = 'Save Recipe';
+    // saveBtn.addEventListener('click', () => {
+    //     location.hash = '#/';
+    // });
+
 
     const cancelBtn = document.createElement('button');
     cancelBtn.type = 'button';

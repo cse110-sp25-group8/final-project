@@ -1,7 +1,9 @@
 // Need to change from localStorage to IndexDB
+import { getAllMetadata } from "./js/database/localStorageService.js";
 
 function init() {
-    let recipes = getFromStorage();
+    // let recipes = getFromStorage();
+    const recipes = getAllMetadata();
     const mainSection = document.querySelector('main');
     console.log('main elem: ', mainSection);
     console.log(recipes);
@@ -10,10 +12,9 @@ function init() {
     cardGrid.classList.add('card-grid');
 
     // Populate main with recipies from local storage
-    recipes.forEach((x) => {
+    recipes.forEach((recipe) => {
         const addition = document.createElement('recipe-card');
-
-        addition.data = x;
+        addition.data = recipe;
         console.log(addition.data);
 
         cardGrid.appendChild(addition);
