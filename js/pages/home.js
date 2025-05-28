@@ -157,7 +157,7 @@ function createIngredientFilter(name, label) {
     const options = localStorage.getItem("ingredients");
     let list_ingredients=JSON.parse(options);
 
-    // search bar 
+    // search bar
     const search_bar = document.createElement('input');
     search_bar.className='search_bar';
     search_bar.addEventListener("keypress", function(event) {
