@@ -138,22 +138,72 @@ export default function () {
     labelRowWrapper.append(mealTypeField, cuisineField);
 
     // Ingredients
+    const ingredientField = document.createElement('fieldset');
+    ingredientField.className = 'boxes';
+
     const ingredientLabel = document.createElement('label');
     ingredientLabel.className = 'labeling';
     ingredientLabel.innerHTML = 'Ingredients <span class="red-text">*</span>';
 
-    const ingredientInput = document.createElement('input');
-    ingredientInput.className = 'ingredient-box';
-    ingredientInput.id = 'input-area';
-    ingredientInput.type = 'text';
-    ingredientInput.placeholder = 'Type Ingredients';
+    const ingredientList = document.createElement('ul');
+    ingredientList.id = 'ingredient-list';
+    // const ingredientInput = document.createElement('input');
+    // ingredientInput.className = 'ingredient-box';
+    // ingredientInput.id = 'input-area';
+    // ingredientInput.type = 'text';
+    // ingredientInput.placeholder = 'Type Ingredients';
 
-    const ingredientList = document.createElement('div');
-    ['Noodle', 'Chicken', 'Carrots'].forEach(item => {
-        const span = document.createElement('span');
-        span.textContent = item;
-        ingredientList.appendChild(span);
+    // const ingredientList = document.createElement('div');
+    // ['Noodle', 'Chicken', 'Carrots'].forEach(item => {
+    //     const span = document.createElement('span');
+    //     span.textContent = item;
+    //     ingredientList.appendChild(span);
+    // });
+    let ingredientCount = 2;
+
+    function createIngredientItem() {
+        const li = document.createElement('li');
+        li.className = 'ingredient-item';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'ingredient';
+
+        const del = document.createElement('button');
+        del.className = 'delete-button';
+        del.type = 'button';
+
+        const trash = document.createElement('img');
+        trash.src = '../../assets/trash.svg';
+        trash.alt = '🗑️';
+
+        del.appendChild(trash);
+
+        del.addEventListener('click', () => {
+            ingredientList.removeChild(li);
+        });
+
+        li.append(input, del);
+        return li;
+    }
+
+    for (let i = 1; i <= ingredientCount; i++) {
+        const li = createIngredientItem();
+        ingredientList.appendChild(li);
+    }
+
+    const addIngredientBtn = document.createElement('button');
+    addIngredientBtn.className = 'add-button';
+    addIngredientBtn.type = 'button';
+    addIngredientBtn.textContent = '+';
+
+    addIngredientBtn.addEventListener('click', () => {
+        stepCount += 1;
+        const li = createIngredientItem(stepCount);
+        ingredientList.appendChild(li);
     });
+
+    ingredientField.append(ingredientLabel, ingredientList, addIngredientBtn);
 
     // Instructions
     const instrField = document.createElement('fieldset');
@@ -303,7 +353,8 @@ export default function () {
 
     // Assemble left side
     // mealLabel, mealSelection, cuisineLabel, cuisineSelection
-    formToFill.append(nameField, timeRowWrapper, labelRowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
+    // formToFill.append(nameField, timeRowWrapper, labelRowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
+    formToFill.append(nameField, timeRowWrapper, labelRowWrapper, ingredientField, instrField);
     left.append(heading, formToFill);
 
     // Right Side
@@ -460,14 +511,16 @@ function createOption(name, label, options) {
     select.name = name;
 
     const defaultOption = document.createElement('option');
-    defaultOption.disabled = true;
+    defaultOption.disabled = false;
     defaultOption.selected = true;
     defaultOption.textContent = label;
+    defaultOption.value = "";
     select.appendChild(defaultOption);
 
     for (const opt of options) {
         const option = document.createElement('option');
         option.textContent = opt;
+        option.value = opt;
         select.appendChild(option);
     }
 

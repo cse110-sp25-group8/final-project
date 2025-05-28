@@ -135,14 +135,16 @@ function createFilter(name, label, options) {
     select.name = name;
 
     const defaultOption = document.createElement('option');
-    defaultOption.disabled = true;
+    defaultOption.disabled = false;
     defaultOption.selected = true;
     defaultOption.textContent = label;
+    defaultOption.value = "";
     select.appendChild(defaultOption);
 
     for (const opt of options) {
         const option = document.createElement('option');
         option.textContent = opt;
+        option.value = opt;
         select.appendChild(option);
     }
 

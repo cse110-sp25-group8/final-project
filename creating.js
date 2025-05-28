@@ -14,27 +14,46 @@ function handleCreate() {
     console.log(form);
 
     form.addEventListener('submit', async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         let formData = new FormData(form);
 
-        const cookTime = parseInt(formData.get('cookTime').trim(), 10);
-        const calories = parseInt(formData.get("calories").trim(), 10);
-        const prepTime = parseInt(formData.get('prepTime').trim(), 10);
+        const cookTime = parseInt(formData.get('cookTime'), 10);
+        const calories = parseInt(formData.get("calories"), 10);
+        let   prepTime = parseInt(formData.get('prepTime'), 10);
 
-        console.log(cookTime);
-        console.log(prepTime);
-        console.log(calories);
-
-        // Validate time and calories
-        if ( isNaN(cookTime) || cookTime <= 0 || !Number.isInteger(cookTime) 
-            || isNaN(prepTime) || prepTime <= 0 || !Number.isInteger(prepTime)
-            || calories <= 0 || !Number.isInteger(calories)) 
+        // INPUT VALIDATOR        
+        if (isNaN(prepTime)) {
+            formData.set("prepTime", 0);
+            prepTime = 0;
+        }
+        let isConditionMet = true;
+        if (isNaN(cookTime))
         {
-            alert("Time and Calories must be strictly positive whole numbers.");
-            return; // Stop submission
+            alert("Cook time cannot be blank.");
+            isConditionMet = false;
+        }
+        if (cookTime <= 0 || !Number.isInteger(cookTime)) {
+            alert("Cook time must be strictly positive whole numbers.");
+            isConditionMet = false;
+        }
+        if (prepTime < 0 || !Number.isInteger(prepTime))
+        {
+            alert("Prep time must be strictly positive whole numbers.");
+            isConditionMet = false;
+        }
+        if (!isNaN(calories)) {
+            if (calories < 0 || !Number.isInteger(calories)) {
+                alert("Calories must be strictly positive whole numbers.");
+                isConditionMet = false;
+            }
         }
 
-        
+        // console.log(cookTime);
+        // console.log(prepTime);
+        // console.log(calories);
+
+        if (!isConditionMet)
+            return;
 
         // Populating Card Object
         let cardObject = {};
@@ -56,7 +75,7 @@ function handleCreate() {
         const currentId = await RECIPE_STORE.addRecipe(cardObject);
         // console.log("Current recipe ID = ", currentId);
         
-        location.hash = '#/';
+        location.hash = '#/';   
     });
 
 
