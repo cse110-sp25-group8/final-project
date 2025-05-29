@@ -71,7 +71,7 @@ export default function () {
 
     const cookTimeLabel = document.createElement('label');
     cookTimeLabel.className = 'labeling';
-    cookTimeLabel.textContent = 'Time to cook';
+    cookTimeLabel.innerHTML = 'Time to cook <span class="red-text">*</span>';
 
     const cookTimeInput = document.createElement('input');
     cookTimeInput.className = 'input-text';
@@ -138,7 +138,7 @@ export default function () {
     cuisineLabel.className = 'labeling';
     cuisineLabel.textContent = 'Cuisine type';
     const cuisineSelect = document.createElement('select');
-    const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
+    const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern', 'North American']);
 
     cuisineField.append(cuisineLabel, cuisineSelection);
 
@@ -154,27 +154,61 @@ export default function () {
 
     const ingredientList = document.createElement('ul');
     ingredientList.id = 'ingredient-list';
-    // const ingredientInput = document.createElement('input');
-    // ingredientInput.className = 'ingredient-box';
-    // ingredientInput.id = 'input-area';
-    // ingredientInput.type = 'text';
-    // ingredientInput.placeholder = 'Type Ingredients';
 
-    // const ingredientList = document.createElement('div');
-    // ['Noodle', 'Chicken', 'Carrots'].forEach(item => {
-    //     const span = document.createElement('span');
-    //     span.textContent = item;
-    //     ingredientList.appendChild(span);
-    // });
+    const METRIC_MEASUREMENTS = [
+        'milliliters (mL)',
+        'liters (L)',
+        'grams (g)',
+        'kilograms (kg)'
+    ];
+
+    const UNIVERSAL_MEASUREMENTS = [
+        'unitless (no units)',
+        'teaspoon (tsp)',
+        'tablespoon (tbsp)'
+    ];
+
+    function addUnitsToDropdown(measurementArray) {
+        // measurementArray = 'Imperial' || 'Metric' -- TBA
+        const dropdown = document.createElement('select');
+        dropdown.placeholder = 'Units';
+
+        const UNIT_MEASUREMENTS = UNIVERSAL_MEASUREMENTS.concat(measurementArray);
+        for (const unit of UNIT_MEASUREMENTS) {
+            const unitOption = document.createElement('option');
+            unitOption.value = unit;
+            unitOption.text = unit;
+            dropdown.appendChild(unitOption);
+        }
+
+        return dropdown;
+    }
+
     let ingredientCount = 2;
 
     function createIngredientItem() {
         const li = document.createElement('li');
         li.className = 'ingredient-item';
 
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'ingredient';
+        const currIngredientRow = document.createElement('div');
+        currIngredientRow.className = 'rows';
+
+        const quantityInput = document.createElement('input');
+        quantityInput.name = 'ingredient-quantity';
+        quantityInput.type = 'text';
+        quantityInput.className = 'ingredient';
+        quantityInput.placeholder = 'Quantity of ingredient(s)';
+
+        // const unitDropdown = document.createElement('select');
+        // unitDropdown.placeholder = 'unit';
+        const unitDropdown = addUnitsToDropdown(METRIC_MEASUREMENTS);
+        unitDropdown.name = 'ingredient-unit';
+
+        const ingredientNameInput = document.createElement('input');
+        ingredientNameInput.name = 'ingredient-name';
+
+        ingredientNameInput.type = 'text';
+        ingredientNameInput.placeholder = 'Name of ingredient';
 
         const del = document.createElement('button');
         del.className = 'delete-button';
@@ -190,7 +224,10 @@ export default function () {
             ingredientList.removeChild(li);
         });
 
-        li.append(input, del);
+        // currIngredientRow.append(quantityInput, unitDropdown, ingredientNameInput, del);
+
+        li.append(quantityInput, unitDropdown, ingredientNameInput, del);
+        // li.append(currIngredientRow);
         return li;
     }
 

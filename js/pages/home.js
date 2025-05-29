@@ -39,7 +39,7 @@ export default function () {
     filters.className = 'filters';
 
     const mealFilter = createFilter('filter1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
-    const cuisineFilter = createFilter('filter2', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
+    const cuisineFilter = createFilter('filter2', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern', 'North American']);
     const timeFilter = createFilter('filter3', 'Estimated Time', ['Under 30 minutes', 'Under 1 Hour', 'Over 1 Hour']);
     const ingredientsFilter = createFilter('filter4', 'Ingredients', ['Meat', 'Vegetables', 'Dairy']);
 

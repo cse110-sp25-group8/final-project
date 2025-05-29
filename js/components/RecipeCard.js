@@ -116,7 +116,7 @@ class RecipeCard extends HTMLElement {
         this.shadowRoot.appendChild(styleElement);
     }
 
-        set data(data) {
+	set data(data) {
         // Check to see if nothing was passed in
         if (!data) {
             return;

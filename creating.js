@@ -9,6 +9,9 @@ function init() {
 }
 
 function handleCreate() {
+    const INSTRUCTIONS_KEY = 'recipeInstructions';
+    const TOTAL_TIME_KEY = 'totalTime';
+
     const form = document.getElementsByClassName('parent')[0];
 
     console.log(form);
@@ -20,22 +23,26 @@ function handleCreate() {
         // Populating Card Object
         let cardObject = {};
         for (const [key, value] of formData) {
-            cardObject[key] = value;
+            // Handle recipe steps to be an array
+            if (key.startsWith('step')) {
+                const instructionObject = { text: value };
+                if (!Array.isArray(cardObject[INSTRUCTIONS_KEY])) {
+                    cardObject[INSTRUCTIONS_KEY] = [];
+                } 
+                cardObject[INSTRUCTIONS_KEY].push(instructionObject);
+            } else {
+                cardObject[key] = value;
+            }
         }
 
         // Calculate totalTime metric
         let totalTime = parseInt(formData.get('cookTime'), 10) + parseInt(formData.get('prepTime'), 10);
-        cardObject['totalTime'] = totalTime;
+        cardObject[TOTAL_TIME_KEY] = totalTime;
 
         const recipeCard = document.createElement('recipe-card');
         recipeCard.data = cardObject;
 
-        // let storedCards = getFromStorage();
-        // storedCards.push(cardObject);
-        // localStorage.setItem('recipe', JSON.stringify(storedCards));
-        // console.log("Running addRecipe ==> IndexedDB...");
         const currentId = await RECIPE_STORE.addRecipe(cardObject);
-        // console.log("Current recipe ID = ", currentId);
         
         location.hash = '#/';   
     });
