@@ -132,7 +132,7 @@ export default function () {
     cuisineLabel.textContent = 'Cuisine type';
     const cuisineSelect = document.createElement('select');
     const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern']);
-    
+
     cuisineField.append(cuisineLabel, cuisineSelection);
 
     labelRowWrapper.append(mealTypeField, cuisineField);
@@ -259,6 +259,13 @@ export default function () {
         instrList.appendChild(li);
     }
 
+    function updateInstructionInputNames() {
+        const steps = instrList.querySelectorAll('.instruction-item input');
+        steps.forEach((input, index) => {
+            input.name = `step${index + 1}`;
+        })
+    }
+
     // This is the variable to track which item is being dragged
     let draggedItem = null;
 
@@ -305,6 +312,8 @@ export default function () {
         }
         draggedItem.style.display = 'flex';
         draggedItem = null;
+
+        updateInstructionInputNames();
     });
 
     // if dragged is finished, then runs
@@ -320,6 +329,8 @@ export default function () {
         if (dragIndicator.parentElement) {
             dragIndicator.parentElement.removeChild(dragIndicator);
         }
+
+        updateInstructionInputNames();
     });
 
     // this is the helper function that helps calculating where to drop
