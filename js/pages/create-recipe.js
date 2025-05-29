@@ -27,6 +27,7 @@ export default function () {
     nameLabel.innerHTML = 'Name of Recipe <span class="red-text">*</span>';
 
     const nameInput = document.createElement('input');
+    nameInput.required = true;
     nameInput.className = 'input-text';
     nameInput.name = 'name';
     nameInput.id = 'recipe-name';
@@ -54,7 +55,9 @@ export default function () {
     prepTimeInput.className = 'input-text';
     prepTimeInput.name = 'prepTime';
     prepTimeInput.id = 'time-prep';
-    prepTimeInput.type = 'text';
+    prepTimeInput.type = 'number';
+    prepTimeInput.min = 0;
+    prepTimeInput.value = 0;
 
     const prepTimeRow = document.createElement('div');
     prepTimeRow.className = 'rows';
@@ -74,7 +77,9 @@ export default function () {
     cookTimeInput.className = 'input-text';
     cookTimeInput.name = 'cookTime';
     cookTimeInput.id = 'time-cook';
-    cookTimeInput.type = 'text';
+    cookTimeInput.type = 'number';
+    cookTimeInput.min = 0;
+    cookTimeInput.value = 0;
 
     const cookTimeRow = document.createElement('div');
     cookTimeRow.className = 'rows';
@@ -96,7 +101,9 @@ export default function () {
     calInput.className = 'input-text';
     calInput.name = 'calories';
     calInput.id = 'calories';
-    calInput.type = 'text';
+    calInput.type = 'number';
+    calInput.min = 0;
+    calInput.value = 0;
 
     const calUnit = document.createElement('span');
     calUnit.className = 'information';
