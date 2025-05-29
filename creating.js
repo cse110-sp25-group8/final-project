@@ -35,6 +35,12 @@ function handleCreate() {
             }
         }
 
+        // ****************** TODO: ******************
+        // const ingredientList = document.querySelector('#ingredient-list').getElementsByTagName('li');
+        // for (const listItem of ingredientList) {
+        //     console.log("MY LIST ITEM: ", ing);
+        // }
+
         // Calculate totalTime metric
         let totalTime = parseInt(formData.get('cookTime'), 10) + parseInt(formData.get('prepTime'), 10);
         cardObject[TOTAL_TIME_KEY] = totalTime;
