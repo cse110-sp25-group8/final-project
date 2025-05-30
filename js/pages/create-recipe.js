@@ -419,16 +419,22 @@ export default function () {
     const photoLabel = document.createElement('label');
     photoLabel.className = 'labeling';
     photoLabel.textContent = 'Photo';
+    
+    const photoConstraint = document.createElement('p');
+    photoConstraint.className = 'labeling';
+    photoConstraint.textContent = '.jpeg, jpg, .png, .raw, .heif';
 
     const photoBox = document.createElement('div');
     photoBox.className = 'photo-box';
 
     const photoInput = document.createElement('input');
     photoInput.type = 'file';
+    photoInput.accept = '.png, .jpg, .jpeg, .raw, .heif';
     photoInput.name = 'image';
     photoInput.id = 'myFile';
 
     photoBox.appendChild(photoInput);
+    photoBox.appendChild(photoConstraint);
 
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'button-group';
