@@ -1,4 +1,8 @@
 import { startTimerFromInputs, clearTimer, updateTimerPreview } from '../components/timer.js';
+
+// 
+document.body.classList.add('detail-page');
+
 export default function () {
     const layout = document.createElement('div');
     layout.className = 'detail-layout';
@@ -139,6 +143,39 @@ export default function () {
     const clearBtn = document.createElement('button');
     clearBtn.id = 'timer-clear';
     clearBtn.textContent = 'Clear';
+
+    // reorders page elements to fit design for mobile devices
+    function mobileReorder() {
+        const isPhone = window.innerWidth <= 600; // 600px is mobile width
+        const mainContainer = document.querySelector('.detail-main');
+        const asideContainer = document.querySelector('.detail-aside');
+        const card = document.querySelector('#recipe-card');
+        const timer = document.querySelector('#timer-container');
+
+        if (!mainContainer || !asideContainer || !card || !timer) return;
+
+        if (isPhone) {
+            asideContainer.style.display = 'none';
+            if (card.parentNode !== mainContainer) {
+                mainContainer.insertBefore(card, mainContainer.firstChild);
+            }
+            if (timer.parentNode !== mainContainer) {
+                mainContainer.appendChild(timer);
+            }
+        } 
+        else {
+            asideContainer.style.display = '';
+            if (card.parentNode !== asideContainer) {
+                asideContainer.insertBefore(card, asideContainer.firstChild);
+            }
+            if (timer.parentNode !== asideContainer) {
+                asideContainer.appendChild(timer);
+            }
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', mobileReorder);
+    window.addEventListener('resize', mobileReorder);
 
     buttonGroup.append(setBtn, clearBtn);
 
