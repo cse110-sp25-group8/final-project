@@ -5,32 +5,37 @@ export default function () {
         init();
     });
 
-    // Mobile search and icon row
-    const headerSearch = document.querySelector('.top-nav .search-bar');
-    const searchClone = headerSearch.cloneNode(true);
+    if (!document.querySelector('.mobile-search-actions')) {
+        // Mobile search and icon row
+        const headerSearch = document.querySelector('.top-nav .search-bar');
+        const searchClone = headerSearch.cloneNode(true);
 
-    const mobileSearchActions = document.createElement('div');
-    mobileSearchActions.className = 'mobile-search-actions';
-    mobileSearchActions.appendChild(searchClone);
+        const mobileSearchActions = document.createElement('div');
+        mobileSearchActions.className = 'mobile-search-actions';
+        mobileSearchActions.appendChild(searchClone);
 
-    // small icons
-    const mobileActions = document.createElement('div');
-    mobileActions.className = 'mobile-actions';
+        // small icons
+        const mobileActions = document.createElement('div');
+        mobileActions.className = 'mobile-actions';
 
-    const shuffleIcon = document.createElement('button');
-    shuffleIcon.id = 'shuffle-icon';
-    shuffleIcon.textContent = '🔀';
+        const shuffleIcon = document.createElement('button');
+        shuffleIcon.id = 'shuffle-icon';
+        shuffleIcon.textContent = '🔀';
 
-    const addIcon = document.createElement('button');
-    addIcon.id = 'add-icon';
-    addIcon.textContent = '➕';
+        const addIcon = document.createElement('button');
+        addIcon.id = 'add-icon';
+        addIcon.textContent = '➕';
+        
+        mobileActions.append(shuffleIcon, addIcon);
+        mobileSearchActions.appendChild(mobileActions);
 
-    mobileActions.append(shuffleIcon, addIcon);
-    mobileSearchActions.appendChild(mobileActions);
+        const siteHeader = document.querySelector('.site-header');
+        siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
 
-    const siteHeader = document.querySelector('.site-header');
-    siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
-
+        // mobile icons have same functionality as "normal" action buttons
+        shuffleIcon.addEventListener('click', () => document.querySelector('.btn-shuffle').click());
+        addIcon.addEventListener('click', () => document.querySelector('.btn-add').click());
+    }
 
     const section = document.createElement('section');
     section.className = 'sub-nav';
@@ -70,9 +75,7 @@ export default function () {
     actions.append(shuffleBtn, addBtn);
     section.append(actions);
 
-    // mobile icons have same functionality as "normal" action buttons
-    shuffleIcon.addEventListener('click', () => shuffleBtn.click());
-    addIcon.addEventListener('click', () => addBtn.click());
+    
 
     return section;
 
