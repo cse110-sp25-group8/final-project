@@ -1,4 +1,5 @@
 import { RecipeStore } from '../database/RecipeStore.js';
+import { renderCardDetails } from '../router.js';
 const RECIPE_STORE = new RecipeStore();
 
 class RecipeCard extends HTMLElement {
@@ -51,12 +52,12 @@ class RecipeCard extends HTMLElement {
 				padding: 4px;
 			}
 
-			.pic-box button:first-child {
+			.star-btn {
 				top: 10px;
 				left: 10px;
 			}
 
-			.pic-box button:last-child {
+			.menu-btn {
 				top: 10px;
 				right: 10px;
 			}
@@ -110,32 +111,88 @@ class RecipeCard extends HTMLElement {
 				margin: 0;
 				padding: 0;
 			}
+			
+			.drop-down {
+				position: absolute;
+				top: 24%;
+				right: 6%;
+				width: 50%;
+				height: 45%;
+				background-color: white;
+				border-radius: 25px;
+				display: flex;
+				flex-direction: column;
+				// align-items: center;
+				justify-content: center;
+				display: none;
+				gap: 8px;
+			}
+
+			.delete, .edit {
+				display: flex;
+				align-items: center;
+				font-size: 16px;
+				gap: 8px;
+				color: #525252;
+				margin-left: 14%;
+			}
+
+			.delete img,
+			.edit img {
+				width: 1.2rem;
+				height: 1.2rem;
+			}
+
+			.delete::hover {
+				background-color: #edecec;
+			}
+
+			.edit::hover {
+				background-color: #edecec;
+			}
 		`;
 
         this.shadowRoot.appendChild(articleContainer);
         this.shadowRoot.appendChild(styleElement);
     }
 
-	set data(data) {
+    set data(data) {
         // Check to see if nothing was passed in
         if (!data) {
             return;
         }
 
-		const updateCard = async () => { 
-			const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
-			const imageURL = URL.createObjectURL(imageBlob);
+        const updateCard = async () => {
+            const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
+            const imageURL = URL.createObjectURL(imageBlob);
 
-			const article = this.shadowRoot.querySelector('article');
-			article.innerHTML = `
+            const article = this.shadowRoot.querySelector('article');
+
+            article.addEventListener('click', function (event) {
+                alert('clicked');
+                renderCardDetails(data.id);
+            });
+
+            article.innerHTML = `
 				<div class="pic-box">
-					<button>
-						<img src="../assets/star.svg" alt="star">
+					<button class="star-btn">
+						<img src="../assets/star.svg" alt="star" class="star-img">
 					</button>
 					<!-- <img src="${imageURL}" alt="${data.name}"> -->
-					<button>
-						<img src="../assets/horizontal.svg" alt="star">
+					<button class="menu-btn">
+						<img src="../assets/horizontal.svg" alt="menu">
 					</button>
+					<div class="drop-down">
+						<div class="edit" role="button">
+							<img src="../assets/edit.svg" alt="edit"> 
+							<p>Edit</p>
+						</div>
+
+						<div class="delete" role="button">
+							<img src="../assets/trash.svg" alt="delete"> 
+							<p>Delete</p>
+						</div>
+					</div>
 				</div>
 				<p class="recipe-title">${data.name}</p>
 				<section class="time-and-calories">
@@ -149,13 +206,55 @@ class RecipeCard extends HTMLElement {
 				<p class="ingredients">${data.recipeCategory}, ${data.recipeCuisine}</p>
 			`;
 
-			// Add image to pic-box
-			const picBox = this.shadowRoot.querySelector('.pic-box');
-			picBox.style.backgroundImage = `url(${imageURL})`;
-		};
+            // Add image to pic-box
+            const picBox = this.shadowRoot.querySelector('.pic-box');
+            picBox.style.backgroundImage = `url(${imageURL})`;
 
-		updateCard();
+            const menuBtn = this.shadowRoot.querySelector('.menu-btn');
+            const dropdown = this.shadowRoot.querySelector('.drop-down');
+            const starBtn = this.shadowRoot.querySelector('.star-btn');
+            const starImg = this.shadowRoot.querySelector('.star-img');
+
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.style.display =
+                    dropdown.style.display === 'flex' ? 'none' : 'flex';
+            });
+
+            this.shadowRoot.addEventListener('click', (e) => {
+                const isInsideMenuBtn = menuBtn.contains(e.target);
+                const isInsideDropdown = dropdown.contains(e.target);
+
+                if (!isInsideMenuBtn && !isInsideDropdown) {
+                    dropdown.style.display = 'none';
+                }
+            });
+
+            starBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                if (starImg.src.endsWith('star.svg')) {
+                    starImg.src = '../assets/coloredStar.svg';
+                } else {
+                    starImg.src = '../assets/star.svg';
+                }
+            });
+
+            const editBtn = this.shadowRoot.querySelector('.edit');
+            editBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                alert('edit button clicked');
+            });
+
+            const deleteBtn = this.shadowRoot.querySelector('.delete');
+            deleteBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                alert('delete button clicked');
+            });
+        };
+
+        updateCard();
     }
 }
 
-customElements.define('recipe-card', RecipeCard); 
+customElements.define('recipe-card', RecipeCard);

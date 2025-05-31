@@ -97,11 +97,6 @@ export function updateTimerPreview() {
         ).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
-    if (fill) {
-        const max = 43200;
-        fill.style.width = total > max ? '100%' : `${(total / max) * 100}%`;
-    }
-
     const progressCircle = document.querySelector('.timer-progress');
     if (progressCircle) {
         const max = 43200;

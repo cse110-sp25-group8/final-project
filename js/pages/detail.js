@@ -3,7 +3,15 @@ import {
     clearTimer,
     updateTimerPreview,
 } from '../components/timer.js';
+import { RecipeStore } from '../database/RecipeStore.js';
+
+const RECIPE_STORE = new RecipeStore();
+
 export default function () {
+    const hash = location.hash;
+    const params = new URLSearchParams(hash.split('?')[1]);
+    const recipeId = params.get('id');
+
     const layout = document.createElement('div');
     layout.className = 'detail-layout';
 
@@ -18,13 +26,13 @@ export default function () {
     ingredientsTitle.textContent = 'Ingredients';
 
     const ingredientsList = document.createElement('ul');
-    ['Butter', 'Chicken', 'Pasta', 'Sugar', 'Black Pepper', 'Rice'].forEach(
-        (item) => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            ingredientsList.appendChild(li);
-        }
-    );
+    // [('Butter', 'Chicken', 'Pasta', 'Sugar', 'Black Pepper', 'Rice')].forEach(
+    //     (item) => {
+    //         const li = document.createElement('li');
+    //         li.textContent = item;
+    //         ingredientsList.appendChild(li);
+    //     }
+    // );
 
     ingredientsSection.append(ingredientsTitle, ingredientsList);
 
@@ -36,15 +44,15 @@ export default function () {
     instructionsTitle.textContent = 'Instructions';
 
     const instructionsList = document.createElement('ol');
-    [
-        'First step goes here five cups of water',
-        'Step 2 goes here',
-        'Step 3 and so on...',
-    ].forEach((step) => {
-        const li = document.createElement('li');
-        li.textContent = step;
-        instructionsList.appendChild(li);
-    });
+    // [
+    //     'First step goes here five cups of water',
+    //     'Step 2 goes here',
+    //     'Step 3 and so on...',
+    // ].forEach((step) => {
+    //     const li = document.createElement('li');
+    //     li.textContent = step;
+    //     instructionsList.appendChild(li);
+    // });
 
     instructionsSection.append(instructionsTitle, instructionsList);
     main.append(ingredientsSection, instructionsSection);
@@ -71,6 +79,7 @@ export default function () {
     }
 
     // You can attach a shadow DOM here
+    loadRecipeDetails(recipeId, recipeCard, ingredientsList, instructionsList);
 
     // Timer
     const timerSection = document.createElement('section');
@@ -99,7 +108,6 @@ export default function () {
     progressCircle.style.strokeDashoffset = '0';
 
     svg.append(progressCircle);
-
     svgWrapper.append(svg, timerDisplay);
 
     const form = document.createElement('form');
@@ -174,4 +182,14 @@ export default function () {
     });
 
     return layout;
+}
+
+async function loadRecipeDetails(
+    recipeId,
+    recipeCard,
+    ingredientsList,
+    instructionsList
+) {
+    const recipe = await RECIPE_STORE.getRecipe(Number(recipeId));
+    console.log(recipe.name);
 }
