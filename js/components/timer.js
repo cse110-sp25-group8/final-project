@@ -2,7 +2,10 @@ let intervalId = null;
 
 function updateDisplay(displayEl, totalSeconds) {
     const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-    const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+    const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(
+        2,
+        '0'
+    );
     const secs = String(totalSeconds % 60).padStart(2, '0');
     displayEl.textContent = `${hrs}:${mins}:${secs}`;
 }
@@ -14,7 +17,9 @@ export function startTimerFromInputs() {
     const total = h * 3600 + m * 60 + s;
 
     if (h < 0 || m < 0 || s < 0 || h > 12 || m > 59 || s > 59) {
-        alert('Invalid timer input. Check hours, minutes, and seconds. Cannot exceed 12 hours total');
+        alert(
+            'Invalid timer input. Check hours, minutes, and seconds. Cannot exceed 12 hours total'
+        );
         return;
     }
 
@@ -56,7 +61,7 @@ export function startTimerFromInputs() {
         progressCircle.style.strokeDashoffset = offset;
     }, 1000);
 
-    ['hours', 'minutes', 'seconds'].forEach(id => {
+    ['hours', 'minutes', 'seconds'].forEach((id) => {
         const input = document.getElementById(id);
         if (input) {
             input.value = '';
@@ -87,16 +92,20 @@ export function updateTimerPreview() {
 
     const display = document.querySelector('.timer-display');
     if (display) {
-        display.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        display.textContent = `${String(h).padStart(2, '0')}:${String(
+            m
+        ).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
     if (fill) {
         const max = 43200;
         fill.style.width = total > max ? '100%' : `${(total / max) * 100}%`;
     }
+
+    const progressCircle = document.querySelector('.timer-progress');
     if (progressCircle) {
         const max = 43200;
-        const offset = 282.6 * (1 - total / max);
+        const offset = 282.6 * (1 - Math.min(total / max, 1));
         progressCircle.style.strokeDashoffset = offset;
     }
 }
