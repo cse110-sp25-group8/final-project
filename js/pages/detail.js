@@ -152,7 +152,7 @@ export default function () {
         const card = document.querySelector('#recipe-card');
         const timer = document.querySelector('#timer-container');
 
-        if (!mainContainer || !asideContainer || !card || !timer) return;
+        if (!mainContainer || !asideContainer || !card || !timer) { return; }
 
         if (isPhone) {
             asideContainer.style.display = 'none';
