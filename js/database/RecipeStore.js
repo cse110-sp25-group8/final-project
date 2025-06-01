@@ -19,7 +19,11 @@ export class RecipeStore {
     async addRecipe(data) {
         try {
             const id = await this.idbService.set(data);
-            this.syncToLocalStorage(id, 'insert');
+
+            // Send data information to localStorage
+            const updatedData = { ...data, id };
+            this.syncToLocalStorage(updatedData, 'insert');
+            
             return id;
         } catch (error) {
             console.error(`Failed to add recipe to storage: ${error}`);
@@ -127,16 +131,19 @@ export class RecipeStore {
     async syncToLocalStorage(recipe, mode) {
         const metadata = {
             id: recipe.id,
+            name: recipe.name,
             isFavorite: false,
             recipeCategory: recipe.recipeCategory,
             recipeCuisine: recipe.recipeCuisine,
-            estimatedTime: recipe.estimatedTime,
+            totalTime: recipe.totalTime,
             recipeIngredient: recipe.recipeIngredient,
+            calories: recipe.calories
         };
 
         if (mode === 'delete') {
             deleteMetadata(recipe.id);
         } else if (mode === 'insert' || mode === 'update') {
+            console.log("METADATA = ", metadata);
             upsertMetadata(metadata);
         }
     }
