@@ -167,17 +167,43 @@ body {
 
 /* Styling TODO*/
 .ingredient-dropdown {
-    display: flex;
-    flex-direction: column;
-    padding: 8px;
+    position: absolute;
+    background-color: var(--color-background);
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 4px;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    z-index: 10;
+    overflow-y: auto;
 }
 
 .ingredient-dropdown-search-bar {
     width: 100%;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: var(--font-md);
+    box-sizing: border-box;
 }
 
-.ingredient-results-container {
+.ingredient-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredient-results-container li {
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.ingredient-results-container li:hover {
+    background-color: var(--color-accent-light);
+    color: white;
 }
 
 html,

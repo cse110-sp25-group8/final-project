@@ -137,7 +137,7 @@ function createIngredientFilter(name, label) {
 
     //list of ingredients 
     const resultsContainer = document.createElement('ul');
-    resultsContainer.name='ingredient-results-container';
+    resultsContainer.className='ingredient-results-container';
     resultsContainer.style.listStyle = 'none'; 
 
     dropDown.appendChild(searchBar);
@@ -190,12 +190,28 @@ function createIngredientFilter(name, label) {
 
     // TODO: render the ingredient results based on search
     function renderResults(searchTarget = '') {
-        // TODO
+        const searchValue = searchTarget.toLowerCase().trim();
+        const items = resultsContainer.querySelectorAll('li');
+        items.forEach((item) => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchValue)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     }
 
     // TODO: handle the search
     searchBar.addEventListener('keypress', function (event) {
-        // TODO
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const searchValue = searchBar.value.toLowerCase().trim();
+            if (searchValue) {
+                displayFilteredRecipes(searchValue);
+                dropDown.style.display = 'none';
+            }
+    }
     });
 
     // get Ingredient tags from the localStorage->recipeIngredient.name
