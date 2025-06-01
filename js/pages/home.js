@@ -1,4 +1,4 @@
-import { init } from '../../display.js';
+import { init, displayFilteredRecipes } from '../../display.js';
 
 export default function () {
     requestAnimationFrame(() => {
@@ -119,34 +119,70 @@ function createFilter(name, label, options) {
 }
 
 function createIngredientFilter(name, label) {
-    const li = document.createElement('li');
+    const all = document.createElement('div');
 
-    const ingredientFilterContainer = document.createElement('button');
-    ingredientFilterContainer.className = 'btn-filter';
-    ingredientFilterContainer.textContent = label;
-    ingredientFilterContainer.name = name; // don't need this, but heals my OCD:)
+    const ingredientFilterButton = document.createElement('button');
+    ingredientFilterButton.className = 'btn-filter';
+    ingredientFilterButton.textContent = label;
+ 
 
     const dropDown = document.createElement('div');
     dropDown.className = 'ingredient-dropdown';
-
-    // prevent clicks inside dropdown from closing it
-    dropDown.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
+    dropDown.style.display='none';
 
     const searchBar = document.createElement('input');
     searchBar.type = 'text';
     searchBar.placeholder = 'Search Ingredients';
     searchBar.className = 'ingredient-search-bar';
 
-    const resultsContainer = document.createElement('div');
-    resultsContainer.className = 'ingredient-results-container';
+    //list of ingredients 
+    const resultsContainer = document.createElement('ul');
+    resultsContainer.name='ingredient-results-container';
+    resultsContainer.style.listStyle = 'none'; 
+
+    dropDown.appendChild(searchBar);
+    dropDown.appendChild(resultsContainer);
+    
+
+    // prevent clicks inside dropdown from closing it
+    dropDown.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
 
     // TODO: Toggle dropdown when the users click the button
-    ingredientFilterContainer.addEventListener('click', function (event) {
+    ingredientFilterButton.addEventListener('click', async function (event) {
         event.stopPropagation();
-        // TODO
+
+        if(dropDown.style.display=='none'){
+            
+            dropDown.style.display='block';   
+
+            const fromStorage= await getIngredients();
+
+            resultsContainer.innerHTML='';
+
+
+            for (const opt of fromStorage) {
+                const option = document.createElement('li');
+                option.textContent = opt;
+                option.value=opt;
+                option.style.cursor='pointer';
+                option.style.padding='8px';
+                option.addEventListener('click',() =>{
+                    console.log("selected: ", opt);
+                    displayFilteredRecipes(opt);
+                    dropDown.style.display='none';
+                })
+                resultsContainer.appendChild(option);
+            }
+
+        }else{
+            dropDown.style.display='none';
+        }
     });
+
+ 
 
     searchBar.addEventListener('input', function (event) {
         renderResults(searchBar.value);
@@ -205,8 +241,7 @@ function createIngredientFilter(name, label) {
         dropDown.style.display = 'none';
     });
 
-    dropDown.appendChild(searchBar);
-    dropDown.appendChild(resultsContainer);
-    li.appendChild(ingredientFilterContainer);
-    return li;
+    all.appendChild(ingredientFilterButton);
+    all.appendChild(dropDown);
+    return all;
 }
