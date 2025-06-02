@@ -210,7 +210,7 @@ async function loadRecipeDetails(
         recipe.recipeIngredient.forEach((item) => {
             const name = item.name?.trim();
             if (!name) return;
-    
+
             const li = document.createElement('li');
             li.textContent = name;
             ingredientsList.appendChild(li);
