@@ -7,6 +7,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     gap: 10px;
 }
 
@@ -28,7 +29,7 @@
     font-size: 16px;
     box-sizing: border-box;
     border: solid 1.8px;
-    border-color: #86d0ce;
+    border-color: var(--color-accent-light);
     background-color: var(--color-background-card);
 }
 
@@ -70,17 +71,7 @@
     margin-right: 10px;
 }
 
-.ingredient-box {
-    height: 40px;
-    width: 45%;
-    padding: 10px 20px;
-    font-size: 16px;
-    box-sizing: border-box;
-    border: none;
-    border-radius: 30px;
-    background-color: #f7f7f7;
 
-}
 
 fieldset {
     all: unset;
@@ -134,7 +125,7 @@ fieldset {
 
 .button-group {
     display: flex;
-    /* justify-content: space-evenly; */
+    justify-content: start;
     margin-top: 1rem;
     gap: 1rem;
 }
@@ -189,6 +180,7 @@ fieldset {
     .right-side {
         display: flex;
         flex-direction: column;
+        
     }
 
     .right-side .button-group {
@@ -202,8 +194,6 @@ fieldset {
     .right-side .photo-box {
         order: 0;
     }
-
-
 }
 
 .drag-indicator {
@@ -211,4 +201,69 @@ fieldset {
     background-color: #9bd1d0;
     margin: 2px 0;
     border-radius: 2px;
+}
+
+#ingredient-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    list-style: decimal;
+    list-style-position: outside;
+    counter-reset: ingred-counter;
+    padding-inline-start: 0;
+}
+
+#ingredient-list li {
+    counter-increment: ingred-counter;
+}
+
+#ingredient-list li::before {
+    content: counter(ingred-counter);
+    width: 1.3rem;
+    height: 1.3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+.ingredient-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 0.5rem;
+}
+
+.ingredient-quantity {
+    width: 25%;
+    height: 40px;
+    padding: 5px;
+    font-size: var(--font-sm);
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
+}
+
+.unit-dropdown {
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
+    /* appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
+}
+
+.ingredient-name {
+    width: 47%;
+    height: 40px;
+    padding: 5px;
+    font-size: var(--font-sm);
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
 }
