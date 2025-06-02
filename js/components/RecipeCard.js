@@ -38,8 +38,7 @@ class RecipeCard extends HTMLElement {
 				background-color: var(--color-image-background-card);
 				border-radius: 25px;
 
-				background-image: url('../../assets/images/pasta.webp');
-				background-size: contain;       
+				background-size: cover;       
 				background-position: center;  
 				background-repeat: no-repeat;
 			}
@@ -232,6 +231,15 @@ class RecipeCard extends HTMLElement {
 				}
 			});
 
+			document.addEventListener('click', (e) => {
+				const path = e.composedPath();
+				const clickedInsideCard = path.includes(this);
+
+				if (!clickedInsideCard) {
+					dropdown.style.display = 'none';
+				}
+			})
+
 			starBtn.addEventListener('click', (e) => {
 				e.stopPropagation();
 
@@ -246,12 +254,18 @@ class RecipeCard extends HTMLElement {
 			editBtn.addEventListener('click', function (e) {
 				e.stopPropagation();
 				alert('edit button clicked');
+
+				// this line make dropdown disapears when button is clicked
+				dropdown.style.display = 'none';
 			});
 
 			const deleteBtn = this.shadowRoot.querySelector('.delete');
 			deleteBtn.addEventListener('click', function (e) {
 				e.stopPropagation();
 				alert('delete button clicked');
+
+				// this line make dropdown disapears when button is clicked
+				dropdown.style.display = 'none';
 			});
 		};
 
