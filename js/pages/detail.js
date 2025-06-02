@@ -209,7 +209,9 @@ async function loadRecipeDetails(
     if (recipe.recipeIngredient && Array.isArray(recipe.recipeIngredient)) {
         recipe.recipeIngredient.forEach((item) => {
             const name = item.name?.trim();
-            if (!name) return;
+            if (!name) {
+                return;
+            }
 
             const li = document.createElement('li');
             li.textContent = name;
