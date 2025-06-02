@@ -125,7 +125,9 @@ class RecipeCard extends HTMLElement {
 				// align-items: center;
 				justify-content: center;
 				display: none;
-				gap: 8px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+				z-index:10;
+				overflow: hidden;
 			}
 
 			.delete, .edit {
@@ -134,7 +136,10 @@ class RecipeCard extends HTMLElement {
 				font-size: 16px;
 				gap: 8px;
 				color: #525252;
-				margin-left: 14%;
+				margin-left: 0;
+				padding: 6px 15px;
+				cursor: pointer;
+				transition: background-color 0.2s ease;
 			}
 
 			.delete img,
@@ -143,11 +148,9 @@ class RecipeCard extends HTMLElement {
 				height: 1.2rem;
 			}
 
-			.delete::hover {
-				background-color: #edecec;
-			}
-
-			.edit::hover {
+			.delete:hover,
+			.edit:hover
+			 {
 				background-color: #edecec;
 			}
 		`;
