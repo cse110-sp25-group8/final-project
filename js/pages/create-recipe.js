@@ -35,7 +35,7 @@ export default function () {
 
     nameField.append(nameLabel, nameInput);
 
-    
+
     // Ingredients
     const ingredientField = document.createElement('fieldset');
     ingredientField.className = 'boxes';
@@ -95,7 +95,7 @@ export default function () {
         // unitDropdown.placeholder = 'unit';
         const unitDropdown = addUnitsToDropdown(METRIC_MEASUREMENTS);
         unitDropdown.name = 'ingredient-unit';
-        unitDropdown.className = 'unit-dropdown'; 
+        unitDropdown.className = 'unit-dropdown';
 
         const ingredientNameInput = document.createElement('input');
 
@@ -313,9 +313,9 @@ export default function () {
     const photoLabel = document.createElement('label');
     photoLabel.className = 'labeling';
     photoLabel.textContent = 'Photo';
-    
+
     const photoConstraint = document.createElement('p');
-    photoConstraint.className = 'labeling';
+    photoConstraint.className = 'photo-labeling';
     photoConstraint.textContent = '.jpeg, jpg, .png, .raw, .heif';
 
     const photoBox = document.createElement('div');
@@ -326,8 +326,59 @@ export default function () {
     photoInput.accept = '.png, .jpg, .jpeg, .raw, .heif';
     photoInput.name = 'image';
     photoInput.id = 'myFile';
+    photoInput.style.display = 'none';
+
+    const uploadButton = document.createElement('button');
+    uploadButton.textContent = 'Browse Files';
+    uploadButton.className = 'custom-upload-btn';
+
+    uploadButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        requestAnimationFrame(() => photoInput.click());
+    });
+
+    const photoPreview = document.createElement('img');
+    photoPreview.className = 'photo-preview';
+
+    const removeButton = document.createElement('button');
+    removeButton.className = 'remove-btn';
+    removeButton.textContent = '✖';
+    removeButton.style.display = 'none';
+    removeButton.addEventListener('click', () => {
+        photoPreview.src = '';
+        photoInput.value = ''; // reset file input
+        photoPreview.style.display = 'none';
+        removeButton.style.display = 'none';
+        photoConstraint.style.display = '';
+        uploadButton.style.display = 'block';
+    });
+
+
+    photoInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            photoPreview.src = '';
+            removeButton.style.display = 'none';
+            uploadButton.style.display = 'block';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            photoPreview.style.display = 'block';
+            photoPreview.src = e.target.result;
+            removeButton.style.display = 'block';
+            uploadButton.style.display = 'none';
+            photoConstraint.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+
 
     photoBox.appendChild(photoInput);
+    photoBox.appendChild(uploadButton);
+    photoBox.appendChild(photoPreview);
+    photoBox.appendChild(removeButton);
     photoBox.appendChild(photoConstraint);
 
     // Time & Calories Section
