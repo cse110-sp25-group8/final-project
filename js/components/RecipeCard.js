@@ -116,18 +116,18 @@ class RecipeCard extends HTMLElement {
         this.shadowRoot.appendChild(styleElement);
     }
 
-	set data(data) {
+    set data(data) {
         // Check to see if nothing was passed in
         if (!data) {
             return;
         }
 
-		const updateCard = async () => { 
-			const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
-			const imageURL = URL.createObjectURL(imageBlob);
+        const updateCard = async () => { 
+            const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
+            const imageURL = URL.createObjectURL(imageBlob);
 
-			const article = this.shadowRoot.querySelector('article');
-			article.innerHTML = `
+            const article = this.shadowRoot.querySelector('article');
+            article.innerHTML = `
 				<div class="pic-box">
 					<button>
 						<img src="../assets/star.svg" alt="star">
@@ -149,12 +149,12 @@ class RecipeCard extends HTMLElement {
 				<p class="ingredients">${data.recipeCategory}, ${data.recipeCuisine}</p>
 			`;
 
-			// Add image to pic-box
-			const picBox = this.shadowRoot.querySelector('.pic-box');
-			picBox.style.backgroundImage = `url(${imageURL})`;
-		};
+            // Add image to pic-box
+            const picBox = this.shadowRoot.querySelector('.pic-box');
+            picBox.style.backgroundImage = `url(${imageURL})`;
+        };
 
-		updateCard();
+        updateCard();
     }
 }
 

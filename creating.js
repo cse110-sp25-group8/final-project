@@ -1,4 +1,4 @@
- import { RecipeStore } from './js/database/RecipeStore.js';
+import { RecipeStore } from './js/database/RecipeStore.js';
 
 const RECIPE_STORE = new RecipeStore();
 

@@ -143,7 +143,7 @@ export class RecipeStore {
         if (mode === 'delete') {
             deleteMetadata(recipe.id);
         } else if (mode === 'insert' || mode === 'update') {
-            console.log("METADATA = ", metadata);
+            console.log('METADATA = ', metadata);
             upsertMetadata(metadata);
         }
     }

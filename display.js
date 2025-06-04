@@ -1,5 +1,5 @@
 // Need to change from localStorage to IndexDB
-import { getAllMetadata } from "./js/database/localStorageService.js";
+import { getAllMetadata } from './js/database/localStorageService.js';
 
 function init() {
     // let recipes = getFromStorage();

@@ -141,7 +141,7 @@ function createFilter(name, label, options) {
     defaultOption.disabled = false;
     defaultOption.selected = true;
     defaultOption.textContent = label;
-    defaultOption.value = "";
+    defaultOption.value = '';
     select.appendChild(defaultOption);
 
     for (const opt of options) {

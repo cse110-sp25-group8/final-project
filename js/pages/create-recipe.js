@@ -307,7 +307,7 @@ export default function () {
         const steps = instrList.querySelectorAll('.instruction-item input');
         steps.forEach((input, index) => {
             input.name = `step${index + 1}`;
-        })
+        });
     }
 
     // This is the variable to track which item is being dragged
@@ -575,7 +575,7 @@ function createOption(name, label, options) {
     defaultOption.disabled = false;
     defaultOption.selected = true;
     defaultOption.textContent = label;
-    defaultOption.value = "";
+    defaultOption.value = '';
     select.appendChild(defaultOption);
 
     for (const opt of options) {
