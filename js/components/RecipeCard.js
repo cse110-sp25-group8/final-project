@@ -174,6 +174,7 @@ class RecipeCard extends HTMLElement {
                 renderCardDetails(data.id);
             });
 
+
             article.innerHTML = `
 				<div class="pic-box">
 					<button class="star-btn">
