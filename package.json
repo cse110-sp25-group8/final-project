@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"lint": "eslint . --max-warnings 0"
+		"lint": "eslint . --config config/eslint.config.js --max-warnings 0"
 	},
 	"devDependencies": {
 		"eslint": "^8.57.1"
