@@ -38,7 +38,8 @@ class RecipeCard extends HTMLElement {
 				background-color: var(--color-image-background-card);
 				border-radius: 25px;
 
-				background-size: cover;       
+				background-image: url('../../assets/images/pasta.webp');
+				background-size: contain;       
 				background-position: center;  
 				background-repeat: no-repeat;
 			}
@@ -124,9 +125,7 @@ class RecipeCard extends HTMLElement {
 				// align-items: center;
 				justify-content: center;
 				display: none;
-				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-				z-index:10;
-				overflow: hidden;
+				gap: 8px;
 			}
 
 			.delete, .edit {
@@ -135,10 +134,7 @@ class RecipeCard extends HTMLElement {
 				font-size: 16px;
 				gap: 8px;
 				color: #525252;
-				margin-left: 0;
-				padding: 6px 15px;
-				cursor: pointer;
-				transition: background-color 0.2s ease;
+				margin-left: 14%;
 			}
 
 			.delete img,
@@ -147,9 +143,11 @@ class RecipeCard extends HTMLElement {
 				height: 1.2rem;
 			}
 
-			.delete:hover,
-			.edit:hover
-			 {
+			.delete::hover {
+				background-color: #edecec;
+			}
+
+			.edit::hover {
 				background-color: #edecec;
 			}
 		`;
@@ -171,9 +169,9 @@ class RecipeCard extends HTMLElement {
             const article = this.shadowRoot.querySelector('article');
 
             article.addEventListener('click', function (event) {
+                alert('clicked');
                 renderCardDetails(data.id);
             });
-
 
             article.innerHTML = `
 				<div class="pic-box">
@@ -220,7 +218,7 @@ class RecipeCard extends HTMLElement {
             menuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 dropdown.style.display =
-					dropdown.style.display === 'flex' ? 'none' : 'flex';
+                    dropdown.style.display === 'flex' ? 'none' : 'flex';
             });
 
             this.shadowRoot.addEventListener('click', (e) => {
@@ -228,15 +226,6 @@ class RecipeCard extends HTMLElement {
                 const isInsideDropdown = dropdown.contains(e.target);
 
                 if (!isInsideMenuBtn && !isInsideDropdown) {
-                    dropdown.style.display = 'none';
-                }
-            });
-
-            document.addEventListener('click', (e) => {
-                const path = e.composedPath();
-                const clickedInsideCard = path.includes(this);
-
-                if (!clickedInsideCard) {
                     dropdown.style.display = 'none';
                 }
             });
@@ -255,18 +244,12 @@ class RecipeCard extends HTMLElement {
             editBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 alert('edit button clicked');
-
-                // this line make dropdown disapears when button is clicked
-                dropdown.style.display = 'none';
             });
 
             const deleteBtn = this.shadowRoot.querySelector('.delete');
             deleteBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 alert('delete button clicked');
-
-                // this line make dropdown disapears when button is clicked
-                dropdown.style.display = 'none';
             });
         };
 
