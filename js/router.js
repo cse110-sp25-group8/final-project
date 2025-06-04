@@ -26,7 +26,7 @@ function render() {
 
 export function renderCardDetails(id) {
     if (!id) {
-        console.log("We couldn't route to the recipe:(");
+        console.log('We couldn\'t route to the recipe:(');
         return;
     }
     location.hash = `#/details?id=${id}`;

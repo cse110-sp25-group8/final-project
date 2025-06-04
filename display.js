@@ -1,7 +1,7 @@
 // Need to change from localStorage to IndexDB
 import { getAllMetadata } from './js/database/localStorageService.js';
 
-let recipes=[]
+let recipes=[];
 
 function init() {
     // let recipes = getFromStorage();
@@ -43,8 +43,8 @@ function displayRecipes(recipes){
 
 function displayFilteredRecipes(ingredient){
     const filtered=recipes.filter(recipe=>
-        recipe.recipeIngredient && recipe.recipeIngredient.some(x => x.name.toLowerCase() == ingredient.toLowerCase())
-    )
+        recipe.recipeIngredient && recipe.recipeIngredient.some(x => x.name.toLowerCase() === ingredient.toLowerCase())
+    );
 
     displayRecipes(filtered);
     

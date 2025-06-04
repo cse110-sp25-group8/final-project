@@ -154,7 +154,7 @@ function createIngredientFilter(name, label) {
     ingredientFilterButton.addEventListener('click', async function (event) {
         event.stopPropagation();
 
-        if(dropDown.style.display=='none'){
+        if(dropDown.style.display ==='none'){
             
             dropDown.style.display='block';   
 
@@ -170,10 +170,10 @@ function createIngredientFilter(name, label) {
                 option.style.cursor='pointer';
                 option.style.padding='8px';
                 option.addEventListener('click',() =>{
-                    console.log("selected: ", opt);
+                    console.log('selected: ', opt);
                     displayFilteredRecipes(opt);
                     dropDown.style.display='none';
-                })
+                });
                 resultsContainer.appendChild(option);
             }
 
@@ -211,13 +211,13 @@ function createIngredientFilter(name, label) {
                 displayFilteredRecipes(searchValue);
                 dropDown.style.display = 'none';
             }
-    }
+        }
     });
 
     // get Ingredient tags from the localStorage->recipeIngredient.name
     async function getIngredients() {
         const recipeMetadata = localStorage.getItem('recipe_metadata');
-        if (!recipeMetadata) return [];
+        if (!recipeMetadata) {return [];}
 
         try {
             const recipes = JSON.parse(recipeMetadata);
@@ -236,9 +236,9 @@ function createIngredientFilter(name, label) {
                             typeof ingredient.name === 'string' &&
                             ingredient.name.trim() !== ''
                         )
-                            uniqueIngredients.add(
-                                ingredient.name.trim().toLowerCase()
-                            ); // right now it will store as lowercases
+                        {uniqueIngredients.add(
+                            ingredient.name.trim().toLowerCase()
+                        );} // right now it will store as lowercases
                     });
                 }
             });
