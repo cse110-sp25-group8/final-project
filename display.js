@@ -21,7 +21,6 @@ function init() {
     });
 
     mainSection.appendChild(cardGrid);
-
 }
 
 function getFromStorage() {
