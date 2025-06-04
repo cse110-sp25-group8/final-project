@@ -3,14 +3,14 @@ import { renderCardDetails } from '../router.js';
 const RECIPE_STORE = new RecipeStore();
 
 class RecipeCard extends HTMLElement {
-	constructor() {
-		super();
-		this.attachShadow({ mode: 'open' });
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
 
-		const articleContainer = document.createElement('article');
+        const articleContainer = document.createElement('article');
 
-		const styleElement = document.createElement('style');
-		styleElement.textContent = `
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
 			:host {
 				display: block;
 				width: var(--card-width, 250px); 
@@ -154,27 +154,27 @@ class RecipeCard extends HTMLElement {
 			}
 		`;
 
-		this.shadowRoot.appendChild(articleContainer);
-		this.shadowRoot.appendChild(styleElement);
-	}
+        this.shadowRoot.appendChild(articleContainer);
+        this.shadowRoot.appendChild(styleElement);
+    }
 
-	set data(data) {
-		// Check to see if nothing was passed in
-		if (!data) {
-			return;
-		}
+    set data(data) {
+        // Check to see if nothing was passed in
+        if (!data) {
+            return;
+        }
 
-		const updateCard = async () => {
-			const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
-			const imageURL = URL.createObjectURL(imageBlob);
+        const updateCard = async () => {
+            const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
+            const imageURL = URL.createObjectURL(imageBlob);
 
-			const article = this.shadowRoot.querySelector('article');
+            const article = this.shadowRoot.querySelector('article');
 
-			article.addEventListener('click', function (event) {
-				renderCardDetails(data.id);
-			});
+            article.addEventListener('click', function (event) {
+                renderCardDetails(data.id);
+            });
 
-			article.innerHTML = `
+            article.innerHTML = `
 				<div class="pic-box">
 					<button class="star-btn">
 						<img src="../assets/star.svg" alt="star" class="star-img">
@@ -207,70 +207,70 @@ class RecipeCard extends HTMLElement {
 				<p class="ingredients">${data.recipeCategory}, ${data.recipeCuisine}</p>
 			`;
 
-			// Add image to pic-box
-			const picBox = this.shadowRoot.querySelector('.pic-box');
-			picBox.style.backgroundImage = `url(${imageURL})`;
+            // Add image to pic-box
+            const picBox = this.shadowRoot.querySelector('.pic-box');
+            picBox.style.backgroundImage = `url(${imageURL})`;
 
-			const menuBtn = this.shadowRoot.querySelector('.menu-btn');
-			const dropdown = this.shadowRoot.querySelector('.drop-down');
-			const starBtn = this.shadowRoot.querySelector('.star-btn');
-			const starImg = this.shadowRoot.querySelector('.star-img');
+            const menuBtn = this.shadowRoot.querySelector('.menu-btn');
+            const dropdown = this.shadowRoot.querySelector('.drop-down');
+            const starBtn = this.shadowRoot.querySelector('.star-btn');
+            const starImg = this.shadowRoot.querySelector('.star-img');
 
-			menuBtn.addEventListener('click', (e) => {
-				e.stopPropagation();
-				dropdown.style.display =
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.style.display =
 					dropdown.style.display === 'flex' ? 'none' : 'flex';
-			});
+            });
 
-			this.shadowRoot.addEventListener('click', (e) => {
-				const isInsideMenuBtn = menuBtn.contains(e.target);
-				const isInsideDropdown = dropdown.contains(e.target);
+            this.shadowRoot.addEventListener('click', (e) => {
+                const isInsideMenuBtn = menuBtn.contains(e.target);
+                const isInsideDropdown = dropdown.contains(e.target);
 
-				if (!isInsideMenuBtn && !isInsideDropdown) {
-					dropdown.style.display = 'none';
-				}
-			});
+                if (!isInsideMenuBtn && !isInsideDropdown) {
+                    dropdown.style.display = 'none';
+                }
+            });
 
-			document.addEventListener('click', (e) => {
-				const path = e.composedPath();
-				const clickedInsideCard = path.includes(this);
+            document.addEventListener('click', (e) => {
+                const path = e.composedPath();
+                const clickedInsideCard = path.includes(this);
 
-				if (!clickedInsideCard) {
-					dropdown.style.display = 'none';
-				}
-			})
+                if (!clickedInsideCard) {
+                    dropdown.style.display = 'none';
+                }
+            });
 
-			starBtn.addEventListener('click', (e) => {
-				e.stopPropagation();
+            starBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
 
-				if (starImg.src.endsWith('star.svg')) {
-					starImg.src = '../assets/coloredStar.svg';
-				} else {
-					starImg.src = '../assets/star.svg';
-				}
-			});
+                if (starImg.src.endsWith('star.svg')) {
+                    starImg.src = '../assets/coloredStar.svg';
+                } else {
+                    starImg.src = '../assets/star.svg';
+                }
+            });
 
-			const editBtn = this.shadowRoot.querySelector('.edit');
-			editBtn.addEventListener('click', function (e) {
-				e.stopPropagation();
-				alert('edit button clicked');
+            const editBtn = this.shadowRoot.querySelector('.edit');
+            editBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                alert('edit button clicked');
 
-				// this line make dropdown disapears when button is clicked
-				dropdown.style.display = 'none';
-			});
+                // this line make dropdown disapears when button is clicked
+                dropdown.style.display = 'none';
+            });
 
-			const deleteBtn = this.shadowRoot.querySelector('.delete');
-			deleteBtn.addEventListener('click', function (e) {
-				e.stopPropagation();
-				alert('delete button clicked');
+            const deleteBtn = this.shadowRoot.querySelector('.delete');
+            deleteBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                alert('delete button clicked');
 
-				// this line make dropdown disapears when button is clicked
-				dropdown.style.display = 'none';
-			});
-		};
+                // this line make dropdown disapears when button is clicked
+                dropdown.style.display = 'none';
+            });
+        };
 
-		updateCard();
-	}
+        updateCard();
+    }
 }
 
 customElements.define('recipe-card', RecipeCard);
