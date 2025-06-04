@@ -210,20 +210,18 @@ export default function () {
 
         const quantityInput = document.createElement('input');
         quantityInput.name = 'ingredient-quantity';
-        quantityInput.type = 'number';
-        quantityInput.className = 'ingredient-quantity';
+        quantityInput.type = 'text';
+        quantityInput.className = 'ingredient';
         quantityInput.placeholder = 'Quantity of ingredient(s)';
 
         // const unitDropdown = document.createElement('select');
         // unitDropdown.placeholder = 'unit';
         const unitDropdown = addUnitsToDropdown(METRIC_MEASUREMENTS);
         unitDropdown.name = 'ingredient-unit';
-        unitDropdown.className = 'unit-dropdown';
 
         const ingredientNameInput = document.createElement('input');
-
         ingredientNameInput.name = 'ingredient-name';
-        ingredientNameInput.className = 'ingredient-name';
+
         ingredientNameInput.type = 'text';
         ingredientNameInput.placeholder = 'Name of ingredient';
 
@@ -451,7 +449,7 @@ export default function () {
     photoLabel.textContent = 'Photo';
 
     const photoConstraint = document.createElement('p');
-    photoConstraint.className = 'photo-labeling';
+    photoConstraint.className = 'labeling';
     photoConstraint.textContent = '.jpeg, jpg, .png, .raw, .heif';
 
     const photoBox = document.createElement('div');
@@ -462,168 +460,9 @@ export default function () {
     photoInput.accept = '.png, .jpg, .jpeg, .raw, .heif';
     photoInput.name = 'image';
     photoInput.id = 'myFile';
-    photoInput.style.display = 'none';
-
-    const uploadButton = document.createElement('button');
-    uploadButton.textContent = 'Browse Files';
-    uploadButton.className = 'custom-upload-btn';
-
-    uploadButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        requestAnimationFrame(() => photoInput.click());
-    });
-
-    const photoPreview = document.createElement('img');
-    photoPreview.className = 'photo-preview';
-
-    const removeButton = document.createElement('button');
-    removeButton.className = 'remove-btn';
-    removeButton.textContent = '✖';
-    removeButton.style.display = 'none';
-    removeButton.addEventListener('click', () => {
-        photoPreview.src = '';
-        photoInput.value = ''; // reset file input
-        photoPreview.style.display = 'none';
-        removeButton.style.display = 'none';
-        photoConstraint.style.display = '';
-        uploadButton.style.display = 'block';
-    });
-
-
-    photoInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (!file) {
-            photoPreview.src = '';
-            removeButton.style.display = 'none';
-            uploadButton.style.display = 'block';
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            photoPreview.style.display = 'block';
-            photoPreview.src = e.target.result;
-            removeButton.style.display = 'block';
-            uploadButton.style.display = 'none';
-            photoConstraint.style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-    });
-
 
     photoBox.appendChild(photoInput);
-    photoBox.appendChild(uploadButton);
-    photoBox.appendChild(photoPreview);
-    photoBox.appendChild(removeButton);
     photoBox.appendChild(photoConstraint);
-
-    // Time & Calories Section
-    const timeRowWrapper = document.createElement('div');
-    timeRowWrapper.className = 'rows';
-
-    const timeUnit = document.createElement('span');
-    timeUnit.className = 'information';
-    timeUnit.textContent = 'min';
-
-    // Prep Time
-    const prepTimeField = document.createElement('fieldset');
-    prepTimeField.className = 'boxes';
-
-    const prepTimeLabel = document.createElement('label');
-    prepTimeLabel.className = 'labeling';
-    prepTimeLabel.textContent = 'Time to prep';
-
-    const prepTimeInput = document.createElement('input');
-    prepTimeInput.className = 'input-text';
-    prepTimeInput.name = 'prepTime';
-    prepTimeInput.id = 'time-prep';
-    prepTimeInput.type = 'number';
-    prepTimeInput.min = 0;
-    prepTimeInput.value = 0;
-
-    const prepTimeRow = document.createElement('div');
-    prepTimeRow.className = 'rows';
-
-    prepTimeRow.append(prepTimeInput, timeUnit);
-    prepTimeField.append(prepTimeLabel, prepTimeRow);
-
-    // Cook Time
-    const cookTimeField = document.createElement('fieldset');
-    cookTimeField.className = 'boxes';
-
-    const cookTimeLabel = document.createElement('label');
-    cookTimeLabel.className = 'labeling';
-    cookTimeLabel.innerHTML = 'Time to cook <span class="red-text">*</span>';
-
-    const cookTimeInput = document.createElement('input');
-    cookTimeInput.className = 'input-text';
-    cookTimeInput.name = 'cookTime';
-    cookTimeInput.id = 'time-cook';
-    cookTimeInput.type = 'number';
-    cookTimeInput.min = 0;
-    cookTimeInput.value = 0;
-
-    const cookTimeRow = document.createElement('div');
-    cookTimeRow.className = 'rows';
-
-    cookTimeRow.append(cookTimeInput, timeUnit);
-    cookTimeField.append(cookTimeLabel, cookTimeRow);
-
-    const calField = document.createElement('fieldset');
-    calField.className = 'boxes';
-
-    const calLabel = document.createElement('label');
-    calLabel.className = 'labeling';
-    calLabel.textContent = 'Calories';
-
-    const calRow = document.createElement('div');
-    calRow.className = 'rows';
-
-    const calInput = document.createElement('input');
-    calInput.className = 'input-text';
-    calInput.name = 'calories';
-    calInput.id = 'calories';
-    calInput.type = 'number';
-    calInput.min = 0;
-    calInput.value = 0;
-
-    const calUnit = document.createElement('span');
-    calUnit.className = 'information';
-    calUnit.textContent = 'kcal';
-
-    calRow.append(calInput, calUnit);
-    calField.append(calLabel, calRow);
-
-    timeRowWrapper.append(prepTimeField, cookTimeField, calField);
-    // Recipe labels row
-    const labelRowWrapper = document.createElement('div');
-    labelRowWrapper.className = 'rows';
-
-    // Meal label selection
-    const mealTypeField = document.createElement('fieldset');
-    calField.className = 'boxes';
-
-    const mealLabel = document.createElement('label');
-    mealLabel.className = 'labeling';
-    mealLabel.textContent = 'Meal type';
-    const mealSelect = document.createElement('select');
-    const mealSelection = createOption('recipeCategory', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
-
-    mealTypeField.append(mealLabel, mealSelection);
-
-    // Cuisine label selection
-    const cuisineField = document.createElement('fieldset');
-    calField.className = 'boxes';
-
-    const cuisineLabel = document.createElement('label');
-    cuisineLabel.className = 'labeling';
-    cuisineLabel.textContent = 'Cuisine type';
-    const cuisineSelect = document.createElement('select');
-    const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern', 'North American']);
-
-    cuisineField.append(cuisineLabel, cuisineSelection);
-
-    labelRowWrapper.append(mealTypeField, cuisineField);
 
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'button-group';
@@ -647,7 +486,7 @@ export default function () {
     });
 
     buttonGroup.append(saveBtn, cancelBtn);
-    right.append(labelRowWrapper, timeRowWrapper, photoLabel, photoBox, buttonGroup);
+    right.append(photoLabel, photoBox, buttonGroup);
 
     // Final Assembly
     parent.append(left, right);

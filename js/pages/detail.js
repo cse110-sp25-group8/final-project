@@ -192,38 +192,5 @@ async function loadRecipeDetails(
 ) {
     const recipe = await RECIPE_STORE.getRecipe(Number(recipeId));
     console.log(recipe.name);
-    if (!recipe) {
-        return;
-    }
-
-    // console.log('[DEBUG] Ingredients:', recipe.recipeIngredient);
-
-    const recipeCardElement = document.createElement('recipe-card');
-    recipeCardElement.style.setProperty('--card-width', '320px');
-    recipeCardElement.style.setProperty('--card-height', '380px');
-    recipeCardElement.data = recipe;
-
-    recipeCard.innerHTML = '';
-    recipeCard.appendChild(recipeCardElement);
-
-    if (recipe.recipeIngredient && Array.isArray(recipe.recipeIngredient)) {
-        recipe.recipeIngredient.forEach((item) => {
-            const name = item.name?.trim();
-            if (!name) {
-                return;
-            }
-
-            const li = document.createElement('li');
-            li.textContent = name;
-            ingredientsList.appendChild(li);
-        });
-    }
-
-    if (recipe.recipeInstructions && Array.isArray(recipe.recipeInstructions)) {
-        recipe.recipeInstructions.forEach((step) => {
-            const li = document.createElement('li');
-            li.textContent = step.text;
-            instructionsList.appendChild(li);
-        });
-    }
+    // TODO: need to scrape data from IDB
 }
