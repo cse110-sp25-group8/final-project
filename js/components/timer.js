@@ -1,5 +1,11 @@
 let intervalId = null;
 
+// helper method for text to speech
+function speak(message) {
+    const utterance = new SpeechSynthesisUtterance(message);
+    speechSynthesis.speak(utterance);
+}
+
 function updateDisplay(displayEl, totalSeconds) {
     const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
     const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(
@@ -17,19 +23,19 @@ export function startTimerFromInputs() {
     const total = h * 3600 + m * 60 + s;
 
     if (h < 0 || m < 0 || s < 0 || h > 12 || m > 59 || s > 59) {
-        alert(
+        speak(
             'Invalid timer input. Check hours, minutes, and seconds. Cannot exceed 12 hours total'
         );
         return;
     }
 
     if (total <= 0) {
-        alert('Timer must be greater than 0');
+        speak('Timer must be greater than 0');
         return;
     }
 
     if (total > 43200) {
-        alert('Timer cannot exceed 12 hours');
+        speak('Timer cannot exceed 12 hours');
         return;
     }
 
@@ -52,7 +58,7 @@ export function startTimerFromInputs() {
             clearInterval(intervalId);
             display.textContent = '00:00:00';
             progressCircle.style.strokeDashoffset = '282.6';
-            alert('Time up!');
+            speak('Time is up! Step is complete');
             return;
         }
         updateDisplay(display, remaining);
