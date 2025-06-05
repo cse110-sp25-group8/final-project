@@ -123,8 +123,7 @@ function createFilter(name, label, options) {
 
 function createIngredientFilter(name, label) {
 
-    checkedOpts=[];
-    
+
     const all = document.createElement('div');
 
     const ingredientFilterButton = document.createElement('button');
