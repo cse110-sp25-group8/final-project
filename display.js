@@ -17,7 +17,7 @@ function displayRecipes(recipes){
 
     let cardGrid=mainSection.querySelector('.card-grid');
 
-    //if card grid doesn't exsist, create it
+    //if card grid doesn't exist, create it
     if(!cardGrid){
         cardGrid = document.createElement('div');
         cardGrid.classList.add('card-grid');
@@ -36,29 +36,20 @@ function displayRecipes(recipes){
         cardGrid.appendChild(addition);
     });
 
-  
-
-
 }
 
-function displayFilteredRecipes(ingredient){
+//todo: 
+function displayFilteredRecipes(ingredients){
+    filteredRecipes=[];
+    for(x in ingredients){
+       
+    }
     const filtered=recipes.filter(recipe=>
         recipe.recipeIngredient && recipe.recipeIngredient.some(x => x.name.toLowerCase() === ingredient.toLowerCase())
     );
 
     displayRecipes(filtered);
     
-
-}
-
-function getFromStorage() {
-    const cards = JSON.parse(localStorage.getItem('recipe'));
-
-    if (cards === null) {
-        return [];
-    } else {
-        return cards;
-    }
 }
 
 export { init, displayFilteredRecipes };

@@ -60,6 +60,9 @@ export default function () {
     ]);
     const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
+    const allRecipes=document.createElement('button');
+    allRecipes.textContent='All'
+
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
 
@@ -84,7 +87,7 @@ export default function () {
         location.hash = '#/create';
     });
 
-    actions.append(shuffleBtn, addBtn);
+    actions.append(allRecipes, shuffleBtn, addBtn,);
     section.append(actions);
 
     // mobile icons have same functionality as "normal" action buttons
@@ -119,6 +122,9 @@ function createFilter(name, label, options) {
 }
 
 function createIngredientFilter(name, label) {
+
+    checkedOpts=[];
+    
     const all = document.createElement('div');
 
     const ingredientFilterButton = document.createElement('button');
@@ -142,7 +148,6 @@ function createIngredientFilter(name, label) {
 
     dropDown.appendChild(searchBar);
     dropDown.appendChild(resultsContainer);
-    
 
     // prevent clicks inside dropdown from closing it
     dropDown.addEventListener('click', (e) => {
@@ -150,7 +155,6 @@ function createIngredientFilter(name, label) {
     });
 
 
-    // TODO: Toggle dropdown when the users click the button
     ingredientFilterButton.addEventListener('click', async function (event) {
         event.stopPropagation();
 
@@ -164,17 +168,32 @@ function createIngredientFilter(name, label) {
 
 
             for (const opt of fromStorage) {
-                const option = document.createElement('li');
-                option.textContent = opt;
+                const option = document.createElement('input');
+                option.type="checkbox";
+                //unique id
+                option.id=`option-${opt}`;
                 option.value=opt;
+
+                const label = document.createElement('label');
+                label.htmlFor = option.id;
+                label.textContent=opt;
+
+                //monitor if checked off
+                option.addEventListener('change', () => {
+                    if (!option.checked) {
+                        if (opcheckedOpts){
+                            checkedOpts.remove(option);
+                        }
+                    }else if (option.checked){
+                        checkedOpts.append(options)
+                    }
+                    displayFilteredRecipes(checkedOpts);
+                })
+                
                 option.style.cursor='pointer';
                 option.style.padding='8px';
-                option.addEventListener('click',() =>{
-                    console.log('selected: ', opt);
-                    displayFilteredRecipes(opt);
-                    dropDown.style.display='none';
-                });
                 resultsContainer.appendChild(option);
+                resultsContainer.appendChild(label);
             }
 
         }else{
