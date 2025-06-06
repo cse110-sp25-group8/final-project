@@ -60,8 +60,8 @@ export default function () {
     ]);
     const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
-    const allRecipes=document.createElement('button');
-    allRecipes.textContent='All'
+    const allRecipes = document.createElement('button');
+    allRecipes.textContent = 'All';
 
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
@@ -87,7 +87,7 @@ export default function () {
         location.hash = '#/create';
     });
 
-    actions.append(allRecipes, shuffleBtn, addBtn,);
+    actions.append(allRecipes, shuffleBtn, addBtn);
     section.append(actions);
 
     // mobile icons have same functionality as "normal" action buttons
@@ -122,91 +122,120 @@ function createFilter(name, label, options) {
 }
 
 function createIngredientFilter(name, label) {
-
-
     const all = document.createElement('div');
 
     const ingredientFilterButton = document.createElement('button');
     ingredientFilterButton.className = 'btn-filter';
     ingredientFilterButton.textContent = label;
- 
 
     const dropDown = document.createElement('div');
     dropDown.className = 'ingredient-dropdown';
-    dropDown.style.display='none';
+    dropDown.style.display = 'none';
 
     const searchBar = document.createElement('input');
     searchBar.type = 'text';
     searchBar.placeholder = 'Search Ingredients';
-    searchBar.className = 'ingredient-search-bar';
+    searchBar.className = 'ingredient-dropdown-search-bar';
 
-    //list of ingredients 
+    //list of ingredients
     const resultsContainer = document.createElement('ul');
-    resultsContainer.className='ingredient-results-container';
-    resultsContainer.style.listStyle = 'none'; 
+    resultsContainer.className = 'ingredient-results-container';
+    resultsContainer.style.listStyle = 'none';
+
+    // container for selected tags
+    const selectedTagsContainer = document.createElement('div');
+    selectedTagsContainer.className = 'ingredient-tags-container';
 
     dropDown.appendChild(searchBar);
     dropDown.appendChild(resultsContainer);
+    dropDown.appendChild(selectedTagsContainer);
 
     // prevent clicks inside dropdown from closing it
     dropDown.addEventListener('click', (e) => {
         e.stopPropagation();
     });
 
-
+    const selectedIngredients = new Set(); // track the selected ingredient (max 3)
     ingredientFilterButton.addEventListener('click', async function (event) {
         event.stopPropagation();
 
-        if(dropDown.style.display ==='none'){
-            
-            dropDown.style.display='block';   
-
-            const fromStorage= await getIngredients();
-
-            resultsContainer.innerHTML='';
-
+        if (dropDown.style.display === 'none') {
+            dropDown.style.display = 'block';
+            const fromStorage = await getIngredients();
+            resultsContainer.innerHTML = '';
 
             for (const opt of fromStorage) {
-                const option = document.createElement('input');
-                option.type="checkbox";
-                //unique id
-                option.id=`option-${opt}`;
-                option.value=opt;
+                const option = document.createElement('li');
+                option.textContent = opt;
+                option.dataset.value = opt; // this behaves like unique id. it sets the data-value attribute to the <li> tag
 
-                const label = document.createElement('label');
-                label.htmlFor = option.id;
-                label.textContent=opt;
-
-                //monitor if checked off
-                option.addEventListener('change', () => {
-                    if (!option.checked) {
-                        if (opcheckedOpts){
-                            checkedOpts.remove(option);
-                        }
-                    }else if (option.checked){
-                        checkedOpts.append(options)
+                if (selectedIngredients.has(opt)) {
+                    // mark as selected if already selected
+                    option.classList.add('selected');
+                }
+                option.addEventListener('click', () => {
+                    if (selectedIngredients.has(opt)) {
+                        // if already selected and gets clicked again
+                        selectedIngredients.delete(opt);
+                        option.classList.remove('selected');
+                        removeTag(opt);
+                    } else if (selectedIngredients.size < 3) {
+                        selectedIngredients.add(opt);
+                        option.classList.add('selected');
+                        addTag(opt);
                     }
-                    displayFilteredRecipes(checkedOpts);
-                })
-                
-                option.style.cursor='pointer';
-                option.style.padding='8px';
+                });
                 resultsContainer.appendChild(option);
-                resultsContainer.appendChild(label);
             }
-
-        }else{
-            dropDown.style.display='none';
+        } else {
+            dropDown.style.display = 'none';
         }
     });
 
- 
+    function addTag(opt) {
+        const tag = document.createElement('div');
+        tag.className = 'ingredient-tag';
+        tag.dataset.value = opt;
+        const tagText = document.createElement('span');
+        tagText.textContent = opt;
 
+        // This is for the making the tag as symbol, handles the click to remove event as well
+        const removeButton = document.createElement('button');
+        removeButton.innerHTML = '&times;'; // 'x' symbol / html entities
+        removeButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            selectedIngredients.delete(opt);
+
+            const itemList = resultsContainer.querySelector(
+                `li[data-value="${opt}"]`
+            );
+            if (itemList) {
+                itemList.classList.remove('selected');
+            }
+            tag.remove();
+            displayFilteredRecipes(Array.from(selectedIngredients));
+        });
+        tag.appendChild(tagText);
+        tag.appendChild(removeButton);
+        selectedTagsContainer.appendChild(tag);
+        displayFilteredRecipes(Array.from(selectedIngredients));
+    }
+
+    function removeTag(opt) {
+        const tag = selectedTagsContainer.querySelector(
+            `.ingredient-tag[data-value="${opt}"]` // this is the format of how data-value is being assigned
+        );
+        if (tag) {
+            selectedIngredients.delete(opt);
+            tag.remove();
+            displayFilteredRecipes(Array.from(selectedIngredients));
+        }
+    }
+
+    // render the ingredient results based on typing
     searchBar.addEventListener('input', function (event) {
         renderResults(searchBar.value);
     });
-
-    // TODO: render the ingredient results based on search
     function renderResults(searchTarget = '') {
         const searchValue = searchTarget.toLowerCase().trim();
         const items = resultsContainer.querySelectorAll('li');
@@ -220,7 +249,7 @@ function createIngredientFilter(name, label) {
         });
     }
 
-    // TODO: handle the search
+    // render the ingredients based on search enter
     searchBar.addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -235,7 +264,9 @@ function createIngredientFilter(name, label) {
     // get Ingredient tags from the localStorage->recipeIngredient.name
     async function getIngredients() {
         const recipeMetadata = localStorage.getItem('recipe_metadata');
-        if (!recipeMetadata) {return [];}
+        if (!recipeMetadata) {
+            return [];
+        }
 
         try {
             const recipes = JSON.parse(recipeMetadata);
@@ -253,10 +284,11 @@ function createIngredientFilter(name, label) {
                             ingredient.name &&
                             typeof ingredient.name === 'string' &&
                             ingredient.name.trim() !== ''
-                        )
-                        {uniqueIngredients.add(
-                            ingredient.name.trim().toLowerCase()
-                        );} // right now it will store as lowercases
+                        ) {
+                            uniqueIngredients.add(
+                                ingredient.name.trim().toLowerCase()
+                            );
+                        } // right now it will store as lowercases
                     });
                 }
             });
