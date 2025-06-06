@@ -1,46 +1,69 @@
+import { RecipeStore } from './js/database/RecipeStore.js';
+
+const RECIPE_STORE = new RecipeStore();
+
 function init() {
     //populate main with recipe from local storage
     console.log('[init] running...');
     handleCreate();
 }
 
-function getFromStorage() {
-    const cards = JSON.parse(localStorage.getItem('recipe'));
-
-    if (cards === null) {
-        return [];
-    } else {
-        return cards;
-    }
-}
-
 function handleCreate() {
+    const INSTRUCTIONS_KEY = 'recipeInstructions';
+    const INGREDIENTS_KEY = 'recipeIngredient';
+    const TOTAL_TIME_KEY = 'totalTime';
 
     const form = document.getElementsByClassName('parent')[0];
 
     console.log(form);
 
-    form.addEventListener('submit', (e) => {
-
-        console.log('running');
-
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
         let formData = new FormData(form);
-        console.log('form:', formData.get('Text'));
 
+        // Populating Card Object
         let cardObject = {};
+        let currentIngredient = { 
+            quantity: '', 
+            units: 0,
+            name: ''     
+        };
+
+        cardObject[INGREDIENTS_KEY] = [];
+        cardObject[INSTRUCTIONS_KEY] = [];
         for (const [key, value] of formData) {
-            cardObject[key] = value;
+            // Handle recipe steps to be an array
+            if (key.startsWith('step')) {
+                const instructionObject = { text : value };
+                cardObject[INSTRUCTIONS_KEY].push(instructionObject);
+            } else if (key.startsWith('ingredient')) {
+                // We will know we have THREE input fields for ingredients
+                const [prefix, suffix] = key.split('-');
+                if (suffix === 'quantity') {
+                    currentIngredient = { quantity: '', units: '', name: '' };
+                    currentIngredient.quantity = value;
+                } else if (suffix === 'unit') {
+                    currentIngredient.units = value;
+                } else if (suffix === 'name') {
+                    currentIngredient.name = value;
+                    cardObject[INGREDIENTS_KEY].push(currentIngredient);
+                }
+            } else {
+                cardObject[key] = value;
+            }
         }
-        console.log(cardObject);
+
+        // Calculate totalTime metric
+        let totalTime = parseInt(formData.get('cookTime'), 10) + parseInt(formData.get('prepTime'), 10);
+        cardObject[TOTAL_TIME_KEY] = totalTime;
 
         const recipeCard = document.createElement('recipe-card');
         recipeCard.data = cardObject;
 
-        let storedCards = getFromStorage();
-        storedCards.push(cardObject);
-        localStorage.setItem('recipe', JSON.stringify(storedCards));
-
-        location.hash = '#/';
+        const currentId = await RECIPE_STORE.addRecipe(cardObject);
+        console.log(cardObject);
+        
+        location.hash = '#/';   
     });
 
 

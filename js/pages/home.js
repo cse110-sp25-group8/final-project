@@ -1,4 +1,4 @@
-import { init } from '../../display.js';
+import { init, displayFilteredRecipes } from '../../display.js';
 
 export default function () {
     requestAnimationFrame(() => {
@@ -31,17 +31,34 @@ export default function () {
     const siteHeader = document.querySelector('.site-header');
     siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
 
-
     const section = document.createElement('section');
     section.className = 'sub-nav';
 
     const filters = document.createElement('ul');
     filters.className = 'filters';
 
-    const mealFilter = createFilter('filter1', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Snacks', 'Beverages']);
-    const cuisineFilter = createFilter('filter2', 'Cuisine', ['Asian', 'European', 'Latin American', 'African', 'Middle Eastern']);
-    const timeFilter = createFilter('filter3', 'Estimated Time', ['Under 30 minutes', 'Under 1 Hour', 'Over 1 Hour']);
-    const ingredientsFilter = createFilter('filter4', 'Ingredients', ['Meat', 'Vegetables', 'Dairy']);
+    const mealFilter = createFilter('filter1', 'Meal', [
+        'Breakfast',
+        'Lunch',
+        'Dinner',
+        'Dessert',
+        'Snack',
+        'Beverage',
+    ]);
+    const cuisineFilter = createFilter('filter2', 'Cuisine', [
+        'African',
+        'Asian',
+        'European',
+        'Latin American',
+        'Middle Eastern',
+        'North American',
+    ]);
+    const timeFilter = createFilter('filter3', 'Estimated Time', [
+        'Under 30 minutes',
+        'Under 1 Hour',
+        'Over 1 Hour',
+    ]);
+    const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
@@ -75,57 +92,6 @@ export default function () {
     addIcon.addEventListener('click', () => addBtn.click());
 
     return section;
-
-    // return ` 
-    //         <section class="sub-nav">
-    //         <ul class="filters">
-    //             <li>
-    //                 <select class="btn-filter" name="filter1">
-    //                     <option disabled selected>Meal</option>
-    //                     <option>Breakfast</option>
-    //                     <option>Lunch</option>
-    //                     <option>Dinner</option>
-    //                     <option>Desserts</option>
-    //                     <option>Snacks</option>
-    //                     <option>Beverages</option>
-    //                 </select>
-    //             </li>
-    //             <li>
-    //                 <select class="btn-filter" name="filter2">
-    //                     <option disabled selected>Cuisine</option>
-    //                     <option>Asian</option>
-    //                     <option>European</option>
-    //                     <option>Latin American</option>
-    //                     <option>African</option>
-    //                     <option>Middle Eastern</option>
-    //                 </select>
-    //             </li>
-    //             <li>
-    //                 <select class="btn-filter" name="filter 3">
-    //                     <option disabled selected>Estimated Time</option>
-    //                     <option> Under 30 minutes </option>
-    //                     <option> Under 1 Hour</option>
-    //                     <option> Over 1 Hour</option>
-    //                 </select>
-    //             </li>
-    //             <li>
-    //                 <select class="btn-filter" name="filter4">
-    //                     <option disabled selected>Ingredients</option>
-    //                     <option>Meat</option>
-    //                     <option>Vegetables</option>
-    //                     <option>Dairy</option>
-    //                 </select>
-    //             </li>
-    //         </ul>
-    //         <main> </main>
-
-    //         <!-- Action buttons (Shuffle/Add) -->
-    //         <div class="actions">
-    //             <button class="btn-shuffle" type="button">Shuffle</button>
-    //             <button class="btn-add" type="button" onclick="location.hash = '#/create'">Add Recipe Card</button>
-    //         </div>
-
-    //     </section>`;
 }
 
 function createFilter(name, label, options) {
@@ -135,17 +101,163 @@ function createFilter(name, label, options) {
     select.name = name;
 
     const defaultOption = document.createElement('option');
-    defaultOption.disabled = true;
+    defaultOption.disabled = false;
     defaultOption.selected = true;
     defaultOption.textContent = label;
+    defaultOption.value = '';
     select.appendChild(defaultOption);
 
     for (const opt of options) {
         const option = document.createElement('option');
         option.textContent = opt;
+        option.value = opt;
         select.appendChild(option);
     }
 
     li.appendChild(select);
     return li;
+}
+
+function createIngredientFilter(name, label) {
+    const all = document.createElement('div');
+
+    const ingredientFilterButton = document.createElement('button');
+    ingredientFilterButton.className = 'btn-filter';
+    ingredientFilterButton.textContent = label;
+ 
+
+    const dropDown = document.createElement('div');
+    dropDown.className = 'ingredient-dropdown';
+    dropDown.style.display='none';
+
+    const searchBar = document.createElement('input');
+    searchBar.type = 'text';
+    searchBar.placeholder = 'Search Ingredients';
+    searchBar.className = 'ingredient-search-bar';
+
+    //list of ingredients 
+    const resultsContainer = document.createElement('ul');
+    resultsContainer.className='ingredient-results-container';
+    resultsContainer.style.listStyle = 'none'; 
+
+    dropDown.appendChild(searchBar);
+    dropDown.appendChild(resultsContainer);
+    
+
+    // prevent clicks inside dropdown from closing it
+    dropDown.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+
+    // TODO: Toggle dropdown when the users click the button
+    ingredientFilterButton.addEventListener('click', async function (event) {
+        event.stopPropagation();
+
+        if(dropDown.style.display ==='none'){
+            
+            dropDown.style.display='block';   
+
+            const fromStorage= await getIngredients();
+
+            resultsContainer.innerHTML='';
+
+
+            for (const opt of fromStorage) {
+                const option = document.createElement('li');
+                option.textContent = opt;
+                option.value=opt;
+                option.style.cursor='pointer';
+                option.style.padding='8px';
+                option.addEventListener('click',() =>{
+                    console.log('selected: ', opt);
+                    displayFilteredRecipes(opt);
+                    dropDown.style.display='none';
+                });
+                resultsContainer.appendChild(option);
+            }
+
+        }else{
+            dropDown.style.display='none';
+        }
+    });
+
+ 
+
+    searchBar.addEventListener('input', function (event) {
+        renderResults(searchBar.value);
+    });
+
+    // TODO: render the ingredient results based on search
+    function renderResults(searchTarget = '') {
+        const searchValue = searchTarget.toLowerCase().trim();
+        const items = resultsContainer.querySelectorAll('li');
+        items.forEach((item) => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchValue)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // TODO: handle the search
+    searchBar.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const searchValue = searchBar.value.toLowerCase().trim();
+            if (searchValue) {
+                displayFilteredRecipes(searchValue);
+                dropDown.style.display = 'none';
+            }
+        }
+    });
+
+    // get Ingredient tags from the localStorage->recipeIngredient.name
+    async function getIngredients() {
+        const recipeMetadata = localStorage.getItem('recipe_metadata');
+        if (!recipeMetadata) {return [];}
+
+        try {
+            const recipes = JSON.parse(recipeMetadata);
+            const uniqueIngredients = new Set();
+            recipes.forEach((recipe) => {
+                if (
+                    recipe.recipeIngredient &&
+                    Array.isArray(
+                        recipe.recipeIngredient && recipe.recipeIngredient
+                    )
+                ) {
+                    recipe.recipeIngredient.forEach((ingredient) => {
+                        if (
+                            ingredient &&
+                            ingredient.name &&
+                            typeof ingredient.name === 'string' &&
+                            ingredient.name.trim() !== ''
+                        )
+                        {uniqueIngredients.add(
+                            ingredient.name.trim().toLowerCase()
+                        );} // right now it will store as lowercases
+                    });
+                }
+            });
+            return Array.from(uniqueIngredients).sort();
+        } catch (error) {
+            console.error(
+                'Error parsing recipe metadata for Ingredients filter',
+                error
+            );
+            return [];
+        }
+    }
+
+    // close dropdown on clicking anything outside of the box container
+    document.addEventListener('click', () => {
+        dropDown.style.display = 'none';
+    });
+
+    all.appendChild(ingredientFilterButton);
+    all.appendChild(dropDown);
+    return all;
 }

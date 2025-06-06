@@ -8,25 +8,28 @@ const routes = {
     '/details': details,
 };
 
-// update path and page content according to route, if error "404 not found"
-// function render() {
-// 	const path = location.hash.replace('#', '') || '/';
-// 	const page = routes[path] || (() => '<h1>404 Not Found</h1>');
-// 	const app = document.getElementById('app');
-// 	app.innerHTML = page();
-// }
-
 function render() {
-    const path = location.hash.replace('#', '') || '/';
-    const page = routes[path] || (() => {
-        const error = document.createElement('h1');
-        error.textContent = '404 Not Found';
-        return error;
-    });
-    const app = document.getElementById('app');
+    const hash = location.hash.replace('#', '') || '/';
+    const path = hash.split('?')[0];
+    const page =
+        routes[path] ||
+        (() => {
+            const error = document.createElement('h1');
+            error.textContent = '404 Not Found';
+            return error;
+        });
 
-    app.innerHTML = ''; 
-    app.appendChild(page()); 
+    const app = document.getElementById('app');
+    app.innerHTML = '';
+    app.appendChild(page());
+}
+
+export function renderCardDetails(id) {
+    if (!id) {
+        console.log('We couldn\'t route to the recipe:(');
+        return;
+    }
+    location.hash = `#/details?id=${id}`;
 }
 
 window.addEventListener('hashchange', render);
