@@ -1,4 +1,4 @@
-import { getAllMetadata, upsertMetadata, deleteMetadata, filterMetadata } from '../database/localStorageService.js';
+const { getAllMetadata, upsertMetadata, deleteMetadata, filterMetadata } = require('../database/localStorageService.js');
 
 describe('localStorageService', () => {
     beforeEach(() => {
