@@ -60,7 +60,7 @@ function handleCreate() {
         const recipeCard = document.createElement('recipe-card');
         recipeCard.data = cardObject;
 
-        const recipeId = formData.get('recipeId');
+        const recipeId = Number(formData.get('recipeId'));
         console.log(recipeId);
         if (recipeId) {
             // Update existing recipe
