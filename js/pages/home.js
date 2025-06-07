@@ -1,4 +1,4 @@
-import { init, displayFilteredRecipes } from '../../display.js';
+import { init, displayFilteredRecipes, FilterByMealType, FilterByCuisine, FilterByTime} from '../../display.js';
 
 export default function () {
     requestAnimationFrame(() => {
@@ -45,6 +45,20 @@ export default function () {
         'Snack',
         'Beverage',
     ]);
+
+    const selectedMeal=mealFilter.querySelector('select');
+
+    selectedMeal.addEventListener('change', (e) =>{
+        const currMeal=e.target.value;
+        if(currMeal==''){
+            init();
+        }else{
+            FilterByMealType(currMeal);
+        }
+       
+       
+    })
+
     const cuisineFilter = createFilter('filter2', 'Cuisine', [
         'African',
         'Asian',
@@ -53,11 +67,34 @@ export default function () {
         'Middle Eastern',
         'North American',
     ]);
+
+    const selectedCuisine=cuisineFilter.querySelector('select');
+
+    selectedCuisine.addEventListener('change', (e) =>{
+        const currCuisine=e.target.value;
+        if(currCuisine==''){
+            init();
+        }else{
+            FilterByCuisine(currCuisine);
+        }
+    })
     const timeFilter = createFilter('filter3', 'Estimated Time', [
         'Under 30 minutes',
         'Under 1 Hour',
         'Over 1 Hour',
     ]);
+    
+    const time=timeFilter.querySelector('select');
+
+    time.addEventListener('change', (e) =>{
+        const currTime=e.target.value;
+        if(currTime==''){
+            init();
+        }else{
+            FilterByTime(currTime);
+        }
+    })
+
     const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
 
@@ -71,12 +108,6 @@ export default function () {
     const actions = document.createElement('div');
     actions.className = 'actions';
 
-    const shuffleBtn = document.createElement('button');
-    shuffleBtn.className = 'btn-shuffle';
-    shuffleBtn.textContent = 'Shuffle';
-    shuffleBtn.addEventListener('click', () => {
-        // put shuffleing logic here
-    });
 
     const addBtn = document.createElement('button');
     addBtn.className = 'btn-add';
@@ -85,11 +116,10 @@ export default function () {
         location.hash = '#/create';
     });
 
-    actions.append(shuffleBtn, addBtn);
+    actions.append( addBtn);
     section.append(actions);
 
     // mobile icons have same functionality as "normal" action buttons
-    shuffleIcon.addEventListener('click', () => shuffleBtn.click());
     addIcon.addEventListener('click', () => addBtn.click());
 
     return section;
@@ -118,6 +148,8 @@ function createFilter(name, label, options) {
     li.appendChild(select);
     return li;
 }
+
+
 
 function createIngredientFilter(name, label) {
     const all = document.createElement('div');

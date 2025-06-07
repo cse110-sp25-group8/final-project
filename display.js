@@ -10,9 +10,8 @@ function init() {
 }
 
 function displayRecipes(recipes) {
-    const mainSection = document.querySelector('main');
-    console.log('main elem: ', mainSection);
     console.log(recipes);
+    const mainSection = document.querySelector('main');
 
     let cardGrid = mainSection.querySelector('.card-grid');
 
@@ -26,7 +25,7 @@ function displayRecipes(recipes) {
         cardGrid.innerHTML = '';
     }
 
-    // Populate main with recipies from local storage
+    // Populate main with recipes from local storage
     recipes.forEach((recipe) => {
         const addition = document.createElement('recipe-card');
         addition.data = recipe;
@@ -35,7 +34,72 @@ function displayRecipes(recipes) {
     });
 }
 
+function FilterByMealType(type){
+    if (type=="Meal"){
+        return displayRecipes(recipes);
+    }
+
+    const filtered=recipes.filter(
+        (recipe) =>
+            recipe.recipeCategory && 
+            recipe.recipeCategory.toLowerCase()==type.toLowerCase()
+    );
+   
+    displayRecipes(filtered);
+}
+
+function FilterByCuisine(cuisine){
+    console.log(cuisine);
+    if(cuisine==="Cuisine"){
+        console.log(cuisine);
+        return displayRecipes(recipes);
+    }
+
+    const filtered=recipes.filter(
+        (recipe) =>
+            recipe.recipeCuisine && 
+            recipe.recipeCuisine.toLowerCase()==cuisine.toLowerCase()
+    );
+   
+    displayRecipes(filtered);
+}
+
+function FilterByTime(mins){
+    if(mins=="Estimated Time"){
+        displayRecipes(recipes);
+    }
+
+    console.log(mins);
+    let filtered=[];
+
+    if (mins=="Under 30 minutes"){
+        filtered=recipes.filter(
+        (recipe) =>
+            recipe.totalTime && 
+            parseInt(recipe.totalTime)<30
+        );
+    }else if (mins=="Under 1 Hour"){
+        filtered=recipes.filter(
+        (recipe) =>
+            recipe.totalTime && 
+            parseInt(recipe.totalTime)<60
+        );
+    }else if (mins=="Over 1 Hour"){
+        console.log("here")
+        filtered=recipes.filter(
+        (recipe) =>
+            recipe.totalTime && 
+            parseInt(recipe.totalTime)>60
+        );
+    }
+   
+    console.log("After", filtered);
+    displayRecipes(filtered);
+}
+
+
 function displayFilteredRecipes(ingredients) {
+
     if (!ingredients || ingredients.length == 0) {
         displayRecipes(recipes);
         return;
@@ -46,7 +110,7 @@ function displayFilteredRecipes(ingredients) {
             recipe.recipeIngredient &&
             ingredients.some((ingredient) =>
                 recipe.recipeIngredient.some(
-                    (x) => x.name.toLowerCase() === ingredient.toLowerCase()
+                    (x) => x.name.toLowerCase() == ingredient.toLowerCase()
                 )
             )
     );
@@ -54,4 +118,4 @@ function displayFilteredRecipes(ingredients) {
     displayRecipes(filtered);
 }
 
-export { init, displayFilteredRecipes };
+export { init, displayFilteredRecipes, FilterByMealType, FilterByCuisine, FilterByTime };
