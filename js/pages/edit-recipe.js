@@ -547,6 +547,9 @@ export default function () {
         calInput.value = recipe.calories || 0;
         mealSelection.value = recipe.recipeCategory || "";
         cuisineSelection.value = recipe.recipeCuisine || "";
+        console.log(">>>> Recipe image type = ");
+        console.log(typeof recipe.image);
+        photoInput.value = recipe.image || "";
 
         ingredientList.innerHTML = "";
         recipe.recipeIngredient.forEach(ingredient => {
@@ -564,15 +567,18 @@ export default function () {
             instrList.appendChild(li);
         });
 
+        // extension = file_name.split('.').pop();
+
         if (recipe.image) {
-            const imgBlob = new Blob([recipe.image], { type: 'image/jpeg' }); // Adjust type as necessary
+            const imgBlob = new Blob([recipe.image], { type: 'image/jpeg' });
             const imgUrl = URL.createObjectURL(imgBlob);
             photoPreview.src = imgUrl;
             photoPreview.style.display = 'block';
             removeButton.style.display = 'block';
             uploadButton.style.display = 'none';
             photoConstraint.style.display = 'none';
-        }
+        } 
+
     });
 
     requestAnimationFrame(() => {

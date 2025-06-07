@@ -58,15 +58,19 @@ function handleCreate() {
         cardObject[TOTAL_TIME_KEY] = totalTime;
 
         const recipeCard = document.createElement('recipe-card');
+        console.log('SETTING RECIPE CARD ELEMENT =');
+        console.log(cardObject);
         recipeCard.data = cardObject;
 
         const recipeId = Number(formData.get('recipeId'));
         console.log(recipeId);
         if (recipeId) {
             // Update existing recipe
+            console.log(">>> Editing recipe");
             await RECIPE_STORE.updateRecipe(recipeId, cardObject);
         } else {
             // Add new recipe
+            console.log(">>> Adding recipe");
             await RECIPE_STORE.addRecipe(cardObject);
         }
         console.log(cardObject);

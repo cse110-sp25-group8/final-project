@@ -63,10 +63,13 @@ export class RecipeStore {
 
             return recipe.image;
         } catch (error) {
-            console.error(
-                `Failed to get recipe image (ID #${id}) from storage: ${error}`
-            );
-            throw error;
+            // console.error(
+            //     `Failed to get recipe image (ID #${id}) from storage: ${error}`
+            // );
+
+            console.error(`[IMAGE ERR]: ${error.message}`);
+
+            // throw error;
         }
     }
 
@@ -110,7 +113,7 @@ export class RecipeStore {
 
     /**
      * Removes an existing recipe entry from the app's IndexedDB database.
-     * @param {number} id - A number corresponding to the target recipe's id.
+     * @param {Object} data - An object of the target recipe
      */
     async deleteRecipe(data) {
         try {

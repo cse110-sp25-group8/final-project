@@ -165,6 +165,11 @@ class RecipeCard extends HTMLElement {
 		}
 
 		const updateCard = async () => {
+			const typeofdata = typeof data.id;
+			// console.log(`data.id value = ${data.id}`);
+			// console.log(`TYPE OF DATA.ID = ${typeofdata}`);
+			// console.clear();
+			console.log(data);
 			const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
 			const imageURL = URL.createObjectURL(imageBlob);
 
