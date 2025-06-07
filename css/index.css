@@ -195,6 +195,10 @@ body {
     margin: 0;
 }
 
+.ingredient-results-container{
+    max-height: 130px;
+    overflow-y:scroll 
+}
 .ingredient-results-container li {
     padding: 0.4rem 0.7rem;
     cursor: pointer;

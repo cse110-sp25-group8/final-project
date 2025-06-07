@@ -60,8 +60,6 @@ export default function () {
     ]);
     const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
-    const allRecipes = document.createElement('button');
-    allRecipes.textContent = 'All';
 
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
@@ -87,7 +85,7 @@ export default function () {
         location.hash = '#/create';
     });
 
-    actions.append(allRecipes, shuffleBtn, addBtn);
+    actions.append(shuffleBtn, addBtn);
     section.append(actions);
 
     // mobile icons have same functionality as "normal" action buttons
@@ -201,7 +199,8 @@ function createIngredientFilter(name, label) {
 
         // This is for the making the tag as symbol, handles the click to remove event as well
         const removeButton = document.createElement('button');
-        removeButton.innerHTML = '&times;'; // 'x' symbol / html entities
+        // 'x' symbol / html entities
+        removeButton.innerHTML = '&times;'; 
         removeButton.addEventListener('click', function (event) {
             event.stopPropagation();
             selectedIngredients.delete(opt);
@@ -223,7 +222,8 @@ function createIngredientFilter(name, label) {
 
     function removeTag(opt) {
         const tag = selectedTagsContainer.querySelector(
-            `.ingredient-tag[data-value="${opt}"]` // this is the format of how data-value is being assigned
+            // this is the format of how data-value is being assigned
+            `.ingredient-tag[data-value="${opt}"]` 
         );
         if (tag) {
             selectedIngredients.delete(opt);
