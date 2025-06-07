@@ -6,8 +6,12 @@ const RECIPE_STORE = new RecipeStore();
 export default function () {
     const hash = location.hash;
     const params = new URLSearchParams(hash.split('?')[1]);
-    const recipeId = params.get('id');
+    const recipeIdRaw = params.get('id');
+
+    const recipeId = recipeIdRaw.replace(/[{}]/g, '');
+    const recipeIdNumber = Number(recipeId);
     console.log(recipeId);
+    console.log(recipeIdNumber);
 
     
 
@@ -530,9 +534,12 @@ export default function () {
     
     RECIPE_STORE.getRecipe(Number(recipeId)).then(recipe => {
         if(!recipe) return;
-        console.log(recipe.name);
+        console.log(mealLabel)
 
         nameInput.value = recipe.name || "";
+        prepTimeInput.value = recipe.prepTime || 0;
+        cookTimeInput.value = recipe.cookTime || 0;
+        calInput.value = recipe.calories || 0;
     });
     
     requestAnimationFrame(() => {
