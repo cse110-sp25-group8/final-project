@@ -99,7 +99,7 @@ export class RecipeStore {
 
             const updatedData = { ...data, id };
             const updatedId = await this.idbService.set(updatedData);
-            this.syncToLocalStorage(id, 'update');
+            this.syncToLocalStorage(data, 'update');
 
             return updatedId;
         } catch (error) {
@@ -112,10 +112,11 @@ export class RecipeStore {
      * Removes an existing recipe entry from the app's IndexedDB database.
      * @param {number} id - A number corresponding to the target recipe's id.
      */
-    async deleteRecipe(id) {
+    async deleteRecipe(data) {
         try {
-            await this.idbService.delete(id);
-            this.syncToLocalStorage(id, 'delete');
+            await this.idbService.delete(data.id);
+
+            this.syncToLocalStorage(data, 'delete');
         } catch (error) {
             console.error(`Failed to delete recipe: ${error}`);
             throw error;
@@ -129,20 +130,21 @@ export class RecipeStore {
 	 * @private
      */
     async syncToLocalStorage(recipe, mode) {
-        const metadata = {
-            id: recipe.id,
-            name: recipe.name,
-            isFavorite: false,
-            recipeCategory: recipe.recipeCategory,
-            recipeCuisine: recipe.recipeCuisine,
-            totalTime: recipe.totalTime,
-            recipeIngredient: recipe.recipeIngredient,
-            calories: recipe.calories
-        };
-
         if (mode === 'delete') {
+            console.log("recipe ID: ", recipe.id)
             deleteMetadata(recipe.id);
         } else if (mode === 'insert' || mode === 'update') {
+            const metadata = {
+                id: recipe.id,
+                name: recipe.name,
+                isFavorite: false,
+                recipeCategory: recipe.recipeCategory,
+                recipeCuisine: recipe.recipeCuisine,
+                totalTime: recipe.totalTime,
+                recipeIngredient: recipe.recipeIngredient,
+                calories: recipe.calories
+            };
+
             console.log('METADATA = ', metadata);
             upsertMetadata(metadata);
         }

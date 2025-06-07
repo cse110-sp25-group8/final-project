@@ -1,5 +1,5 @@
 import { RecipeStore } from '../database/RecipeStore.js';
-import { renderCardDetails } from '../router.js';
+import { renderCardDetails, render } from '../router.js';
 const RECIPE_STORE = new RecipeStore();
 
 class RecipeCard extends HTMLElement {
@@ -261,12 +261,14 @@ class RecipeCard extends HTMLElement {
             });
 
             const deleteBtn = this.shadowRoot.querySelector('.delete');
-            deleteBtn.addEventListener('click', function (e) {
+            deleteBtn.addEventListener('click', async (e) => {
                 e.stopPropagation();
-                alert('delete button clicked');
-
+				await RECIPE_STORE.deleteRecipe(data);
                 // this line make dropdown disapears when button is clicked
                 dropdown.style.display = 'none';
+
+				location.hash = '#/';
+				render();
             });
         };
 

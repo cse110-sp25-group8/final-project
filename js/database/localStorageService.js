@@ -36,7 +36,8 @@ export function upsertMetadata(metadata) {
  */
 export function deleteMetadata(id) {
     if (!id || typeof id !== 'number') {
-        throw new Error('Require id to remove the metadata');
+        console.log(id);
+        throw new Error('Require id to remove the metadata::dafdaf');
     }
 
     const fetchAllMeta = getAllMetadata();

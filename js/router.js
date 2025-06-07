@@ -8,7 +8,7 @@ const routes = {
     '/details': details,
 };
 
-function render() {
+export function render() {
     const hash = location.hash.replace('#', '') || '/';
     const path = hash.split('?')[0];
     const page =
