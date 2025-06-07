@@ -5,10 +5,12 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"lint": "eslint . --max-warnings 0"
+		"lint": "eslint . --max-warnings 0",
+		"test": "jest"
 	},
 	"devDependencies": {
-		"eslint": "^8.57.1"
+		"eslint": "^8.57.1",
+		"jest": "^29.7.0"
 	},
-	"author": "Ryan"
+	"author": "Ryan, Dorje"
 }
