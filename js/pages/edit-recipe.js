@@ -534,12 +534,40 @@ export default function () {
     
     RECIPE_STORE.getRecipe(Number(recipeId)).then(recipe => {
         if(!recipe) return;
-        console.log(mealLabel)
+        console.log(recipe);
 
         nameInput.value = recipe.name || "";
         prepTimeInput.value = recipe.prepTime || 0;
         cookTimeInput.value = recipe.cookTime || 0;
         calInput.value = recipe.calories || 0;
+        mealSelection.value = recipe.recipeCategory || "";
+        cuisineSelection.value = recipe.recipeCuisine || "";
+        
+        ingredientList.innerHTML = ""; 
+        recipe.recipeIngredient.forEach(ingredient => {
+            const li = createIngredientItem();
+            li.querySelector('.ingredient-quantity').value = ingredient.quantity || '';
+            li.querySelector('.ingredient-name').value = ingredient.name || '';
+            li.querySelector('.unit-dropdown').value = ingredient.unit || ''; 
+            ingredientList.appendChild(li);
+        });
+
+        instrList.innerHTML = ""; 
+        recipe.recipeInstructions.forEach((instruction, index) => {
+            const li = createInstructionItem(index + 1);
+            li.querySelector('.step').value = instruction.text || ''; 
+            instrList.appendChild(li);
+        });
+
+        if (recipe.image) {
+            const imgBlob = new Blob([recipe.image], { type: 'image/jpeg' }); // Adjust type as necessary
+            const imgUrl = URL.createObjectURL(imgBlob);
+            photoPreview.src = imgUrl;
+            photoPreview.style.display = 'block';
+            removeButton.style.display = 'block';
+            uploadButton.style.display = 'block';
+            photoConstraint.style.display = 'block';
+        }
     });
     
     requestAnimationFrame(() => {
