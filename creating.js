@@ -23,10 +23,10 @@ function handleCreate() {
 
         // Populating Card Object
         let cardObject = {};
-        let currentIngredient = { 
-            quantity: '', 
+        let currentIngredient = {
+            quantity: '',
             units: 0,
-            name: ''     
+            name: ''
         };
 
         cardObject[INGREDIENTS_KEY] = [];
@@ -34,7 +34,7 @@ function handleCreate() {
         for (const [key, value] of formData) {
             // Handle recipe steps to be an array
             if (key.startsWith('step')) {
-                const instructionObject = { text : value };
+                const instructionObject = { text: value };
                 cardObject[INSTRUCTIONS_KEY].push(instructionObject);
             } else if (key.startsWith('ingredient')) {
                 // We will know we have THREE input fields for ingredients
@@ -60,10 +60,18 @@ function handleCreate() {
         const recipeCard = document.createElement('recipe-card');
         recipeCard.data = cardObject;
 
-        const currentId = await RECIPE_STORE.addRecipe(cardObject);
+        const recipeId = formData.get('recipeId');
+        console.log(recipeId);
+        if (recipeId) {
+            // Update existing recipe
+            await RECIPE_STORE.updateRecipe(recipeId, cardObject);
+        } else {
+            // Add new recipe
+            await RECIPE_STORE.addRecipe(cardObject);
+        }
         console.log(cardObject);
-        
-        location.hash = '#/';   
+
+        location.hash = '#/';
     });
 
 

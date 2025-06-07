@@ -13,13 +13,17 @@ export default function () {
     console.log(recipeId);
     console.log(recipeIdNumber);
 
-    
-
     const main = document.createElement('main');
     main.className = 'main-area';
 
     const parent = document.createElement('form');
     parent.className = 'parent';
+
+    const hiddenIdInput = document.createElement('input');
+    hiddenIdInput.type = 'hidden';
+    hiddenIdInput.name = 'recipeId';
+    hiddenIdInput.value = recipeIdNumber;
+    parent.appendChild(hiddenIdInput);
 
     // left side
     const left = document.createElement('div');
@@ -510,7 +514,7 @@ export default function () {
     saveBtn.type = 'submit';
     saveBtn.className = 'Button';
     saveBtn.id = 'save';
-    saveBtn.textContent = 'Save Recipe';
+    saveBtn.textContent = 'Edit Save';
     // saveBtn.addEventListener('click', () => {
     //     location.hash = '#/';
     // });
@@ -531,9 +535,9 @@ export default function () {
     // Final Assembly
     parent.append(left, right);
     main.appendChild(parent);
-    
+
     RECIPE_STORE.getRecipe(Number(recipeId)).then(recipe => {
-        if(!recipe) return;
+        if (!recipe) return;
         console.log(recipe);
 
         nameInput.value = recipe.name || "";
@@ -542,20 +546,20 @@ export default function () {
         calInput.value = recipe.calories || 0;
         mealSelection.value = recipe.recipeCategory || "";
         cuisineSelection.value = recipe.recipeCuisine || "";
-        
-        ingredientList.innerHTML = ""; 
+
+        ingredientList.innerHTML = "";
         recipe.recipeIngredient.forEach(ingredient => {
             const li = createIngredientItem();
             li.querySelector('.ingredient-quantity').value = ingredient.quantity || '';
             li.querySelector('.ingredient-name').value = ingredient.name || '';
-            li.querySelector('.unit-dropdown').value = ingredient.unit || ''; 
+            li.querySelector('.unit-dropdown').value = ingredient.units || '';
             ingredientList.appendChild(li);
         });
 
-        instrList.innerHTML = ""; 
+        instrList.innerHTML = "";
         recipe.recipeInstructions.forEach((instruction, index) => {
             const li = createInstructionItem(index + 1);
-            li.querySelector('.step').value = instruction.text || ''; 
+            li.querySelector('.step').value = instruction.text || '';
             instrList.appendChild(li);
         });
 
@@ -565,11 +569,11 @@ export default function () {
             photoPreview.src = imgUrl;
             photoPreview.style.display = 'block';
             removeButton.style.display = 'block';
-            uploadButton.style.display = 'block';
-            photoConstraint.style.display = 'block';
+            uploadButton.style.display = 'none';
+            photoConstraint.style.display = 'none';
         }
     });
-    
+
     requestAnimationFrame(() => {
         init();
     });
