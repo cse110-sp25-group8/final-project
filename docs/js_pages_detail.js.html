@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/pages/detail.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/pages/detail.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+    startTimerFromInputs,
+    clearTimer,
+    updateTimerPreview,
+} from '../components/timer.js';
+import { RecipeStore } from '../database/RecipeStore.js';
+
+const RECIPE_STORE = new RecipeStore();
+
+document.body.classList.add('detail-page');
+
+/**
+ * This function builds the layout for viewing a recipe card
+ * It displays the ingredients, instructions, photo and timer for the recipe for desktop and mobile
+ * @returns {HTMLElement} - The layout HTMLElement for viewing the recipe card on the view page
+ */
+export default function () {
+    const hash = location.hash;
+    const params = new URLSearchParams(hash.split('?')[1]);
+    const recipeId = params.get('id');
+
+    const layout = document.createElement('div');
+    layout.className = 'detail-layout';
+
+    const main = document.createElement('div');
+    main.className = 'detail-main';
+
+    // Ingredients Section
+    const ingredientsSection = document.createElement('section');
+    ingredientsSection.id = 'ingredients';
+
+    const ingredientsTitle = document.createElement('h2');
+    ingredientsTitle.textContent = 'Ingredients';
+
+    const ingredientsList = document.createElement('ul');
+    // [('Butter', 'Chicken', 'Pasta', 'Sugar', 'Black Pepper', 'Rice')].forEach(
+    //     (item) => {
+    //         const li = document.createElement('li');
+    //         li.textContent = item;
+    //         ingredientsList.appendChild(li);
+    //     }
+    // );
+
+    ingredientsSection.append(ingredientsTitle, ingredientsList);
+
+    // Instruction Section
+    const instructionsSection = document.createElement('section');
+    instructionsSection.id = 'instructions';
+
+    const instructionsTitle = document.createElement('h2');
+    instructionsTitle.textContent = 'Instructions';
+
+    const instructionsList = document.createElement('ol');
+    // [
+    //     'First step goes here five cups of water',
+    //     'Step 2 goes here',
+    //     'Step 3 and so on...',
+    // ].forEach((step) => {
+    //     const li = document.createElement('li');
+    //     li.textContent = step;
+    //     instructionsList.appendChild(li);
+    // });
+
+    instructionsSection.append(instructionsTitle, instructionsList);
+    main.append(ingredientsSection, instructionsSection);
+
+    // Aside Section
+    const aside = document.createElement('aside');
+    aside.className = 'detail-aside';
+
+    // Recipe Card
+    const recipeCard = document.createElement('article');
+    recipeCard.id = 'recipe-card';
+
+    const recipes = JSON.parse(localStorage.getItem('recipe')) || [];
+    if (recipes.length > 0) {
+        const recipeCardElement = document.createElement('recipe-card');
+        recipeCardElement.style.setProperty('--card-width', '320px');
+        recipeCardElement.style.setProperty('--card-height', '380px');
+        recipeCardElement.data = recipes[0]; // use the first recipe
+        recipeCard.appendChild(recipeCardElement);
+    } else {
+        const emptyMsg = document.createElement('p');
+        emptyMsg.textContent = 'No recipe data found.';
+        recipeCard.appendChild(emptyMsg);
+    }
+
+    // You can attach a shadow DOM here
+    loadRecipeDetails(recipeId, recipeCard, ingredientsList, instructionsList);
+
+    // Timer
+    const timerSection = document.createElement('section');
+    timerSection.id = 'timer-container';
+
+    // this is NOT library or
+    const svgNS = 'http://www.w3.org/2000/svg';
+
+    const svgWrapper = document.createElement('div');
+    svgWrapper.className = 'svg-timer-wrapper';
+
+    const timerDisplay = document.createElement('div');
+    timerDisplay.className = 'timer-display';
+    timerDisplay.textContent = '00:00:00';
+
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.classList.add('svg-timer');
+
+    const progressCircle = document.createElementNS(svgNS, 'circle');
+    progressCircle.setAttribute('cx', '50');
+    progressCircle.setAttribute('cy', '50');
+    progressCircle.setAttribute('r', '45');
+    progressCircle.setAttribute('class', 'timer-progress');
+    progressCircle.style.strokeDasharray = '282.6'; // 2πr
+    progressCircle.style.strokeDashoffset = '0';
+
+    svg.append(progressCircle);
+    svgWrapper.append(svg, timerDisplay);
+
+    const form = document.createElement('form');
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'timer-form';
+
+    const inputGroup = document.createElement('div');
+    inputGroup.className = 'timer-inputs';
+
+    const inputs = [
+        { id: 'hours', label: 'hr', max: 12 },
+        { id: 'minutes', label: 'min', max: 59 },
+        { id: 'seconds', label: 'sec', max: 59 },
+    ];
+
+    inputs.forEach(({ id, label, max }) => {
+        const inputRow = document.createElement('div');
+        inputRow.className = 'input-row';
+
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = id;
+        input.name = id;
+        input.min = 0;
+        input.max = String(max);
+        input.placeholder = '00';
+
+        input.addEventListener('input', updateTimerPreview);
+
+        const labelEl = document.createElement('label');
+        labelEl.htmlFor = id;
+        labelEl.textContent = label;
+
+        inputRow.append(input, labelEl);
+        inputGroup.appendChild(inputRow);
+    });
+
+    const buttonGroup = document.createElement('div');
+    buttonGroup.className = 'timer-buttons';
+
+    const setBtn = document.createElement('button');
+    setBtn.id = 'timer-set';
+    setBtn.textContent = 'Set';
+
+    const clearBtn = document.createElement('button');
+    clearBtn.id = 'timer-clear';
+    clearBtn.textContent = 'Clear';
+
+    /**
+     * This function reorders page elements to fit design for mobile devices
+     */
+    function mobileReorder() {
+        const isPhone = window.innerWidth &lt;= 600; // 600px is mobile width
+        const mainContainer = document.querySelector('.detail-main');
+        const asideContainer = document.querySelector('.detail-aside');
+        const card = document.querySelector('#recipe-card');
+        const timer = document.querySelector('#timer-container');
+
+        if (!mainContainer || !asideContainer || !card || !timer) { return; }
+
+        if (isPhone) {
+            asideContainer.style.display = 'none';
+            if (card.parentNode !== mainContainer) {
+                mainContainer.insertBefore(card, mainContainer.firstChild);
+            }
+            if (timer.parentNode !== mainContainer) {
+                mainContainer.appendChild(timer);
+            }
+        } 
+        else {
+            asideContainer.style.display = '';
+            if (card.parentNode !== asideContainer) {
+                asideContainer.insertBefore(card, asideContainer.firstChild);
+            }
+            if (timer.parentNode !== asideContainer) {
+                asideContainer.appendChild(timer);
+            }
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', mobileReorder);
+    window.addEventListener('resize', mobileReorder);
+
+    buttonGroup.append(setBtn, clearBtn);
+
+    fieldset.append(inputGroup, buttonGroup);
+    form.appendChild(fieldset);
+
+    timerSection.append(svgWrapper, form);
+
+    aside.append(recipeCard, timerSection);
+
+    layout.append(main, aside);
+
+    requestAnimationFrame(() => {
+        document.getElementById('timer-set')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            startTimerFromInputs();
+        });
+
+        document
+            .getElementById('timer-clear')
+            ?.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearTimer();
+            });
+    });
+
+    return layout;
+}
+
+/**
+ * This is an asynchronous function for loading the recipe details from the database
+ * @param {string} recipeId 
+ * @param {HTMLElement} recipeCard 
+ * @param {HTMLElement} ingredientsList 
+ * @param {HTMLElement} instructionsList 
+ */
+async function loadRecipeDetails(
+    recipeId,
+    recipeCard,
+    ingredientsList,
+    instructionsList
+) {
+    const recipe = await RECIPE_STORE.getRecipe(Number(recipeId));
+    console.log(recipe.name);
+    // TODO: need to scrape data from IDB
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RecipeCard.html">RecipeCard</a></li><li><a href="RecipeStore.html">RecipeStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clearTimer">clearTimer</a></li><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createIngredientFilter">createIngredientFilter</a></li><li><a href="global.html#displayFilteredRecipes">displayFilteredRecipes</a></li><li><a href="global.html#displayRecipes">displayRecipes</a></li><li><a href="global.html#filterMetadata">filterMetadata</a></li><li><a href="global.html#getAllMetadata">getAllMetadata</a></li><li><a href="global.html#getFromStorage">getFromStorage</a></li><li><a href="global.html#handleCreate">handleCreate</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadRecipeDetails">loadRecipeDetails</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#renderCardDetails">renderCardDetails</a></li><li><a href="global.html#startTimerFromInputs">startTimerFromInputs</a></li><li><a href="global.html#updateDisplay">updateDisplay</a></li><li><a href="global.html#updateTimerPreview">updateTimerPreview</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 08 2025 23:02:56 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
