@@ -48,7 +48,24 @@ function handleCreate() {
                     currentIngredient.name = value;
                     cardObject[INGREDIENTS_KEY].push(currentIngredient);
                 }
+            } else if (key === 'image') {
+                const doesRecipeExist = Number(formData.get('recipeId'));
+                const imageFile = formData.get('image');
+                
+                if (doesRecipeExist) {
+                    if (imageFile && imageFile.name) {
+                        // use new image 
+                        cardObject.image = value;
+                    } else {
+                        // get old image
+                        const oldImage = await RECIPE_STORE.getRecipeImageURL(doesRecipeExist);
+                        cardObject.image = oldImage;
+                    }
+                } else {
+                    cardObject.image = value;
+                }
             } else {
+
                 cardObject[key] = value;
             }
         }
@@ -66,13 +83,17 @@ function handleCreate() {
         console.log(recipeId);
         if (recipeId) {
             // Update existing recipe
-            console.log(">>> Editing recipe");
+            console.log(">>>>>>>>> Editing recipe <<<<<<<<<<");
+            console.log(cardObject);
             await RECIPE_STORE.updateRecipe(recipeId, cardObject);
+            console.log(">>>>>>>>> FINISH editing recipe <<<<<<<<<<");
         } else {
             // Add new recipe
             console.log(">>> Adding recipe");
             await RECIPE_STORE.addRecipe(cardObject);
         }
+
+        console.log("AFTER COLLECTING FORM DATA");
         console.log(cardObject);
 
         location.hash = '#/';

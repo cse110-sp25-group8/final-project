@@ -515,7 +515,7 @@ export default function () {
     saveBtn.type = 'submit';
     saveBtn.className = 'Button';
     saveBtn.id = 'save';
-    saveBtn.textContent = 'Edit Save';
+    saveBtn.textContent = 'Save Edit';
     // saveBtn.addEventListener('click', () => {
     //     location.hash = '#/';
     // });
@@ -549,7 +549,6 @@ export default function () {
         cuisineSelection.value = recipe.recipeCuisine || "";
         console.log(">>>> Recipe image type = ");
         console.log(typeof recipe.image);
-        photoInput.value = recipe.image || "";
 
         ingredientList.innerHTML = "";
         recipe.recipeIngredient.forEach(ingredient => {
