@@ -1,6 +1,10 @@
-import { RecipeStore } from '../database/RecipeStore.js';
+/**
+ * Displays a custom recipe card with image, title, time, calories, and actions.
+ */
+
+import * as RecipeStore from '../database/RecipeStore.js';
 import { renderCardDetails } from '../router.js';
-const RECIPE_STORE = new RecipeStore();
+const RECIPE_STORE = new RecipeStore.RecipeStore();
 
 /**
  * Custom Web Component that displays a recipe card with image, title,
@@ -161,6 +165,11 @@ class RecipeCard extends HTMLElement {
         this.shadowRoot.appendChild(styleElement);
     }
 
+	/**
+     * Sets recipe data and fills the card with info and buttons.
+     * @param {Object} data - Recipe details like name, time, etc.
+     */
+
     set data(data) {
         // Check to see if nothing was passed in
         if (!data) {
@@ -220,12 +229,14 @@ class RecipeCard extends HTMLElement {
             const starBtn = this.shadowRoot.querySelector('.star-btn');
             const starImg = this.shadowRoot.querySelector('.star-img');
 
+			// Show/hide dropdown
             menuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 dropdown.style.display =
                     dropdown.style.display === 'flex' ? 'none' : 'flex';
             });
 
+			// Hide dropdown if clicked outside
             this.shadowRoot.addEventListener('click', (e) => {
                 const isInsideMenuBtn = menuBtn.contains(e.target);
                 const isInsideDropdown = dropdown.contains(e.target);
@@ -234,7 +245,8 @@ class RecipeCard extends HTMLElement {
                     dropdown.style.display = 'none';
                 }
             });
-
+            
+			// Toggle favorite star
             starBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
 
@@ -244,13 +256,15 @@ class RecipeCard extends HTMLElement {
                     starImg.src = '../assets/star.svg';
                 }
             });
-
+            
+			// Edit button click
             const editBtn = this.shadowRoot.querySelector('.edit');
             editBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 alert('edit button clicked');
             });
 
+			// Delete button click
             const deleteBtn = this.shadowRoot.querySelector('.delete');
             deleteBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -262,4 +276,5 @@ class RecipeCard extends HTMLElement {
     }
 }
 
+// Register the custom element
 customElements.define('recipe-card', RecipeCard);

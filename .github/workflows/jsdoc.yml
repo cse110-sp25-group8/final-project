@@ -2,9 +2,7 @@ name: Generate JSDoc
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: ["*"]
 
 jobs:
   generate-docs:
