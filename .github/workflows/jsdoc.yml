@@ -24,9 +24,12 @@ jobs:
         run: npx jsdoc -c jsdoc.json
 
       - name: Commit and Push updated docs/
+        env:
+          TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git remote set-url origin https://x-access-token:${TOKEN}@github.com/
           git add docs/
           git commit -m "chore: update JSDoc documentation [skip ci]" || echo "No changes to commit"
           git push

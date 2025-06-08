@@ -126,7 +126,7 @@ export class RecipeStore {
      * Synchronizes localStorage and IndexedDB to hold the equivalent recipe info.
      * @param {Object} recipe - The full recipe object to sync.
      * @param {string} mode - The sync mode: 'insert', 'update', or 'delete'.
-	 * @private
+     * @private
      */
     async syncToLocalStorage(recipe, mode) {
         const metadata = {
