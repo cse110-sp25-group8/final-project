@@ -1,5 +1,11 @@
 import { init } from '../../creating.js';
 
+/**
+ * This function builds the "Add Recipe" page layout.
+ * It creates a form with inputs for name, time, calories, ingredients, instructions, and image.
+ * @returns {HTMLElement} - The main element containing the form
+ */
+
 export default function () {
     const main = document.createElement('main');
     main.className = 'main-area';
