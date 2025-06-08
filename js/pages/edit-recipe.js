@@ -568,7 +568,9 @@ export default function () {
 
         // extension = file_name.split('.').pop();
 
-        if (recipe.image) {
+        console.log("recipe.image here: ", recipe.image)
+
+        if (recipe.image && recipe.image.size > 0) {
             const imgBlob = new Blob([recipe.image], { type: 'image/jpeg' });
             const imgUrl = URL.createObjectURL(imgBlob);
             photoPreview.src = imgUrl;
@@ -576,7 +578,15 @@ export default function () {
             removeButton.style.display = 'block';
             uploadButton.style.display = 'none';
             photoConstraint.style.display = 'none';
-        } 
+
+        } else {
+            photoPreview.src = '';
+            photoInput.value = '';
+            photoPreview.style.display = 'none';
+            removeButton.style.display = 'none';
+            photoConstraint.style.display = '';
+            uploadButton.style.display = 'block';
+        }
 
     });
 
