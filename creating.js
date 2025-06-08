@@ -23,10 +23,10 @@ function handleCreate() {
 
         // Populating Card Object
         let cardObject = {};
-        let currentIngredient = { 
-            quantity: '', 
+        let currentIngredient = {
+            quantity: '',
             units: 0,
-            name: ''     
+            name: ''
         };
 
         cardObject[INGREDIENTS_KEY] = [];
@@ -34,7 +34,7 @@ function handleCreate() {
         for (const [key, value] of formData) {
             // Handle recipe steps to be an array
             if (key.startsWith('step')) {
-                const instructionObject = { text : value };
+                const instructionObject = { text: value };
                 cardObject[INSTRUCTIONS_KEY].push(instructionObject);
             } else if (key.startsWith('ingredient')) {
                 // We will know we have THREE input fields for ingredients
@@ -48,7 +48,24 @@ function handleCreate() {
                     currentIngredient.name = value;
                     cardObject[INGREDIENTS_KEY].push(currentIngredient);
                 }
+            } else if (key === 'image') {
+                const doesRecipeExist = Number(formData.get('recipeId'));
+                const imageFile = formData.get('image');
+                
+                if (doesRecipeExist) {
+                    if (imageFile && imageFile.name) {
+                        // use new image 
+                        cardObject.image = value;
+                    } else {
+                        // get old image
+                        const oldImage = await RECIPE_STORE.getRecipeImageURL(doesRecipeExist);
+                        cardObject.image = oldImage;
+                    }
+                } else {
+                    cardObject.image = value;
+                }
             } else {
+
                 cardObject[key] = value;
             }
         }
@@ -58,12 +75,28 @@ function handleCreate() {
         cardObject[TOTAL_TIME_KEY] = totalTime;
 
         const recipeCard = document.createElement('recipe-card');
+        console.log('SETTING RECIPE CARD ELEMENT =');
+        console.log(cardObject);
         recipeCard.data = cardObject;
 
-        const currentId = await RECIPE_STORE.addRecipe(cardObject);
+        const recipeId = Number(formData.get('recipeId'));
+        console.log(recipeId);
+        if (recipeId) {
+            // Update existing recipe
+            console.log(">>>>>>>>> Editing recipe <<<<<<<<<<");
+            console.log(cardObject);
+            await RECIPE_STORE.updateRecipe(recipeId, cardObject);
+            console.log(">>>>>>>>> FINISH editing recipe <<<<<<<<<<");
+        } else {
+            // Add new recipe
+            console.log(">>> Adding recipe");
+            await RECIPE_STORE.addRecipe(cardObject);
+        }
+
+        console.log("AFTER COLLECTING FORM DATA");
         console.log(cardObject);
-        
-        location.hash = '#/';   
+
+        location.hash = '#/';
     });
 
 

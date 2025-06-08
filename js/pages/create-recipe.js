@@ -373,6 +373,7 @@ export default function () {
     photoPreview.className = 'photo-preview';
 
     const removeButton = document.createElement('button');
+    removeButton.type = 'button';
     removeButton.className = 'remove-btn';
     removeButton.textContent = '✖';
     removeButton.style.display = 'none';
