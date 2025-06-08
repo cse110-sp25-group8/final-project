@@ -3,8 +3,9 @@ import { RecipeStore } from './js/database/RecipeStore.js';
 const RECIPE_STORE = new RecipeStore();
 
 /**
- * C
+ * Initializes the recipe creation page and sets up form handling.
  */
+
 function init() {
     //populate main with recipe from local storage
     console.log('[init] running...');
@@ -12,7 +13,7 @@ function init() {
 }
 
 /**
- * Handles creation of recipe when create recipe form is submitted
+ * Handles form submission, builds recipe object, and saves it to storage.
  */
 function handleCreate() {
     const INSTRUCTIONS_KEY = 'recipeInstructions';

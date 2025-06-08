@@ -12,7 +12,13 @@ const RECIPE_STORE = new RecipeStore.RecipeStore();
  */
 
 class RecipeCard extends HTMLElement {
-    constructor() {
+	
+    /**
+     * Constructs a new RecipeCard custom element.
+     * Initializes shadow DOM and injects base HTML structure and styles.
+     */
+	
+	constructor() {
         super();
         this.attachShadow({ mode: 'open' });
 

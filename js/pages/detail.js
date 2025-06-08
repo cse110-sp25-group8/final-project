@@ -9,6 +9,11 @@ const RECIPE_STORE = new RecipeStore();
 
 document.body.classList.add('detail-page');
 
+/**
+ * This function builds the layout for viewing a recipe card
+ * It displays the ingredients, instructions, photo and timer for the recipe for desktop and mobile
+ * @returns {HTMLElement} - The layout HTMLElement for viewing the recipe card on the view page
+ */
 export default function () {
     const hash = location.hash;
     const params = new URLSearchParams(hash.split('?')[1]);
@@ -158,7 +163,9 @@ export default function () {
     clearBtn.id = 'timer-clear';
     clearBtn.textContent = 'Clear';
 
-    // reorders page elements to fit design for mobile devices
+    /**
+     * This function reorders page elements to fit design for mobile devices
+     */
     function mobileReorder() {
         const isPhone = window.innerWidth <= 600; // 600px is mobile width
         const mainContainer = document.querySelector('.detail-main');
@@ -219,6 +226,13 @@ export default function () {
     return layout;
 }
 
+/**
+ * This is an asynchronous function for loading the recipe details from the database
+ * @param {string} recipeId 
+ * @param {HTMLElement} recipeCard 
+ * @param {HTMLElement} ingredientsList 
+ * @param {HTMLElement} instructionsList 
+ */
 async function loadRecipeDetails(
     recipeId,
     recipeCard,

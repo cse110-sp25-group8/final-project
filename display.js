@@ -4,7 +4,7 @@ import { getAllMetadata } from './js/database/localStorageService.js';
 let recipes=[];
 
 /**
- * 
+ * Initializes the recipe view by loading metadata and displaying recipes.
  */
 function init() {
     // let recipes = getFromStorage();
@@ -12,7 +12,11 @@ function init() {
     displayRecipes(recipes);
    
 }
-
+/**
+ * Renders recipe cards in the main section.
+ * 
+ * @param {Array<Object>} recipes - Array of recipe metadata objects.
+ */
 function displayRecipes(recipes){
     const mainSection = document.querySelector('main');
     console.log('main elem: ', mainSection);
@@ -39,11 +43,13 @@ function displayRecipes(recipes){
         cardGrid.appendChild(addition);
     });
 
-  
-
-
 }
 
+/**
+ * Filters and displays recipes that include a specific ingredient.
+ * 
+ * @param {string} ingredient - Ingredient to filter recipes by.
+ */
 function displayFilteredRecipes(ingredient){
     const filtered=recipes.filter(recipe=>
         recipe.recipeIngredient && recipe.recipeIngredient.some(x => x.name.toLowerCase() === ingredient.toLowerCase())
@@ -54,6 +60,11 @@ function displayFilteredRecipes(ingredient){
 
 }
 
+/**
+ * (Unused) Gets recipe data from localStorage.
+ * 
+ * @returns {Array<Object>} Array of recipes or empty array if none found.
+ */
 function getFromStorage() {
     const cards = JSON.parse(localStorage.getItem('recipe'));
 

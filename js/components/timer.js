@@ -3,6 +3,8 @@ let intervalId = null;
 
 /**
  * Formats and updates the time display (HH:MM:SS)
+ * @param {HTMLElement} displayEl - The timer display HTMLElement
+ * @param {Number} totalSeconds - The total number of seconds to display
  */
 function updateDisplay(displayEl, totalSeconds) {
     const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');

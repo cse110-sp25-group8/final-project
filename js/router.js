@@ -7,7 +7,16 @@ const routes = {
     '/create': create,
     '/details': details,
 };
+/**
+ * @typedef {Object} routes
+ * @property {Function} '/' Route to home page
+ * @property {Function} '/create' Route to create a recipe page
+ * @property {Function} '/details' Route to viewing a recipe page
+ */
 
+/**
+ * This function renders the home page and reroutes to the correct pages through the URL
+ */
 function render() {
     const hash = location.hash.replace('#', '') || '/';
     const path = hash.split('?')[0];
@@ -24,6 +33,11 @@ function render() {
     app.appendChild(page());
 }
 
+/**
+ * This function reroutes to the details page(viewing the recipe).
+ * @param {string} id 
+ * @returns {null} returns nothing if recipe id is invalid
+ */
 export function renderCardDetails(id) {
     if (!id) {
         console.log('We couldn\'t route to the recipe:(');

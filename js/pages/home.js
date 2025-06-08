@@ -1,5 +1,9 @@
+// Import functions to initialize and display recipes
 import { init, displayFilteredRecipes } from '../../display.js';
 
+/**
+ *  Main exported function to render mobile-friendly filters and actions
+ */
 export default function () {
     requestAnimationFrame(() => {
         init();
@@ -9,11 +13,12 @@ export default function () {
     const headerSearch = document.querySelector('.top-nav .search-bar');
     const searchClone = headerSearch.cloneNode(true);
 
+    // Create a mobile-specific search/action container
     const mobileSearchActions = document.createElement('div');
     mobileSearchActions.className = 'mobile-search-actions';
     mobileSearchActions.appendChild(searchClone);
 
-    // small icons
+    // Create mobile action icons (shuffle, add)
     const mobileActions = document.createElement('div');
     mobileActions.className = 'mobile-actions';
 
@@ -28,15 +33,18 @@ export default function () {
     mobileActions.append(shuffleIcon, addIcon);
     mobileSearchActions.appendChild(mobileActions);
 
+    // Insert mobile UI just below the header
     const siteHeader = document.querySelector('.site-header');
     siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
 
+    // Create filter navigation section
     const section = document.createElement('section');
     section.className = 'sub-nav';
 
     const filters = document.createElement('ul');
     filters.className = 'filters';
 
+     // Add filter dropdowns
     const mealFilter = createFilter('filter1', 'Meal', [
         'Breakfast',
         'Lunch',
@@ -63,13 +71,14 @@ export default function () {
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
 
-    // main for card grid
+    // Main content area for recipe cards
     const main = document.createElement('main');
     section.appendChild(main);
 
     const actions = document.createElement('div');
     actions.className = 'actions';
-
+    
+     // Action buttons (shuffle and add)
     const shuffleBtn = document.createElement('button');
     shuffleBtn.className = 'btn-shuffle';
     shuffleBtn.textContent = 'Shuffle';
@@ -94,6 +103,13 @@ export default function () {
     return section;
 }
 
+/**
+ * Creates a dropdown filter based on an attribute of a recipe
+ * @param {string} name - Name of the filter
+ * @param {string} label - Type of filter
+ * @param {Array} options - Options in filter
+ * @returns {HTMLElement} - returns an HTMLElement containing a select tag for a filter
+ */
 function createFilter(name, label, options) {
     const li = document.createElement('li');
     const select = document.createElement('select');
@@ -118,6 +134,12 @@ function createFilter(name, label, options) {
     return li;
 }
 
+/**
+ * Creates the ingredient dropdown filter with search bar
+ * @param {string} name - Filter name
+ * @param {string} label - Label of filter
+ * @returns {HTMLElement} - returns an HTMLElement containing the ingredient filter with a search bar
+ */
 function createIngredientFilter(name, label) {
     const all = document.createElement('div');
 
@@ -214,7 +236,10 @@ function createIngredientFilter(name, label) {
         }
     });
 
-    // get Ingredient tags from the localStorage->recipeIngredient.name
+    /**
+     * This is an asynchronous function which grabs all the recipes from localStorage to make a list of all unique ingredients
+     * @returns {Array} - An Array of unique ingredients from all recipes in Local storage
+     */
     async function getIngredients() {
         const recipeMetadata = localStorage.getItem('recipe_metadata');
         if (!recipeMetadata) {return [];}
