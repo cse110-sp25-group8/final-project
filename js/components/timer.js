@@ -1,5 +1,9 @@
+// Keeps reference to the countdown so we can stop it later
 let intervalId = null;
 
+/**
+ * Formats and updates the time display (HH:MM:SS)
+ */
 function updateDisplay(displayEl, totalSeconds) {
     const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
     const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(
@@ -10,12 +14,16 @@ function updateDisplay(displayEl, totalSeconds) {
     displayEl.textContent = `${hrs}:${mins}:${secs}`;
 }
 
+/**
+ * Starts a countdown timer using input values (hours, minutes, seconds)
+ */
 export function startTimerFromInputs() {
     const h = parseInt(document.getElementById('hours')?.value) || 0;
     const m = parseInt(document.getElementById('minutes')?.value) || 0;
     const s = parseInt(document.getElementById('seconds')?.value) || 0;
     const total = h * 3600 + m * 60 + s;
-
+  
+    // Validate inputs
     if (h < 0 || m < 0 || s < 0 || h > 12 || m > 59 || s > 59) {
         alert(
             'Invalid timer input. Check hours, minutes, and seconds. Cannot exceed 12 hours total'
@@ -39,12 +47,13 @@ export function startTimerFromInputs() {
         return;
     }
 
-    clearInterval(intervalId);
+    clearInterval(intervalId); // Stop any previous timer
 
     let remaining = total;
     updateDisplay(display, remaining);
     progressCircle.style.strokeDashoffset = '0';
 
+    // Start countdown
     intervalId = setInterval(() => {
         remaining--;
 
@@ -61,6 +70,7 @@ export function startTimerFromInputs() {
         progressCircle.style.strokeDashoffset = offset;
     }, 1000);
 
+    // Clear input fields
     ['hours', 'minutes', 'seconds'].forEach((id) => {
         const input = document.getElementById(id);
         if (input) {
@@ -69,6 +79,9 @@ export function startTimerFromInputs() {
     });
 }
 
+/**
+ * Stops the timer and resets the display and progress circle
+ */
 export function clearTimer() {
     clearInterval(intervalId);
     intervalId = null;
@@ -83,6 +96,9 @@ export function clearTimer() {
     }
 }
 
+/**
+ * Updates the display and progress bar as the user types input
+ */
 export function updateTimerPreview() {
     const h = parseInt(document.getElementById('hours')?.value) || 0;
     const m = parseInt(document.getElementById('minutes')?.value) || 0;
