@@ -210,6 +210,39 @@ body {
     color: white;
 }
 
+.ingredient-dropdown-content {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.ingredient-dropdown-left {
+    flex: 1;
+  }
+  
+  .ingredient-dropdown-right {
+    border-left: 1px solid #ddd;
+    padding-left: 0.5rem;
+  }
+
+  .ingredient-dropdown-right.hidden {
+    display: none;
+}
+
+
+.ingredient-tags-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.ingredient-tag {
+    background-color: #eee;
+    border-radius: 999px;
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    gap: 0.3rem;
+}
+
 html,
 body {
     overflow-x: hidden;

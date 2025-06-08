@@ -162,6 +162,13 @@ function createIngredientFilter(name, label) {
     dropDown.className = 'ingredient-dropdown';
     dropDown.style.display = 'none';
 
+    const dropContent = document.createElement('div');
+    dropContent.className = 'ingredient-dropdown-content';
+    dropDown.appendChild(dropContent);
+
+    const leftSide = document.createElement('div');
+    leftSide.className = 'ingredient-dropdown-left';
+
     const searchBar = document.createElement('input');
     searchBar.type = 'text';
     searchBar.placeholder = 'Search Ingredients';
@@ -172,13 +179,20 @@ function createIngredientFilter(name, label) {
     resultsContainer.className = 'ingredient-results-container';
     resultsContainer.style.listStyle = 'none';
 
+    leftSide.appendChild(searchBar);
+    leftSide.appendChild(resultsContainer);
+
+    const rightSide = document.createElement('div');
+    rightSide.className = 'ingredient-dropdown-right hidden';
+
     // container for selected tags
     const selectedTagsContainer = document.createElement('div');
     selectedTagsContainer.className = 'ingredient-tags-container';
+    rightSide.appendChild(selectedTagsContainer);
 
-    dropDown.appendChild(searchBar);
-    dropDown.appendChild(resultsContainer);
-    dropDown.appendChild(selectedTagsContainer);
+    dropContent.appendChild(leftSide);
+    dropContent.appendChild(rightSide);
+    dropDown.appendChild(dropContent);
 
     // prevent clicks inside dropdown from closing it
     dropDown.addEventListener('click', (e) => {
@@ -244,11 +258,15 @@ function createIngredientFilter(name, label) {
                 itemList.classList.remove('selected');
             }
             tag.remove();
+            if (selectedIngredients.size === 0) {
+                rightSide.classList.add('hidden');
+            }
             displayFilteredRecipes(Array.from(selectedIngredients));
         });
         tag.appendChild(tagText);
         tag.appendChild(removeButton);
         selectedTagsContainer.appendChild(tag);
+        rightSide.classList.remove('hidden');
         displayFilteredRecipes(Array.from(selectedIngredients));
     }
 
@@ -260,6 +278,9 @@ function createIngredientFilter(name, label) {
         if (tag) {
             selectedIngredients.delete(opt);
             tag.remove();
+            if (selectedIngredients.size === 0) {
+                rightSide.classList.add('hidden');
+            }
             displayFilteredRecipes(Array.from(selectedIngredients));
         }
     }
