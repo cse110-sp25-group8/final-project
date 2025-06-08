@@ -29,7 +29,7 @@ jobs:
         run: |
           git config user.name "shash31"
           git config user.email "sdudeja@ucsd.edu"
-          git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
           git add docs/
           git commit -m "chore: update JSDoc documentation [skip ci]" || echo "No changes to commit"
           git push
