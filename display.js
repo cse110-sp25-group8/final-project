@@ -3,6 +3,9 @@ import { getAllMetadata } from './js/database/localStorageService.js';
 
 let recipes=[];
 
+/**
+ * 
+ */
 function init() {
     // let recipes = getFromStorage();
     recipes = getAllMetadata();

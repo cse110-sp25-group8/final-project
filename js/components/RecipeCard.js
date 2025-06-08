@@ -2,6 +2,11 @@ import { RecipeStore } from '../database/RecipeStore.js';
 import { renderCardDetails } from '../router.js';
 const RECIPE_STORE = new RecipeStore();
 
+/**
+ * Custom Web Component that displays a recipe card with image, title,
+ * time, calories, and action buttons for edit, delete, and favorite.
+ */
+
 class RecipeCard extends HTMLElement {
     constructor() {
         super();

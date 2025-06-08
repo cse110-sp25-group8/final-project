@@ -3,7 +3,7 @@ import { RecipeStore } from './js/database/RecipeStore.js';
 const RECIPE_STORE = new RecipeStore();
 
 /**
- * Initializes recipes from local storage
+ * C
  */
 function init() {
     //populate main with recipe from local storage
@@ -11,6 +11,9 @@ function init() {
     handleCreate();
 }
 
+/**
+ * Handles creation of recipe when create recipe form is submitted
+ */
 function handleCreate() {
     const INSTRUCTIONS_KEY = 'recipeInstructions';
     const INGREDIENTS_KEY = 'recipeIngredient';
