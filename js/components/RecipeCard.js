@@ -165,7 +165,7 @@ class RecipeCard extends HTMLElement {
         this.shadowRoot.appendChild(styleElement);
     }
 
-	/**
+    /**
      * Sets recipe data and fills the card with info and buttons.
      * @param {Object} data - Recipe details like name, time, etc.
      */
@@ -229,14 +229,14 @@ class RecipeCard extends HTMLElement {
             const starBtn = this.shadowRoot.querySelector('.star-btn');
             const starImg = this.shadowRoot.querySelector('.star-img');
 
-			// Show/hide dropdown
+            // Show/hide dropdown
             menuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 dropdown.style.display =
                     dropdown.style.display === 'flex' ? 'none' : 'flex';
             });
 
-			// Hide dropdown if clicked outside
+            // Hide dropdown if clicked outside
             this.shadowRoot.addEventListener('click', (e) => {
                 const isInsideMenuBtn = menuBtn.contains(e.target);
                 const isInsideDropdown = dropdown.contains(e.target);
@@ -246,7 +246,7 @@ class RecipeCard extends HTMLElement {
                 }
             });
             
-			// Toggle favorite star
+            // Toggle favorite star
             starBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
 
@@ -257,14 +257,14 @@ class RecipeCard extends HTMLElement {
                 }
             });
             
-			// Edit button click
+            // Edit button click
             const editBtn = this.shadowRoot.querySelector('.edit');
             editBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 alert('edit button clicked');
             });
 
-			// Delete button click
+            // Delete button click
             const deleteBtn = this.shadowRoot.querySelector('.delete');
             deleteBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
