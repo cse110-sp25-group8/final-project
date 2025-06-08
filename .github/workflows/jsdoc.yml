@@ -1,0 +1,35 @@
+name: Generate JSDoc
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate JSDoc
+        run: npx jsdoc -c jsdoc.json -r -d docs
+
+      - name: Commit and Push updated docs/
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/
+          git commit -m "chore: update JSDoc documentation [skip ci]" || echo "No changes to commit"
+          git push
+

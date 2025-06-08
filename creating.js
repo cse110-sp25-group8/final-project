@@ -2,6 +2,9 @@ import { RecipeStore } from './js/database/RecipeStore.js';
 
 const RECIPE_STORE = new RecipeStore();
 
+/**
+ * Initializes recipes from local storage
+ */
 function init() {
     //populate main with recipe from local storage
     console.log('[init] running...');
