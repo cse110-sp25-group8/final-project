@@ -177,7 +177,7 @@ body {
 }
 
 /* Mobile layout */
-@media (max-width: 600px) {
+@media (max-width: 920px) {
   .mobile-search-actions {
     display: flex;
     align-items: center;
@@ -268,19 +268,18 @@ body {
 
 }
 
-@media (max-width: 400px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 
 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   padding: 20px 40px;
-  row-gap: 20px;
+  justify-content: start;
+}
+
+.card-grid recipe-card {
+  flex: 1 1 225px;
+  max-width: 250px;
 }
 
 .darkmode-toggle {

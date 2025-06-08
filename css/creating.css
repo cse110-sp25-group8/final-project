@@ -40,6 +40,8 @@
     justify-content: center;
     align-items: flex-start;
     padding: 40px 0;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .left-side {
@@ -225,9 +227,10 @@ fieldset {
     background-color: #dd4a4a;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 920px) {
     .parent {
         flex-direction: column;
+        align-items: center;
         padding: 1rem;
         gap: 0.2rem;
     }
@@ -240,7 +243,8 @@ fieldset {
     .right-side {
         display: flex;
         flex-direction: column;
-
+        align-self: center;
+        max-width: 100%;
     }
 
     .right-side .button-group {
@@ -253,6 +257,10 @@ fieldset {
     .right-side .labeling,
     .right-side .photo-box {
         order: 0;
+    }
+
+    .photo-box {
+        width: 100%;
     }
 }
 
