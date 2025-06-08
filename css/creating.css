@@ -146,7 +146,8 @@ fieldset {
 .photo-box {
     width: min(400px, 90vw);
     height: 270px;
-    background-color: #C0BFBF;
+    background-color: transparent;
+    border: 0.15rem dashed var(--color-text);
     display: flex;
     flex-direction: column;
     align-items: center;
