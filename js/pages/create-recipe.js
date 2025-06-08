@@ -35,38 +35,6 @@ export default function () {
 
     nameField.append(nameLabel, nameInput);
 
-    // Meal label selection
-    const calField = document.createElement('fieldset');
-    calField.className = 'boxes';
-    const mealTypeField = document.createElement('fieldset');
-    calField.className = 'boxes';
-
-    const mealLabel = document.createElement('label');
-    mealLabel.className = 'labeling';
-    mealLabel.textContent = 'Meal type';
-    const mealSelect = document.createElement('select');
-    const mealSelection = createOption('recipeCategory', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
-
-    mealTypeField.append(mealLabel, mealSelection);
-
-    // Recipe labels row
-    const labelRowWrapper = document.createElement('div');
-    labelRowWrapper.className = 'rows';
-
-    // Cuisine label selection
-    const cuisineField = document.createElement('fieldset');
-    calField.className = 'boxes';
-
-    const cuisineLabel = document.createElement('label');
-    cuisineLabel.className = 'labeling';
-    cuisineLabel.textContent = 'Cuisine type';
-    const cuisineSelect = document.createElement('select');
-    const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern', 'North American']);
-
-    cuisineField.append(cuisineLabel, cuisineSelection);
-
-    labelRowWrapper.append(mealTypeField, cuisineField);
-
 
     // Ingredients
     const ingredientField = document.createElement('fieldset');
@@ -108,7 +76,7 @@ export default function () {
         return dropdown;
     }
 
-    let ingredientCount = 1;
+    let ingredientCount = 2;
 
     function createIngredientItem() {
         const li = document.createElement('li');
@@ -119,9 +87,11 @@ export default function () {
 
         const quantityInput = document.createElement('input');
         quantityInput.name = 'ingredient-quantity';
-        quantityInput.type = 'number';
+        quantityInput.type = 'text';
         quantityInput.className = 'ingredient-quantity';
         quantityInput.placeholder = 'Quantity of ingredient(s)';
+        quantityInput.min = 0;
+        quantityInput.max = 10000;
 
         // const unitDropdown = document.createElement('select');
         // unitDropdown.placeholder = 'unit';
@@ -135,6 +105,7 @@ export default function () {
         ingredientNameInput.className = 'ingredient-name';
         ingredientNameInput.type = 'text';
         ingredientNameInput.placeholder = 'Name of ingredient';
+        ingredientNameInput.required = true;
 
         const del = document.createElement('button');
         del.className = 'delete-button';
@@ -147,7 +118,12 @@ export default function () {
         del.appendChild(trash);
 
         del.addEventListener('click', () => {
-            ingredientList.removeChild(li);
+            if (ingredientList.children.length > 1) {
+                ingredientList.removeChild(li);
+            }
+            else {
+                alert("At least one ingredient is required.")
+            }
         });
 
         // currIngredientRow.append(quantityInput, unitDropdown, ingredientNameInput, del);
@@ -181,12 +157,12 @@ export default function () {
 
     const instrLabel = document.createElement('label');
     instrLabel.className = 'labeling';
-    instrLabel.textContent = 'Instructions';
+    instrLabel.innerHTML = 'Instructions <span class="red-text">*</span>';
 
     const instrList = document.createElement('ul');
     instrList.id = 'instruction-list';
 
-    let stepCount = 1;
+    let stepCount = 2;
 
     function createInstructionItem(stepNum) {
         const li = document.createElement('li');
@@ -217,7 +193,12 @@ export default function () {
         del.appendChild(trash);
 
         del.addEventListener('click', () => {
-            instrList.removeChild(li);
+            if (instrList.children.length > 1) {
+                instrList.removeChild(li);
+            }
+            else {
+                alert("At least one instruction is required.")
+            }
         });
 
         li.append(drag, input, del);
@@ -334,8 +315,8 @@ export default function () {
 
     // Assemble left side
     // mealLabel, mealSelection, cuisineLabel, cuisineSelection
-    // formToFill.append(nameField, timeRowWrapper, labelRowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField); 
-    formToFill.append(nameField, labelRowWrapper, ingredientField, instrField);
+    // formToFill.append(nameField, timeRowWrapper, labelRowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
+    formToFill.append(nameField, ingredientField, instrField);
     left.append(heading, formToFill);
 
     // Right Side
@@ -373,7 +354,6 @@ export default function () {
     photoPreview.className = 'photo-preview';
 
     const removeButton = document.createElement('button');
-    removeButton.type = 'button';
     removeButton.className = 'remove-btn';
     removeButton.textContent = '✖';
     removeButton.style.display = 'none';
@@ -428,7 +408,7 @@ export default function () {
 
     const prepTimeLabel = document.createElement('label');
     prepTimeLabel.className = 'labeling';
-    prepTimeLabel.textContent = 'Prep Time';
+    prepTimeLabel.textContent = 'Time to prep';
 
     const prepTimeInput = document.createElement('input');
     prepTimeInput.className = 'input-text';
@@ -436,6 +416,8 @@ export default function () {
     prepTimeInput.id = 'time-prep';
     prepTimeInput.type = 'number';
     prepTimeInput.min = 0;
+    prepTimeInput.max = 999;
+    prepTimeInput.step = 1;
     prepTimeInput.value = 0;
 
     const prepTimeRow = document.createElement('div');
@@ -450,21 +432,27 @@ export default function () {
 
     const cookTimeLabel = document.createElement('label');
     cookTimeLabel.className = 'labeling';
-    cookTimeLabel.innerHTML = 'Cook Time <span class="red-text">*</span>';
+    cookTimeLabel.innerHTML = 'Time to cook <span class="red-text">*</span>';
 
     const cookTimeInput = document.createElement('input');
     cookTimeInput.className = 'input-text';
-    cookTimeInput.name = 'cookTime';
+    cookTimeInput.name = 'cookTime';    
     cookTimeInput.id = 'time-cook';
     cookTimeInput.type = 'number';
+    cookTimeInput.required = true;
     cookTimeInput.min = 0;
-    cookTimeInput.value = 0;
+    cookTimeInput.max = 999;
+    cookTimeInput.step = 1;
+    cookTimeInput.required = true;
 
     const cookTimeRow = document.createElement('div');
     cookTimeRow.className = 'rows';
 
     cookTimeRow.append(cookTimeInput, timeUnit);
     cookTimeField.append(cookTimeLabel, cookTimeRow);
+
+    const calField = document.createElement('fieldset');
+    calField.className = 'boxes';
 
     const calLabel = document.createElement('label');
     calLabel.className = 'labeling';
@@ -479,6 +467,8 @@ export default function () {
     calInput.id = 'calories';
     calInput.type = 'number';
     calInput.min = 0;
+    calInput.max = 10000;
+    calInput.step = 1;
     calInput.value = 0;
 
     const calUnit = document.createElement('span');
@@ -489,6 +479,35 @@ export default function () {
     calField.append(calLabel, calRow);
 
     timeRowWrapper.append(prepTimeField, cookTimeField, calField);
+    // Recipe labels row
+    const labelRowWrapper = document.createElement('div');
+    labelRowWrapper.className = 'rows';
+
+    // Meal label selection
+    const mealTypeField = document.createElement('fieldset');
+    calField.className = 'boxes';
+
+    const mealLabel = document.createElement('label');
+    mealLabel.className = 'labeling';
+    mealLabel.textContent = 'Meal type';
+    const mealSelect = document.createElement('select');
+    const mealSelection = createOption('recipeCategory', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
+
+    mealTypeField.append(mealLabel, mealSelection);
+
+    // Cuisine label selection
+    const cuisineField = document.createElement('fieldset');
+    calField.className = 'boxes';
+
+    const cuisineLabel = document.createElement('label');
+    cuisineLabel.className = 'labeling';
+    cuisineLabel.textContent = 'Cuisine type';
+    const cuisineSelect = document.createElement('select');
+    const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern', 'North American']);
+
+    cuisineField.append(cuisineLabel, cuisineSelection);
+
+    labelRowWrapper.append(mealTypeField, cuisineField);
 
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'button-group';
@@ -498,6 +517,10 @@ export default function () {
     saveBtn.className = 'Button';
     saveBtn.id = 'save';
     saveBtn.textContent = 'Save Recipe';
+    // saveBtn.addEventListener('click', () => {
+    //     location.hash = '#/';
+    // });
+
 
     const cancelBtn = document.createElement('button');
     cancelBtn.type = 'button';
@@ -509,7 +532,7 @@ export default function () {
     });
 
     buttonGroup.append(saveBtn, cancelBtn);
-    right.append(timeRowWrapper, photoLabel, photoBox, buttonGroup);
+    right.append(labelRowWrapper, timeRowWrapper, photoLabel, photoBox, buttonGroup);
 
     // Final Assembly
     parent.append(left, right);

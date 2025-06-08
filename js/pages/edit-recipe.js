@@ -105,9 +105,12 @@ export default function () {
 
         const quantityInput = document.createElement('input');
         quantityInput.name = 'ingredient-quantity';
-        quantityInput.type = 'number';
+        quantityInput.type = 'text';
         quantityInput.className = 'ingredient-quantity';
         quantityInput.placeholder = 'Quantity of ingredient(s)';
+        quantityInput.min = 0;
+        quantityInput.max = 10000;
+        quantityInput.required = true;
 
         // const unitDropdown = document.createElement('select');
         // unitDropdown.placeholder = 'unit';
@@ -121,6 +124,7 @@ export default function () {
         ingredientNameInput.className = 'ingredient-name';
         ingredientNameInput.type = 'text';
         ingredientNameInput.placeholder = 'Name of ingredient';
+        ingredientNameInput.required = true;
 
         const del = document.createElement('button');
         del.className = 'delete-button';
@@ -133,7 +137,12 @@ export default function () {
         del.appendChild(trash);
 
         del.addEventListener('click', () => {
-            ingredientList.removeChild(li);
+            if (ingredientList.children.length > 1) {
+                ingredientList.removeChild(li);
+            }
+            else {
+                alert("At least one ingredient is required.")
+            }
         });
 
         // currIngredientRow.append(quantityInput, unitDropdown, ingredientNameInput, del);
@@ -167,7 +176,7 @@ export default function () {
 
     const instrLabel = document.createElement('label');
     instrLabel.className = 'labeling';
-    instrLabel.textContent = 'Instructions';
+    instrLabel.innerHTML = 'Instructions <span class="red-text">*</span>';
 
     const instrList = document.createElement('ul');
     instrList.id = 'instruction-list';
@@ -203,7 +212,12 @@ export default function () {
         del.appendChild(trash);
 
         del.addEventListener('click', () => {
-            instrList.removeChild(li);
+            if (instrList.children.length > 1) {
+                instrList.removeChild(li);
+            }
+            else {
+                alert("At least one instruction is required.")
+            }
         });
 
         li.append(drag, input, del);
@@ -422,7 +436,9 @@ export default function () {
     prepTimeInput.id = 'time-prep';
     prepTimeInput.type = 'number';
     prepTimeInput.min = 0;
+    prepTimeInput.max = 999;
     prepTimeInput.value = 0;
+    prepTimeInput.step = 1;
 
     const prepTimeRow = document.createElement('div');
     prepTimeRow.className = 'rows';
@@ -444,7 +460,9 @@ export default function () {
     cookTimeInput.id = 'time-cook';
     cookTimeInput.type = 'number';
     cookTimeInput.min = 0;
-    cookTimeInput.value = 0;
+    cookTimeInput.max = 999;
+    cookTimeInput.step = 1;
+    cookTimeInput.required = true;
 
     const cookTimeRow = document.createElement('div');
     cookTimeRow.className = 'rows';
@@ -468,6 +486,8 @@ export default function () {
     calInput.id = 'calories';
     calInput.type = 'number';
     calInput.min = 0;
+    calInput.max = 10000;
+    calInput.step = 1;
     calInput.value = 0;
 
     const calUnit = document.createElement('span');
