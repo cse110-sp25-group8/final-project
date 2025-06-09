@@ -1,4 +1,11 @@
-import { init, displayFilteredRecipes, FilterByMealType, FilterByCuisine, FilterByTime} from '../../display.js';
+import {
+    init,
+    displayFilteredRecipes,
+    FilterByMealType,
+    FilterByCuisine,
+    FilterByTime,
+    FilterByFavorite,
+} from '../../display.js';
 
 export default function () {
     requestAnimationFrame(() => {
@@ -46,18 +53,16 @@ export default function () {
         'Beverage',
     ]);
 
-    const selectedMeal=mealFilter.querySelector('select');
+    const selectedMeal = mealFilter.querySelector('select');
 
-    selectedMeal.addEventListener('change', (e) =>{
-        const currMeal=e.target.value;
-        if(currMeal==''){
+    selectedMeal.addEventListener('change', (e) => {
+        const currMeal = e.target.value;
+        if (currMeal == '') {
             init();
-        }else{
+        } else {
             FilterByMealType(currMeal);
         }
-       
-       
-    })
+    });
 
     const cuisineFilter = createFilter('filter2', 'Cuisine', [
         'African',
@@ -68,35 +73,38 @@ export default function () {
         'North American',
     ]);
 
-    const selectedCuisine=cuisineFilter.querySelector('select');
+    const selectedCuisine = cuisineFilter.querySelector('select');
 
-    selectedCuisine.addEventListener('change', (e) =>{
-        const currCuisine=e.target.value;
-        if(currCuisine==''){
+    selectedCuisine.addEventListener('change', (e) => {
+        const currCuisine = e.target.value;
+        if (currCuisine == '') {
             init();
-        }else{
+        } else {
             FilterByCuisine(currCuisine);
         }
-    })
+    });
     const timeFilter = createFilter('filter3', 'Estimated Time', [
         'Under 30 minutes',
         'Under 1 Hour',
         'Over 1 Hour',
     ]);
-    
-    const time=timeFilter.querySelector('select');
 
-    time.addEventListener('change', (e) =>{
-        const currTime=e.target.value;
-        if(currTime==''){
+    const time = timeFilter.querySelector('select');
+
+    time.addEventListener('change', (e) => {
+        const currTime = e.target.value;
+        if (currTime == '') {
             init();
-        }else{
+        } else {
             FilterByTime(currTime);
         }
-    })
+    });
 
     const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
+    document.querySelector('.btn-favorite').addEventListener('click', () => {
+        FilterByFavorite();
+    });
 
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
@@ -108,7 +116,6 @@ export default function () {
     const actions = document.createElement('div');
     actions.className = 'actions';
 
-
     const addBtn = document.createElement('button');
     addBtn.className = 'btn-add';
     addBtn.textContent = 'Add Recipe Card';
@@ -116,7 +123,7 @@ export default function () {
         location.hash = '#/create';
     });
 
-    actions.append( addBtn);
+    actions.append(addBtn);
     section.append(actions);
 
     // mobile icons have same functionality as "normal" action buttons
@@ -148,8 +155,6 @@ function createFilter(name, label, options) {
     li.appendChild(select);
     return li;
 }
-
-
 
 function createIngredientFilter(name, label) {
     const all = document.createElement('div');
@@ -246,7 +251,7 @@ function createIngredientFilter(name, label) {
         // This is for the making the tag as symbol, handles the click to remove event as well
         const removeButton = document.createElement('button');
         // 'x' symbol / html entities
-        removeButton.innerHTML = '&times;'; 
+        removeButton.innerHTML = '&times;';
         removeButton.addEventListener('click', function (event) {
             event.stopPropagation();
             selectedIngredients.delete(opt);
@@ -273,7 +278,7 @@ function createIngredientFilter(name, label) {
     function removeTag(opt) {
         const tag = selectedTagsContainer.querySelector(
             // this is the format of how data-value is being assigned
-            `.ingredient-tag[data-value="${opt}"]` 
+            `.ingredient-tag[data-value="${opt}"]`
         );
         if (tag) {
             selectedIngredients.delete(opt);

@@ -10,7 +10,6 @@ function init() {
 }
 
 function displayRecipes(recipes) {
-    console.log(recipes);
     const mainSection = document.querySelector('main');
 
     let cardGrid = mainSection.querySelector('.card-grid');
@@ -29,77 +28,65 @@ function displayRecipes(recipes) {
     recipes.forEach((recipe) => {
         const addition = document.createElement('recipe-card');
         addition.data = recipe;
-        console.log(addition.data);
         cardGrid.appendChild(addition);
     });
 }
 
-function FilterByMealType(type){
-    if (type=="Meal"){
+function FilterByMealType(type) {
+    if (type == 'Meal') {
         return displayRecipes(recipes);
     }
 
-    const filtered=recipes.filter(
+    const filtered = recipes.filter(
         (recipe) =>
-            recipe.recipeCategory && 
-            recipe.recipeCategory.toLowerCase()==type.toLowerCase()
+            recipe.recipeCategory &&
+            recipe.recipeCategory.toLowerCase() == type.toLowerCase()
     );
-   
     displayRecipes(filtered);
 }
 
-function FilterByCuisine(cuisine){
-    console.log(cuisine);
-    if(cuisine==="Cuisine"){
-        console.log(cuisine);
+function FilterByCuisine(cuisine) {
+    if (cuisine === 'Cuisine') {
         return displayRecipes(recipes);
     }
 
-    const filtered=recipes.filter(
+    const filtered = recipes.filter(
         (recipe) =>
-            recipe.recipeCuisine && 
-            recipe.recipeCuisine.toLowerCase()==cuisine.toLowerCase()
+            recipe.recipeCuisine &&
+            recipe.recipeCuisine.toLowerCase() == cuisine.toLowerCase()
     );
-   
     displayRecipes(filtered);
 }
 
-function FilterByTime(mins){
-    if(mins=="Estimated Time"){
-        displayRecipes(recipes);
+function FilterByTime(mins) {
+    if (mins == 'Estimated Time') {
+        return displayRecipes(recipes);
     }
 
-    console.log(mins);
-    let filtered=[];
+    let filtered = [];
 
-    if (mins=="Under 30 minutes"){
-        filtered=recipes.filter(
-        (recipe) =>
-            recipe.totalTime && 
-            parseInt(recipe.totalTime)<30
+    if (mins == 'Under 30 minutes') {
+        filtered = recipes.filter(
+            (recipe) => recipe.totalTime && parseInt(recipe.totalTime) < 30
         );
-    }else if (mins=="Under 1 Hour"){
-        filtered=recipes.filter(
-        (recipe) =>
-            recipe.totalTime && 
-            parseInt(recipe.totalTime)<60
+    } else if (mins == 'Under 1 Hour') {
+        filtered = recipes.filter(
+            (recipe) => recipe.totalTime && parseInt(recipe.totalTime) < 60
         );
-    }else if (mins=="Over 1 Hour"){
-        console.log("here")
-        filtered=recipes.filter(
-        (recipe) =>
-            recipe.totalTime && 
-            parseInt(recipe.totalTime)>60
+    } else if (mins == 'Over 1 Hour') {
+        filtered = recipes.filter(
+            (recipe) => recipe.totalTime && parseInt(recipe.totalTime) > 60
         );
     }
-   
-    console.log("After", filtered);
     displayRecipes(filtered);
 }
 
+function FilterByFavorite() {
+    const filtered = recipes.filter((recipe) => recipe.isFavorite === true);
+    displayRecipes(filtered);
+}
 
 function displayFilteredRecipes(ingredients) {
-
     if (!ingredients || ingredients.length == 0) {
         displayRecipes(recipes);
         return;
@@ -114,8 +101,14 @@ function displayFilteredRecipes(ingredients) {
                 )
             )
     );
-
     displayRecipes(filtered);
 }
 
-export { init, displayFilteredRecipes, FilterByMealType, FilterByCuisine, FilterByTime };
+export {
+    init,
+    displayFilteredRecipes,
+    FilterByMealType,
+    FilterByCuisine,
+    FilterByTime,
+    FilterByFavorite,
+};
