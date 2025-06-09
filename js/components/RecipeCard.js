@@ -193,10 +193,14 @@ class RecipeCard extends HTMLElement {
                 renderCardDetails(data.id);
             });
 
+            const starImgSrc = data.isFavorite
+                ? '../assets/coloredStar.svg'
+                : '../assets/star.svg';
+
             article.innerHTML = `
 				<div class="pic-box">
 					<button class="star-btn">
-						<img src="../assets/star.svg" alt="star" class="star-img">
+						<img src="${starImgSrc}" alt="star" class="star-img">
 					</button>
 					<!-- <img src="${imageURL}" alt="${data.name}"> -->
 					<button class="menu-btn">
@@ -251,15 +255,41 @@ class RecipeCard extends HTMLElement {
                     dropdown.style.display = 'none';
                 }
             });
+
             
             // Toggle favorite star
-            starBtn.addEventListener('click', (e) => {
+            starBtn.addEventListener('click', async (e) => {
+
                 e.stopPropagation();
 
-                if (starImg.src.endsWith('star.svg')) {
+                // toggle the favorite status
+                const newFavoriteStatus = !data.isFavorite;
+                if (newFavoriteStatus) {
                     starImg.src = '../assets/coloredStar.svg';
                 } else {
                     starImg.src = '../assets/star.svg';
+                }
+
+                data.isFavorite = newFavoriteStatus;
+                try {
+                    // update in localStorage using the localStorageService
+                    const fetchAllMeta =
+                        JSON.parse(localStorage.getItem('recipe_metadata')) ||
+                        [];
+                    const recipeIndex = fetchAllMeta.findIndex(
+                        (recipe) => recipe.id === data.id
+                    );
+
+                    if (recipeIndex >= 0) {
+                        fetchAllMeta[recipeIndex].isFavorite =
+                            newFavoriteStatus;
+                        localStorage.setItem(
+                            'recipe_metadata',
+                            JSON.stringify(fetchAllMeta)
+                        );
+                    }
+                } catch (error) {
+                    console.error('Failed to update favorite status:', error);
                 }
             });
             
