@@ -110,7 +110,7 @@ describe('localStorageService function testing', () => {
                 recipeCategory: 'Breakfast',
                 recipeCuisine: 'American',
                 estimatedTime: 20,
-                recipeIngredients: [{ name: 'flour' }, { name: 'eggs' }],
+                recipeIngredient: [{ name: 'flour' }, { name: 'eggs' }],
                 calories: 400,
             },
             {
@@ -120,7 +120,7 @@ describe('localStorageService function testing', () => {
                 recipeCategory: 'Lunch',
                 recipeCuisine: 'Asian',
                 estimatedTime: 40,
-                recipeIngredients: [{ name: 'Sugar' }, { name: 'Rice' }],
+                recipeIngredient: [{ name: 'Sugar' }, { name: 'Rice' }],
             },
             {
                 id: 3,
@@ -129,7 +129,7 @@ describe('localStorageService function testing', () => {
                 recipeCategory: 'Dinner',
                 recipeCuisine: 'Mexican',
                 estimatedTime: 100,
-                recipeIngredients: [{ name: 'flour' }, { name: 'shrimp' }],
+                recipeIngredient: [{ name: 'flour' }, { name: 'shrimp' }],
             },
         ];
 
@@ -229,38 +229,83 @@ describe('localStorageService function testing', () => {
             const recipe3 = initialData[2]; // 100 minutes
 
             // testing '<30mins' filter
-            expect(matchFilters(recipe1, { estimatedTime: '<30mins' })).toBe(
-                true
-            );
-            expect(matchFilters(recipe2, { estimatedTime: '<30mins' })).toBe(
-                false
-            );
-            expect(matchFilters(recipe3, { estimatedTime: '<30mins' })).toBe(
-                false
-            );
+            expect(
+                matchFilters(recipe1, { timeRange: 'Under 30 minutes' })
+            ).toBe(true);
+            expect(
+                matchFilters(recipe2, { timeRange: 'Under 30 minutes' })
+            ).toBe(false);
+            expect(
+                matchFilters(recipe3, { timeRange: 'Under 30 minutes' })
+            ).toBe(false);
 
             // testing '<=1hr' filter
-            expect(matchFilters(recipe1, { estimatedTime: '<=1hr' })).toBe(
+            expect(matchFilters(recipe1, { timeRange: 'Under 1 Hour' })).toBe(
                 true
             );
-            expect(matchFilters(recipe2, { estimatedTime: '<=1hr' })).toBe(
+            expect(matchFilters(recipe2, { timeRange: 'Under 1 Hour' })).toBe(
                 true
             );
-            expect(matchFilters(recipe3, { estimatedTime: '<=1hr' })).toBe(
+            expect(matchFilters(recipe3, { timeRange: 'Under 1 Hour' })).toBe(
                 false
             );
 
             // testing '>1hr' filter
-            expect(matchFilters(recipe1, { estimatedTime: '>1hr' })).toBe(
+            expect(matchFilters(recipe1, { timeRange: 'Over 1 Hour' })).toBe(
                 false
             );
-            expect(matchFilters(recipe2, { estimatedTime: '>1hr' })).toBe(
+            expect(matchFilters(recipe2, { timeRange: 'Over 1 Hour' })).toBe(
                 false
             );
-            expect(matchFilters(recipe3, { estimatedTime: '>1hr' })).toBe(true); // 100 > 60
+            expect(matchFilters(recipe3, { timeRange: 'Over 1 Hour' })).toBe(
+                true
+            ); // 100 > 60
         });
 
-        it('shows recipe filtered by recipeIngredient', () => {});
+        it('shows recipe filtered by recipeIngredient', () => {
+            const recipe1 = initialData[0]; // flour, eggs
+            const recipe2 = initialData[1]; // sugar, rice
+            const recipe3 = initialData[2]; // flour, shrimp
+
+            // testing recipe1
+            expect(matchFilters(recipe1, { recipeIngredient: 'flour' })).toBe(
+                true
+            );
+            expect(matchFilters(recipe1, { recipeIngredient: 'eggs' })).toBe(
+                true
+            );
+            expect(matchFilters(recipe1, { recipeIngredient: 'shrimp' })).toBe(
+                false
+            );
+            expect(
+                matchFilters(recipe1, { recipeIngredient: ['flour', 'sugar'] })
+            ).toBe(true);
+            expect(matchFilters(recipe1, { recipeIngredient: ['FLOUR'] })).toBe(
+                true
+            ); // case insensitivity
+
+            // testing recipe2
+            expect(matchFilters(recipe2, { recipeIngredient: 'sugar' })).toBe(
+                true
+            );
+            expect(matchFilters(recipe2, { recipeIngredient: 'rice' })).toBe(
+                true
+            );
+            expect(
+                matchFilters(recipe2, { recipeIngredient: ['SUGAR', 'RICE'] })
+            ).toBe(true); // case insensitivity
+
+            // testing recipe3
+            expect(matchFilters(recipe3, { recipeIngredient: 'flour' })).toBe(
+                true
+            );
+            expect(matchFilters(recipe3, { recipeIngredient: 'shrimp' })).toBe(
+                true
+            );
+            expect(
+                matchFilters(recipe3, { recipeIngredient: ['shrimp', 'rice'] })
+            ).toBe(true);
+        });
 
         it('shows recipe filtered by multiple filters (isFavorite, recipeCategory, recipeCusine)', () => {
             const recipe1 = initialData[0]; // Favorite, Breakfast, American
