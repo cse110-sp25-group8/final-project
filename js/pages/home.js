@@ -25,8 +25,8 @@ export default function () {
         const addIcon = document.createElement('button');
         addIcon.id = 'add-icon';
         addIcon.textContent = '➕';
-
-        mobileActions.append(addIcon);
+        
+        mobileActions.append(shuffleIcon, addIcon);
         mobileSearchActions.appendChild(mobileActions);
 
         const siteHeader = document.querySelector('.site-header');
@@ -94,10 +94,10 @@ export default function () {
         location.hash = '#/create';
     });
 
-    actions.append(addBtn);
+    actions.append(shuffleBtn, addBtn);
     section.append(actions);
 
-
+    
 
     return section;
 }

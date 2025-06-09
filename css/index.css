@@ -60,7 +60,7 @@ body {
   max-width: 40vw;
 }
 
-/* .search-bar::before {
+.search-bar::before {
   content: "🔍";
   position: absolute;
   top: 50%;
@@ -68,7 +68,7 @@ body {
   transform: translateY(-50%);
   font-size: var(--font-md);
   color: #888;
-} */
+}
 
 .search-bar input {
   width: 80%;
@@ -340,15 +340,4 @@ body {
   --color-image-background-card: rgb(179, 178, 178);
   --color-ing-border: #767676;
   --color-time-and-calorites: white;
-}
-
-#add-icon {
-  width: 40px;
-  height: 40px;
-  background-color: var(--color-accent-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

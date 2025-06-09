@@ -352,10 +352,8 @@ export default function () {
 
     const photoPreview = document.createElement('img');
     photoPreview.className = 'photo-preview';
-    photoPreview.style.display = 'none';
 
     const removeButton = document.createElement('button');
-    removeButton.type = 'button';
     removeButton.className = 'remove-btn';
     removeButton.textContent = '✖';
     removeButton.style.display = 'none';
@@ -366,7 +364,6 @@ export default function () {
         removeButton.style.display = 'none';
         photoConstraint.style.display = '';
         uploadButton.style.display = 'block';
-        uploadIcon.style.display = 'block';
     });
 
 
@@ -376,7 +373,6 @@ export default function () {
             photoPreview.src = '';
             removeButton.style.display = 'none';
             uploadButton.style.display = 'block';
-            uploadIcon.style.display = 'block';
             return;
         }
 
@@ -387,16 +383,11 @@ export default function () {
             removeButton.style.display = 'block';
             uploadButton.style.display = 'none';
             photoConstraint.style.display = 'none';
-            uploadIcon.style.display = 'none';
         };
         reader.readAsDataURL(file);
     });
 
-    const uploadIcon = document.createElement('img');
-    uploadIcon.src = "../../assets/upload.png";
-    uploadIcon.className = "upload-icon";
 
-    photoBox.appendChild(uploadIcon);
     photoBox.appendChild(photoInput);
     photoBox.appendChild(uploadButton);
     photoBox.appendChild(photoPreview);
@@ -445,7 +436,7 @@ export default function () {
 
     const cookTimeInput = document.createElement('input');
     cookTimeInput.className = 'input-text';
-    cookTimeInput.name = 'cookTime';
+    cookTimeInput.name = 'cookTime';    
     cookTimeInput.id = 'time-cook';
     cookTimeInput.type = 'number';
     cookTimeInput.required = true;
@@ -490,7 +481,7 @@ export default function () {
     timeRowWrapper.append(prepTimeField, cookTimeField, calField);
     // Recipe labels row
     const labelRowWrapper = document.createElement('div');
-    labelRowWrapper.className = 'labelrows';
+    labelRowWrapper.className = 'rows';
 
     // Meal label selection
     const mealTypeField = document.createElement('fieldset');
