@@ -134,18 +134,18 @@ export class RecipeStore {
      */
     async syncToLocalStorage(recipe, mode) {
         if (mode === 'delete') {
-            console.log("recipe ID: ", recipe.id)
+            console.log('recipe ID: ', recipe.id);
             deleteMetadata(recipe.id);
         } else if (mode === 'insert' || mode === 'update') {
             const metadata = {
                 id: recipe.id,
-                name: recipe.name,
-                isFavorite: false,
-                recipeCategory: recipe.recipeCategory,
-                recipeCuisine: recipe.recipeCuisine,
-                totalTime: recipe.totalTime,
-                recipeIngredient: recipe.recipeIngredient,
-                calories: recipe.calories
+                name: recipe.name || '',
+                isFavorite: recipe.isFavorite || false,
+                recipeCategory: recipe.recipeCategory || '',
+                recipeCuisine: recipe.recipeCuisine || '',
+                totalTime: recipe.totalTime || 0,
+                recipeIngredient: recipe.recipeIngredient || [],
+                calories: recipe.calories || 0,
             };
 
             console.log('METADATA = ', metadata);
