@@ -371,6 +371,7 @@ export default function () {
 
     const photoPreview = document.createElement('img');
     photoPreview.className = 'photo-preview';
+    photoPreview.style.display = 'none';
 
     const removeButton = document.createElement('button');
     removeButton.type = 'button';
@@ -384,6 +385,7 @@ export default function () {
         removeButton.style.display = 'none';
         photoConstraint.style.display = '';
         uploadButton.style.display = 'block';
+        uploadIcon.style.display = 'block';
     });
 
 
@@ -393,6 +395,7 @@ export default function () {
             photoPreview.src = '';
             removeButton.style.display = 'none';
             uploadButton.style.display = 'block';
+            uploadIcon.style.display = 'block';
             return;
         }
 
@@ -403,11 +406,16 @@ export default function () {
             removeButton.style.display = 'block';
             uploadButton.style.display = 'none';
             photoConstraint.style.display = 'none';
+            uploadIcon.style.display = 'none';
         };
         reader.readAsDataURL(file);
     });
 
+    const uploadIcon = document.createElement('img');
+    uploadIcon.src = "../../assets/upload.png";
+    uploadIcon.className = "upload-icon";
 
+    photoBox.appendChild(uploadIcon);
     photoBox.appendChild(photoInput);
     photoBox.appendChild(uploadButton);
     photoBox.appendChild(photoPreview);
@@ -500,7 +508,7 @@ export default function () {
     timeRowWrapper.append(prepTimeField, cookTimeField, calField);
     // Recipe labels row
     const labelRowWrapper = document.createElement('div');
-    labelRowWrapper.className = 'rows';
+    labelRowWrapper.className = 'labelrows';
 
     // Meal label selection
     const mealTypeField = document.createElement('fieldset');
@@ -598,6 +606,7 @@ export default function () {
             removeButton.style.display = 'block';
             uploadButton.style.display = 'none';
             photoConstraint.style.display = 'none';
+            uploadIcon.style.display = 'none';
 
         } else {
             photoPreview.src = '';
@@ -606,6 +615,7 @@ export default function () {
             removeButton.style.display = 'none';
             photoConstraint.style.display = '';
             uploadButton.style.display = 'block';
+            uploadIcon.style.display = 'block';
         }
 
     });
