@@ -112,7 +112,7 @@ export default function () {
         del.type = 'button';
 
         const trash = document.createElement('img');
-        trash.src = 'https://cse110-sp25-group8.github.io/final-project/assets/star.svg';
+        trash.src = 'https://cse110-sp25-group8.github.io/final-project/assets/trash.svg';
         trash.alt = '🗑️';
 
         del.appendChild(trash);
