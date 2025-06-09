@@ -89,7 +89,7 @@ export function getAllMetadata() {
  * @returns {boolean} - `true` if the recipe matches all criteria, otherwise `false`.
  * @private
  */
-function matchFilters(recipe, filters) {
+export function matchFilters(recipe, filters) {
     if (!filters || Object.keys(filters).length === 0) {
         return true;
     }
@@ -105,23 +105,52 @@ function matchFilters(recipe, filters) {
         if (key === 'isFavorite' &amp;&amp; recipe.isFavorite !== value) {
             return false;
         }
-        if (key === 'recipeCategory' &amp;&amp; recipe.recipeCategory !== value) {
-            return false;
-        }
-        if (key === 'recipeCuisine' &amp;&amp; recipe.recipeCuisine !== value) {
-            return false;
-        }
-        if (key === 'estimatedTime') {
-            if (value === '&lt;30mins' &amp;&amp; recipe.estimatedTime >= 30) {
-                return false;
-            } else if (value === '&lt;=1hr' &amp;&amp; recipe.estimatedTime > 60) {
-                return false;
-            } else if (value === '>1hr' &amp;&amp; recipe.estimatedTime &lt;= 60) {
+        if (key === 'recipeCategory' &amp;&amp; recipe.recipeCategory) {
+            if (recipe.recipeCategory.toLowerCase() !== value.toLowerCase()) {
                 return false;
             }
         }
-        if (key === 'recipeIngredient' &amp;&amp; recipe.recipeIngredient !== value) {
-            // TODO: work on this after our new Ingredient architecture
+        if (key === 'recipeCuisine' &amp;&amp; recipe.recipeCuisine) {
+            if (recipe.recipeCuisine.toLowerCase() !== value.toLowerCase()) {
+                return false;
+            }
+        }
+        if (key === 'timeRange') {
+            // Get time from either totalTime or estimatedTime property
+            const time = parseInt(recipe.totalTime || recipe.estimatedTime);
+            
+            if (!time) {
+                return false;
+            }
+            
+            if (value === 'Under 30 minutes' &amp;&amp; time >= 30) {
+                return false;
+            } else if (value === 'Under 1 Hour' &amp;&amp; time >= 60) {
+                return false;
+            } else if (value === 'Over 1 Hour' &amp;&amp; time &lt;= 60) {
+                return false;
+            }
+        }
+        if (key === 'recipeIngredient') {
+            if (
+                !recipe.recipeIngredient ||
+                !Array.isArray(recipe.recipeIngredient)
+            ) {
+                return false;
+            }
+            const ingredientFilter = Array.isArray(value) ? value : [value];
+
+            const hasMatch = ingredientFilter.some((searchIng) => {
+                return recipe.recipeIngredient.some((recipeIng) => {
+                    return (
+                        recipeIng.name.toLowerCase() === searchIng.toLowerCase()
+                    );
+                });
+            });
+
+            if (!hasMatch) {
+                return false;
+            }
         }
     }
     return true;
@@ -146,13 +175,13 @@ export function filterMetadata(filters) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RecipeCard.html">RecipeCard</a></li><li><a href="RecipeStore.html">RecipeStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clearTimer">clearTimer</a></li><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createIngredientFilter">createIngredientFilter</a></li><li><a href="global.html#displayFilteredRecipes">displayFilteredRecipes</a></li><li><a href="global.html#displayRecipes">displayRecipes</a></li><li><a href="global.html#filterMetadata">filterMetadata</a></li><li><a href="global.html#getAllMetadata">getAllMetadata</a></li><li><a href="global.html#getFromStorage">getFromStorage</a></li><li><a href="global.html#handleCreate">handleCreate</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadRecipeDetails">loadRecipeDetails</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#renderCardDetails">renderCardDetails</a></li><li><a href="global.html#startTimerFromInputs">startTimerFromInputs</a></li><li><a href="global.html#updateDisplay">updateDisplay</a></li><li><a href="global.html#updateTimerPreview">updateTimerPreview</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RecipeCard.html">RecipeCard</a></li><li><a href="RecipeStore.html">RecipeStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createIngredientFilter">createIngredientFilter</a></li><li><a href="global.html#displayRecipes">displayRecipes</a></li><li><a href="global.html#FilterByMealType">FilterByMealType</a></li><li><a href="global.html#filterMetadata">filterMetadata</a></li><li><a href="global.html#getAllMetadata">getAllMetadata</a></li><li><a href="global.html#getFromStorage">getFromStorage</a></li><li><a href="global.html#handleCreate">handleCreate</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadRecipeDetails">loadRecipeDetails</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#renderCardDetails">renderCardDetails</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 08 2025 23:02:56 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Jun 09 2025 07:09:13 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

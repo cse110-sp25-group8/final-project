@@ -58,10 +58,10 @@ function handleCreate() {
 
         // Populating Card Object
         let cardObject = {};
-        let currentIngredient = { 
-            quantity: '', 
+        let currentIngredient = {
+            quantity: '',
             units: 0,
-            name: ''     
+            name: ''
         };
 
         cardObject[INGREDIENTS_KEY] = [];
@@ -69,7 +69,7 @@ function handleCreate() {
         for (const [key, value] of formData) {
             // Handle recipe steps to be an array
             if (key.startsWith('step')) {
-                const instructionObject = { text : value };
+                const instructionObject = { text: value };
                 cardObject[INSTRUCTIONS_KEY].push(instructionObject);
             } else if (key.startsWith('ingredient')) {
                 // We will know we have THREE input fields for ingredients
@@ -83,7 +83,26 @@ function handleCreate() {
                     currentIngredient.name = value;
                     cardObject[INGREDIENTS_KEY].push(currentIngredient);
                 }
-            } else {
+
+            } else if (key === 'image') {
+                const doesRecipeExist = Number(formData.get('recipeId'));
+                const imageFile = formData.get('image');
+
+                if (doesRecipeExist) {
+                    if (imageFile &amp;&amp; imageFile.name) {
+                        // use new image 
+                        cardObject.image = value;
+                    } else {
+                        // get old image
+                        const oldImage = await RECIPE_STORE.getRecipeImageURL(doesRecipeExist);
+                        cardObject.image = oldImage;
+                    }
+                } else {
+                    cardObject.image = value;
+                }
+            }
+
+            else {
                 cardObject[key] = value;
             }
         }
@@ -93,12 +112,28 @@ function handleCreate() {
         cardObject[TOTAL_TIME_KEY] = totalTime;
 
         const recipeCard = document.createElement('recipe-card');
+        console.log('SETTING RECIPE CARD ELEMENT =');
+        console.log(cardObject);
         recipeCard.data = cardObject;
 
-        const currentId = await RECIPE_STORE.addRecipe(cardObject);
+        const recipeId = Number(formData.get('recipeId'));
+        console.log(recipeId);
+        if (recipeId) {
+            // Update existing recipe
+            console.log(">>>>>>>>> Editing recipe &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;");
+            console.log(cardObject);
+            await RECIPE_STORE.updateRecipe(recipeId, cardObject);
+            console.log(">>>>>>>>> FINISH editing recipe &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;");
+        } else {
+            // Add new recipe
+            console.log(">>> Adding recipe");
+            await RECIPE_STORE.addRecipe(cardObject);
+        }
+
+        console.log("AFTER COLLECTING FORM DATA");
         console.log(cardObject);
-        
-        location.hash = '#/';   
+
+        location.hash = '#/';
     });
 
 
@@ -117,13 +152,13 @@ export { init };
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RecipeCard.html">RecipeCard</a></li><li><a href="RecipeStore.html">RecipeStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clearTimer">clearTimer</a></li><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createIngredientFilter">createIngredientFilter</a></li><li><a href="global.html#displayFilteredRecipes">displayFilteredRecipes</a></li><li><a href="global.html#displayRecipes">displayRecipes</a></li><li><a href="global.html#filterMetadata">filterMetadata</a></li><li><a href="global.html#getAllMetadata">getAllMetadata</a></li><li><a href="global.html#getFromStorage">getFromStorage</a></li><li><a href="global.html#handleCreate">handleCreate</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadRecipeDetails">loadRecipeDetails</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#renderCardDetails">renderCardDetails</a></li><li><a href="global.html#startTimerFromInputs">startTimerFromInputs</a></li><li><a href="global.html#updateDisplay">updateDisplay</a></li><li><a href="global.html#updateTimerPreview">updateTimerPreview</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RecipeCard.html">RecipeCard</a></li><li><a href="RecipeStore.html">RecipeStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createIngredientFilter">createIngredientFilter</a></li><li><a href="global.html#displayRecipes">displayRecipes</a></li><li><a href="global.html#FilterByMealType">FilterByMealType</a></li><li><a href="global.html#filterMetadata">filterMetadata</a></li><li><a href="global.html#getAllMetadata">getAllMetadata</a></li><li><a href="global.html#getFromStorage">getFromStorage</a></li><li><a href="global.html#handleCreate">handleCreate</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadRecipeDetails">loadRecipeDetails</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#renderCardDetails">renderCardDetails</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 08 2025 23:02:56 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Jun 09 2025 07:09:13 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
