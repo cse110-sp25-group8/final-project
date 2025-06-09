@@ -208,9 +208,8 @@ fieldset {
   align-items: center;
 }
 
-@media (max-width: 600px) {
 
-
+@media (max-width: 920px) {
   .detail-layout {
     padding: 0;
   }

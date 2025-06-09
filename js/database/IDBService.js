@@ -63,7 +63,9 @@ export class IDBService {
                         'readonly'
                     );
                     const store = transaction.objectStore(this.storeName);
+                    console.log(`Attempting to get key #${key}`);
                     const request = store.get(key);
+                    console.log(`Successfully aquired #${key}!`);
 
                     request.onsuccess = () => {
                         resolve(request.result);

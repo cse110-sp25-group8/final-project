@@ -21,9 +21,14 @@ export default function () {
     shuffleIcon.id = 'shuffle-icon';
     shuffleIcon.textContent = '🔀';
 
+
     const addIcon = document.createElement('button');
     addIcon.id = 'add-icon';
     addIcon.textContent = '➕';
+
+    mobileActions.append(addIcon);
+    mobileSearchActions.appendChild(mobileActions);
+
 
     mobileActions.append(shuffleIcon, addIcon);
     mobileSearchActions.appendChild(mobileActions);
@@ -84,12 +89,10 @@ export default function () {
         location.hash = '#/create';
     });
 
-    actions.append(shuffleBtn, addBtn);
+    actions.append(addBtn);
     section.append(actions);
 
-    // mobile icons have same functionality as "normal" action buttons
-    shuffleIcon.addEventListener('click', () => shuffleBtn.click());
-    addIcon.addEventListener('click', () => addBtn.click());
+
 
     return section;
 }

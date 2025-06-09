@@ -58,15 +58,17 @@ body {
     max-width: 40vw;
 }
 
-.search-bar::before {
-    content: '🔍';
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    transform: translateY(-50%);
-    font-size: var(--font-md);
-    color: #888;
-}
+
+/* .search-bar::before {
+  content: "🔍";
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: var(--font-md);
+  color: #888;
+} */
+
 
 .search-bar input {
     width: 80%;
@@ -189,9 +191,19 @@ body {
     box-sizing: border-box;
 }
 
-.ingredient-dropdown ul {
-    list-style: none;
-    padding: 0;
+
+/* Mobile layout */
+@media (max-width: 920px) {
+  .mobile-search-actions {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .mobile-search-actions .search-bar {
+    flex: 1;
+
     margin: 0;
 }
 
@@ -306,18 +318,27 @@ body {
     }
 }
 
+
 @media (max-width: 400px) {
     .card-grid {
         grid-template-columns: 1fr;
     }
 }
 
+
+
 .card-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-    padding: 20px 40px;
-    row-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 20px 40px;
+  justify-content: start;
+}
+
+.card-grid recipe-card {
+  flex: 1 1 225px;
+  max-width: 250px;
+
 }
 
 .darkmode-toggle {
@@ -369,13 +390,25 @@ body {
 }
 
 :root:has(#darkmode-toggle:checked) {
-    --color-background: #3b3b3b;
-    --color-accent: #6fd3d0;
-    --color-accent-light: #00b8b8;
-    --color-text: white;
-    --color-filters: #525252;
-    --color-background-card: #525252;
-    --color-image-background-card: rgb(179, 178, 178);
-    --color-ing-border: #767676;
-    --color-time-and-calorites: white;
+
+  --color-background: #3B3B3B;
+  --color-accent: #6fd3d0;
+  --color-accent-light: #00b8b8;
+  --color-text: white;
+  --color-filters: #525252;
+  --color-background-card: #525252;
+  --color-image-background-card: rgb(179, 178, 178);
+  --color-ing-border: #767676;
+  --color-time-and-calorites: white;
+}
+
+#add-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
