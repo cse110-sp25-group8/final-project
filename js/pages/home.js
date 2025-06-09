@@ -1,6 +1,4 @@
-
 // Import functions to initialize and display recipes
-
 import {
     init,
     displayFilteredRecipes,
@@ -8,6 +6,7 @@ import {
     FilterByCuisine,
     FilterByTime,
     FilterByFavorite,
+    resetFilters
 } from '../../display.js';
 
 
@@ -18,7 +17,13 @@ export default function () {
     requestAnimationFrame(() => {
         init();
     });
-
+    
+    // Add event listener to the logo
+    document.querySelector('.logo-section').addEventListener('click', (e) => {
+        e.preventDefault();
+        resetFilters();
+    });
+    
 
     if (!document.querySelector('.mobile-search-actions')) {
         // Mobile search and icon row
