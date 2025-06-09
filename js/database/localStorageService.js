@@ -61,7 +61,7 @@ export function getAllMetadata() {
  * @returns {boolean} - `true` if the recipe matches all criteria, otherwise `false`.
  * @private
  */
-function matchFilters(recipe, filters) {
+export function matchFilters(recipe, filters) {
     if (!filters || Object.keys(filters).length === 0) {
         return true;
     }
