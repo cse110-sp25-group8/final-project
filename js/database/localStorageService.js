@@ -61,7 +61,7 @@ export function getAllMetadata() {
  * @returns {boolean} - `true` if the recipe matches all criteria, otherwise `false`.
  * @private
  */
-function matchFilters(recipe, filters) {
+export function matchFilters(recipe, filters) {
     if (!filters || Object.keys(filters).length === 0) {
         return true;
     }
@@ -77,23 +77,52 @@ function matchFilters(recipe, filters) {
         if (key === 'isFavorite' && recipe.isFavorite !== value) {
             return false;
         }
-        if (key === 'recipeCategory' && recipe.recipeCategory !== value) {
-            return false;
-        }
-        if (key === 'recipeCuisine' && recipe.recipeCuisine !== value) {
-            return false;
-        }
-        if (key === 'estimatedTime') {
-            if (value === '<30mins' && recipe.estimatedTime >= 30) {
-                return false;
-            } else if (value === '<=1hr' && recipe.estimatedTime > 60) {
-                return false;
-            } else if (value === '>1hr' && recipe.estimatedTime <= 60) {
+        if (key === 'recipeCategory' && recipe.recipeCategory) {
+            if (recipe.recipeCategory.toLowerCase() !== value.toLowerCase()) {
                 return false;
             }
         }
-        if (key === 'recipeIngredient' && recipe.recipeIngredient !== value) {
-            // TODO: work on this after our new Ingredient architecture
+        if (key === 'recipeCuisine' && recipe.recipeCuisine) {
+            if (recipe.recipeCuisine.toLowerCase() !== value.toLowerCase()) {
+                return false;
+            }
+        }
+        if (key === 'timeRange') {
+            // Get time from either totalTime or estimatedTime property
+            const time = parseInt(recipe.totalTime || recipe.estimatedTime);
+            
+            if (!time) {
+                return false;
+            }
+            
+            if (value === 'Under 30 minutes' && time >= 30) {
+                return false;
+            } else if (value === 'Under 1 Hour' && time >= 60) {
+                return false;
+            } else if (value === 'Over 1 Hour' && time <= 60) {
+                return false;
+            }
+        }
+        if (key === 'recipeIngredient') {
+            if (
+                !recipe.recipeIngredient ||
+                !Array.isArray(recipe.recipeIngredient)
+            ) {
+                return false;
+            }
+            const ingredientFilter = Array.isArray(value) ? value : [value];
+
+            const hasMatch = ingredientFilter.some((searchIng) => {
+                return recipe.recipeIngredient.some((recipeIng) => {
+                    return (
+                        recipeIng.name.toLowerCase() === searchIng.toLowerCase()
+                    );
+                });
+            });
+
+            if (!hasMatch) {
+                return false;
+            }
         }
     }
     return true;

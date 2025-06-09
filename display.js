@@ -1,10 +1,8 @@
-// Need to change from localStorage to IndexDB
-import { getAllMetadata } from './js/database/localStorageService.js';
+import { getAllMetadata, filterMetadata } from './js/database/localStorageService.js';
 
 let recipes = [];
 
 function init() {
-    // let recipes = getFromStorage();
     recipes = getAllMetadata();
     displayRecipes(recipes);
 }
@@ -37,11 +35,7 @@ function FilterByMealType(type) {
         return displayRecipes(recipes);
     }
 
-    const filtered = recipes.filter(
-        (recipe) =>
-            recipe.recipeCategory &&
-            recipe.recipeCategory.toLowerCase() == type.toLowerCase()
-    );
+    const filtered = filterMetadata({ recipeCategory: type });
     displayRecipes(filtered);
 }
 
@@ -50,11 +44,7 @@ function FilterByCuisine(cuisine) {
         return displayRecipes(recipes);
     }
 
-    const filtered = recipes.filter(
-        (recipe) =>
-            recipe.recipeCuisine &&
-            recipe.recipeCuisine.toLowerCase() == cuisine.toLowerCase()
-    );
+    const filtered = filterMetadata({ recipeCuisine: cuisine });
     displayRecipes(filtered);
 }
 
@@ -63,26 +53,12 @@ function FilterByTime(mins) {
         return displayRecipes(recipes);
     }
 
-    let filtered = [];
-
-    if (mins == 'Under 30 minutes') {
-        filtered = recipes.filter(
-            (recipe) => recipe.totalTime && parseInt(recipe.totalTime) < 30
-        );
-    } else if (mins == 'Under 1 Hour') {
-        filtered = recipes.filter(
-            (recipe) => recipe.totalTime && parseInt(recipe.totalTime) < 60
-        );
-    } else if (mins == 'Over 1 Hour') {
-        filtered = recipes.filter(
-            (recipe) => recipe.totalTime && parseInt(recipe.totalTime) > 60
-        );
-    }
+    const filtered = filterMetadata({ timeRange: mins });
     displayRecipes(filtered);
 }
 
 function FilterByFavorite() {
-    const filtered = recipes.filter((recipe) => recipe.isFavorite === true);
+    const filtered = filterMetadata({ isFavorite: true });
     displayRecipes(filtered);
 }
 
@@ -92,15 +68,7 @@ function displayFilteredRecipes(ingredients) {
         return;
     }
 
-    const filtered = recipes.filter(
-        (recipe) =>
-            recipe.recipeIngredient &&
-            ingredients.some((ingredient) =>
-                recipe.recipeIngredient.some(
-                    (x) => x.name.toLowerCase() == ingredient.toLowerCase()
-                )
-            )
-    );
+    const filtered = filterMetadata({ recipeIngredient: ingredients });
     displayRecipes(filtered);
 }
 
