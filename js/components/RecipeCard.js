@@ -38,7 +38,8 @@ class RecipeCard extends HTMLElement {
 				background-color: var(--color-image-background-card);
 				border-radius: 25px;
 
-				background-size: cover;       
+				background-image: url('../../assets/images/pasta.webp');
+				background-size: contain;       
 				background-position: center;  
 				background-repeat: no-repeat;
 			}
@@ -124,9 +125,7 @@ class RecipeCard extends HTMLElement {
 				// align-items: center;
 				justify-content: center;
 				display: none;
-				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-				z-index:10;
-				overflow: hidden;
+				gap: 8px;
 			}
 
 			.delete, .edit {
@@ -135,10 +134,7 @@ class RecipeCard extends HTMLElement {
 				font-size: 16px;
 				gap: 8px;
 				color: #525252;
-				margin-left: 0;
-				padding: 6px 15px;
-				cursor: pointer;
-				transition: background-color 0.2s ease;
+				margin-left: 14%;
 			}
 
 			.delete img,
@@ -147,9 +143,11 @@ class RecipeCard extends HTMLElement {
 				height: 1.2rem;
 			}
 
-			.delete:hover,
-			.edit:hover
-			 {
+			.delete::hover {
+				background-color: #edecec;
+			}
+
+			.edit::hover {
 				background-color: #edecec;
 			}
 		`;
@@ -175,12 +173,14 @@ class RecipeCard extends HTMLElement {
 
 			const article = this.shadowRoot.querySelector('article');
 
+
 			article.addEventListener('click', function (event) {
 				renderCardDetails(data.id);
 			});
 
 
 			article.innerHTML = `
+
 				<div class="pic-box">
 					<button class="star-btn">
 						<img src="../assets/star.svg" alt="star" class="star-img">
@@ -280,6 +280,7 @@ class RecipeCard extends HTMLElement {
 
 		updateCard();
 	}
+
 }
 
 customElements.define('recipe-card', RecipeCard);

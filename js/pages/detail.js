@@ -7,6 +7,8 @@ import { RecipeStore } from '../database/RecipeStore.js';
 
 const RECIPE_STORE = new RecipeStore();
 
+document.body.classList.add('detail-page');
+
 export default function () {
     const hash = location.hash;
     const params = new URLSearchParams(hash.split('?')[1]);
@@ -156,6 +158,39 @@ export default function () {
     clearBtn.id = 'timer-clear';
     clearBtn.textContent = 'Clear';
 
+    // reorders page elements to fit design for mobile devices
+    function mobileReorder() {
+        const isPhone = window.innerWidth <= 600; // 600px is mobile width
+        const mainContainer = document.querySelector('.detail-main');
+        const asideContainer = document.querySelector('.detail-aside');
+        const card = document.querySelector('#recipe-card');
+        const timer = document.querySelector('#timer-container');
+
+        if (!mainContainer || !asideContainer || !card || !timer) { return; }
+
+        if (isPhone) {
+            asideContainer.style.display = 'none';
+            if (card.parentNode !== mainContainer) {
+                mainContainer.insertBefore(card, mainContainer.firstChild);
+            }
+            if (timer.parentNode !== mainContainer) {
+                mainContainer.appendChild(timer);
+            }
+        } 
+        else {
+            asideContainer.style.display = '';
+            if (card.parentNode !== asideContainer) {
+                asideContainer.insertBefore(card, asideContainer.firstChild);
+            }
+            if (timer.parentNode !== asideContainer) {
+                asideContainer.appendChild(timer);
+            }
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', mobileReorder);
+    window.addEventListener('resize', mobileReorder);
+
     buttonGroup.append(setBtn, clearBtn);
 
     fieldset.append(inputGroup, buttonGroup);
@@ -192,38 +227,5 @@ async function loadRecipeDetails(
 ) {
     const recipe = await RECIPE_STORE.getRecipe(Number(recipeId));
     console.log(recipe.name);
-    if (!recipe) {
-        return;
-    }
-
-    // console.log('[DEBUG] Ingredients:', recipe.recipeIngredient);
-
-    const recipeCardElement = document.createElement('recipe-card');
-    recipeCardElement.style.setProperty('--card-width', '320px');
-    recipeCardElement.style.setProperty('--card-height', '380px');
-    recipeCardElement.data = recipe;
-
-    recipeCard.innerHTML = '';
-    recipeCard.appendChild(recipeCardElement);
-
-    if (recipe.recipeIngredient && Array.isArray(recipe.recipeIngredient)) {
-        recipe.recipeIngredient.forEach((item) => {
-            const name = item.name?.trim();
-            if (!name) {
-                return;
-            }
-
-            const li = document.createElement('li');
-            li.textContent = name;
-            ingredientsList.appendChild(li);
-        });
-    }
-
-    if (recipe.recipeInstructions && Array.isArray(recipe.recipeInstructions)) {
-        recipe.recipeInstructions.forEach((step) => {
-            const li = document.createElement('li');
-            li.textContent = step.text;
-            instructionsList.appendChild(li);
-        });
-    }
+    // TODO: need to scrape data from IDB
 }

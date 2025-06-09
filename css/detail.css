@@ -84,7 +84,6 @@
   content: counter(counter-instruction);
   position: absolute;
   left: 0;
-  /* top: 1rem; */
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -209,8 +208,25 @@ fieldset {
   align-items: center;
 }
 
+
 @media (max-width: 920px) {
   .detail-layout {
+    padding: 0;
+  }
+
+  .detail-main {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  #instructions, 
+  #ingredients {
+    margin: 0;
+    align-self: start;
+    margin-left: 0.5rem;
   }
 }

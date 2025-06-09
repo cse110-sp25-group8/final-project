@@ -1,41 +1,36 @@
-import { init } from '../../display.js';
+import { init, displayFilteredRecipes } from '../../display.js';
 
 export default function () {
     requestAnimationFrame(() => {
         init();
     });
 
-    if (!document.querySelector('.mobile-search-actions')) {
-        // Mobile search and icon row
-        const headerSearch = document.querySelector('.top-nav .search-bar');
-        const searchClone = headerSearch.cloneNode(true);
+    // Mobile search and icon row
+    const headerSearch = document.querySelector('.top-nav .search-bar');
+    const searchClone = headerSearch.cloneNode(true);
 
-        const mobileSearchActions = document.createElement('div');
-        mobileSearchActions.className = 'mobile-search-actions';
-        mobileSearchActions.appendChild(searchClone);
+    const mobileSearchActions = document.createElement('div');
+    mobileSearchActions.className = 'mobile-search-actions';
+    mobileSearchActions.appendChild(searchClone);
 
-        // small icons
-        const mobileActions = document.createElement('div');
-        mobileActions.className = 'mobile-actions';
+    // small icons
+    const mobileActions = document.createElement('div');
+    mobileActions.className = 'mobile-actions';
 
-        const shuffleIcon = document.createElement('button');
-        shuffleIcon.id = 'shuffle-icon';
-        shuffleIcon.textContent = '🔀';
+    const shuffleIcon = document.createElement('button');
+    shuffleIcon.id = 'shuffle-icon';
+    shuffleIcon.textContent = '🔀';
 
-        const addIcon = document.createElement('button');
-        addIcon.id = 'add-icon';
-        addIcon.textContent = '➕';
+    const addIcon = document.createElement('button');
+    addIcon.id = 'add-icon';
+    addIcon.textContent = '➕';
 
-        mobileActions.append(addIcon);
-        mobileSearchActions.appendChild(mobileActions);
+    mobileActions.append(addIcon);
+    mobileSearchActions.appendChild(mobileActions);
 
-        const siteHeader = document.querySelector('.site-header');
-        siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
 
-        // mobile icons have same functionality as "normal" action buttons
-        shuffleIcon.addEventListener('click', () => document.querySelector('.btn-shuffle').click());
-        addIcon.addEventListener('click', () => document.querySelector('.btn-add').click());
-    }
+    const siteHeader = document.querySelector('.site-header');
+    siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
 
     const section = document.createElement('section');
     section.className = 'sub-nav';
@@ -64,11 +59,7 @@ export default function () {
         'Under 1 Hour',
         'Over 1 Hour',
     ]);
-    const ingredientsFilter = createFilter('filter4', 'Ingredients', [
-        'Meat',
-        'Vegetables',
-        'Dairy',
-    ]);
+    const ingredientsFilter = createIngredientFilter('filter4', 'Ingredients');
 
     filters.append(mealFilter, cuisineFilter, timeFilter, ingredientsFilter);
     section.append(filters);
@@ -98,7 +89,6 @@ export default function () {
     section.append(actions);
 
 
-
     return section;
 }
 
@@ -124,4 +114,148 @@ function createFilter(name, label, options) {
 
     li.appendChild(select);
     return li;
+}
+
+function createIngredientFilter(name, label) {
+    const all = document.createElement('div');
+
+    const ingredientFilterButton = document.createElement('button');
+    ingredientFilterButton.className = 'btn-filter';
+    ingredientFilterButton.textContent = label;
+ 
+
+    const dropDown = document.createElement('div');
+    dropDown.className = 'ingredient-dropdown';
+    dropDown.style.display='none';
+
+    const searchBar = document.createElement('input');
+    searchBar.type = 'text';
+    searchBar.placeholder = 'Search Ingredients';
+    searchBar.className = 'ingredient-search-bar';
+
+    //list of ingredients 
+    const resultsContainer = document.createElement('ul');
+    resultsContainer.className='ingredient-results-container';
+    resultsContainer.style.listStyle = 'none'; 
+
+    dropDown.appendChild(searchBar);
+    dropDown.appendChild(resultsContainer);
+    
+
+    // prevent clicks inside dropdown from closing it
+    dropDown.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+
+    // TODO: Toggle dropdown when the users click the button
+    ingredientFilterButton.addEventListener('click', async function (event) {
+        event.stopPropagation();
+
+        if(dropDown.style.display ==='none'){
+            
+            dropDown.style.display='block';   
+
+            const fromStorage= await getIngredients();
+
+            resultsContainer.innerHTML='';
+
+
+            for (const opt of fromStorage) {
+                const option = document.createElement('li');
+                option.textContent = opt;
+                option.value=opt;
+                option.style.cursor='pointer';
+                option.style.padding='8px';
+                option.addEventListener('click',() =>{
+                    console.log('selected: ', opt);
+                    displayFilteredRecipes(opt);
+                    dropDown.style.display='none';
+                });
+                resultsContainer.appendChild(option);
+            }
+
+        }else{
+            dropDown.style.display='none';
+        }
+    });
+
+ 
+
+    searchBar.addEventListener('input', function (event) {
+        renderResults(searchBar.value);
+    });
+
+    // TODO: render the ingredient results based on search
+    function renderResults(searchTarget = '') {
+        const searchValue = searchTarget.toLowerCase().trim();
+        const items = resultsContainer.querySelectorAll('li');
+        items.forEach((item) => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchValue)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // TODO: handle the search
+    searchBar.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const searchValue = searchBar.value.toLowerCase().trim();
+            if (searchValue) {
+                displayFilteredRecipes(searchValue);
+                dropDown.style.display = 'none';
+            }
+        }
+    });
+
+    // get Ingredient tags from the localStorage->recipeIngredient.name
+    async function getIngredients() {
+        const recipeMetadata = localStorage.getItem('recipe_metadata');
+        if (!recipeMetadata) {return [];}
+
+        try {
+            const recipes = JSON.parse(recipeMetadata);
+            const uniqueIngredients = new Set();
+            recipes.forEach((recipe) => {
+                if (
+                    recipe.recipeIngredient &&
+                    Array.isArray(
+                        recipe.recipeIngredient && recipe.recipeIngredient
+                    )
+                ) {
+                    recipe.recipeIngredient.forEach((ingredient) => {
+                        if (
+                            ingredient &&
+                            ingredient.name &&
+                            typeof ingredient.name === 'string' &&
+                            ingredient.name.trim() !== ''
+                        )
+                        {uniqueIngredients.add(
+                            ingredient.name.trim().toLowerCase()
+                        );} // right now it will store as lowercases
+                    });
+                }
+            });
+            return Array.from(uniqueIngredients).sort();
+        } catch (error) {
+            console.error(
+                'Error parsing recipe metadata for Ingredients filter',
+                error
+            );
+            return [];
+        }
+    }
+
+    // close dropdown on clicking anything outside of the box container
+    document.addEventListener('click', () => {
+        dropDown.style.display = 'none';
+    });
+
+    all.appendChild(ingredientFilterButton);
+    all.appendChild(dropDown);
+    return all;
 }

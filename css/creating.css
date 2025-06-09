@@ -7,7 +7,6 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
     gap: 10px;
 }
 
@@ -35,7 +34,7 @@
     font-size: 16px;
     box-sizing: border-box;
     border: solid 1.8px;
-    border-color: var(--color-accent-light);
+    border-color: #86d0ce;
     background-color: var(--color-background-card);
 }
 
@@ -79,7 +78,17 @@
     margin-right: 10px;
 }
 
+.ingredient-box {
+    height: 40px;
+    width: 45%;
+    padding: 10px 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 30px;
+    background-color: #f7f7f7;
 
+}
 
 fieldset {
     all: unset;
@@ -133,7 +142,7 @@ fieldset {
 
 .button-group {
     display: flex;
-    justify-content: start;
+    /* justify-content: space-evenly; */
     margin-top: 1rem;
     gap: 1rem;
 }
@@ -155,17 +164,14 @@ fieldset {
     width: min(400px, 90vw);
     height: 270px;
     background-color: transparent;
-    border: none !important; /* 강제 적용 */
-    outline: none !important; /* outline 제거 */
+    border: none !important; 
+    outline: none !important; 
     box-shadow: none !important;
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='13' ry='13' stroke='%23bcc3c9' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='3' stroke-linecap='square'/%3e%3c/svg%3e");
     border-radius: 13px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
 }
 
 .upload-icon {
@@ -230,6 +236,7 @@ fieldset {
     background-color: #efefef;
 }
 
+
 .form-to-fill {
     width: 100%
 }
@@ -274,9 +281,11 @@ fieldset {
         order: 0;
     }
 
+
     .photo-box {
         width: 100%;
     }
+
 }
 
 .drag-indicator {
@@ -284,69 +293,4 @@ fieldset {
     background-color: #9bd1d0;
     margin: 2px 0;
     border-radius: 2px;
-}
-
-#ingredient-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    list-style: decimal;
-    list-style-position: outside;
-    counter-reset: ingred-counter;
-    padding-inline-start: 0;
-}
-
-#ingredient-list li {
-    counter-increment: ingred-counter;
-}
-
-#ingredient-list li::before {
-    content: counter(ingred-counter);
-    width: 1.3rem;
-    height: 1.3rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin-top: 0.5rem;
-    font-weight: bold;
-}
-
-.ingredient-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    gap: 0.5rem;
-}
-
-.ingredient-quantity {
-    width: 25%;
-    height: 40px;
-    padding: 5px;
-    font-size: var(--font-sm);
-    box-sizing: border-box;
-    border: solid 1.8px;
-    border-color: var(--color-accent-light);
-    background-color: var(--color-background-card);
-}
-
-.unit-dropdown {
-    box-sizing: border-box;
-    border: solid 1.8px;
-    border-color: var(--color-accent-light);
-    background-color: var(--color-background-card);
-    /* appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none; */
-}
-
-.ingredient-name {
-    width: 47%;
-    height: 40px;
-    padding: 5px;
-    font-size: var(--font-sm);
-    box-sizing: border-box;
-    border: solid 1.8px;
-    border-color: var(--color-accent-light);
-    background-color: var(--color-background-card);
 }
