@@ -2,12 +2,21 @@ import { getAllMetadata, filterMetadata } from './js/database/localStorageServic
 
 let recipes = [];
 
+/**
+ * Initializes the recipe view by loading metadata and displaying recipes.
+ */
 function init() {
     recipes = getAllMetadata();
     displayRecipes(recipes);
 }
 
-function displayRecipes(recipes) {
+/**
+ * Renders recipe cards in the main section.
+ * 
+ * @param {Array<Object>} recipes - Array of recipe metadata objects.
+ */
+function displayRecipes(recipes){
+
     const mainSection = document.querySelector('main');
 
     let cardGrid = mainSection.querySelector('.card-grid');
@@ -30,6 +39,19 @@ function displayRecipes(recipes) {
     });
 }
 
+
+
+
+/**
+ * Filters and displays recipes that include a specific ingredient.
+ * 
+ * @param {string} ingredient - Ingredient to filter recipes by.
+ */
+function displayFilteredRecipes(ingredient){
+    const filtered=recipes.filter(recipe=>
+        recipe.recipeIngredient && recipe.recipeIngredient.some(x => x.name.toLowerCase() === ingredient.toLowerCase())
+    );
+}
 function FilterByMealType(type) {
     if (type == 'Meal') {
         return displayRecipes(recipes);
@@ -43,7 +65,6 @@ function FilterByCuisine(cuisine) {
     if (cuisine === 'Cuisine') {
         return displayRecipes(recipes);
     }
-
     const filtered = filterMetadata({ recipeCuisine: cuisine });
     displayRecipes(filtered);
 }
@@ -57,10 +78,19 @@ function FilterByTime(mins) {
     displayRecipes(filtered);
 }
 
+/**
+ * (Unused) Gets recipe data from localStorage.
+ * 
+ * @returns {Array<Object>} Array of recipes or empty array if none found.
+ */
+function getFromStorage() {
+    const cards = JSON.parse(localStorage.getItem('recipe'));
+}
 function FilterByFavorite() {
     const filtered = filterMetadata({ isFavorite: true });
     displayRecipes(filtered);
 }
+
 
 function displayFilteredRecipes(ingredients) {
     if (!ingredients || ingredients.length == 0) {
