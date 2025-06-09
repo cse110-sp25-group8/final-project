@@ -131,7 +131,7 @@ export default function () {
         del.type = 'button';
 
         const trash = document.createElement('img');
-        trash.src = '../../assets/trash.svg';
+        trash.src = 'https://cse110-sp25-group8.github.io/final-project/assets/trash.svg';
         trash.alt = '🗑️';
 
         del.appendChild(trash);
@@ -192,7 +192,7 @@ export default function () {
         drag.className = 'drag-handle';
 
         const dragIcon = document.createElement('img');
-        dragIcon.src = '../../assets/instruction_row.svg';
+        dragIcon.src = 'https://cse110-sp25-group8.github.io/final-project/assets/instruction_row.svg';
         dragIcon.draggable = false;
         drag.appendChild(dragIcon);
 
@@ -206,7 +206,7 @@ export default function () {
         del.type = 'button';
 
         const trash = document.createElement('img');
-        trash.src = '../../assets/trash.svg';
+        trash.src = 'https://cse110-sp25-group8.github.io/final-project/assets/trash.svg';
         trash.alt = '🗑️';
 
         del.appendChild(trash);
@@ -412,7 +412,7 @@ export default function () {
     });
 
     const uploadIcon = document.createElement('img');
-    uploadIcon.src = "../../assets/upload.png";
+    uploadIcon.src = "https://cse110-sp25-group8.github.io/final-project/assets/upload.png";
     uploadIcon.className = "upload-icon";
 
     photoBox.appendChild(uploadIcon);

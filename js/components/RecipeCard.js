@@ -201,8 +201,8 @@ class RecipeCard extends HTMLElement {
 			});
 
 			const starImgSrc = data.isFavorite
-				? '../assets/coloredStar.svg'
-				: '../assets/star.svg';
+				? 'https://cse110-sp25-group8.github.io/final-project/assets/coloredStar.svg'
+				: 'https://cse110-sp25-group8.github.io/final-project/assets/star.svg';
 
 
 			article.innerHTML = `
@@ -212,26 +212,26 @@ class RecipeCard extends HTMLElement {
 					</button>
 					<!-- <img src="${imageURL}" alt="${data.name}"> -->
 					<button class="menu-btn">
-						<img src="../assets/horizontal.svg" alt="menu">
+						<img src="https://cse110-sp25-group8.github.io/final-project/assets/horizontal.svg" alt="menu">
 					</button>
 					<div class="drop-down">
 						<div class="edit" role="button">
-							<img src="../assets/edit.svg" alt="edit"> 
+							<img src="https://cse110-sp25-group8.github.io/final-project/assets/edit.svg" alt="edit"> 
 							<p>Edit</p>
 						</div>
 
 						<div class="delete" role="button">
-							<img src="../assets/trash.svg" alt="delete"> 
+							<img src="https://cse110-sp25-group8.github.io/final-project/assets/trash.svg" alt="delete"> 
 							<p>Delete</p>
 						</div>
 					</div>
 				</div>
 				<p class="recipe-title">${data.name}</p>
 				<section class="time-and-calories">
-					<img src="../assets/time.svg" alt="time">
+					<img src="https://cse110-sp25-group8.github.io/final-project/assets/time.svg" alt="time">
 					
 					<time>${data.totalTime} min</time>
-					<img src="../assets/calories.svg" alt="calories">
+					<img src="https://cse110-sp25-group8.github.io/final-project/assets/calories.svg" alt="calories">
 					<p class="calories">${data.calories} kcal</p>
 
 				</section>
@@ -282,9 +282,9 @@ class RecipeCard extends HTMLElement {
 				// toggle the favorite status
 				const newFavoriteStatus = !data.isFavorite;
 				if (newFavoriteStatus) {
-					starImg.src = '../assets/coloredStar.svg';
+					starImg.src = 'https://cse110-sp25-group8.github.io/final-project/assets/coloredStar.svg';
 				} else {
-					starImg.src = '../assets/star.svg';
+					starImg.src = 'https://cse110-sp25-group8.github.io/final-project/assets/star.svg';
 				}
 
 				data.isFavorite = newFavoriteStatus;
