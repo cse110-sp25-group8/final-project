@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/database/RecipeStore.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/database/RecipeStore.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { IDBService } from './IDBService.js';
+import { deleteMetadata, upsertMetadata } from './localStorageService.js';
+
+/** Class representing the store interface for recipes in IndexedDB */
+export class RecipeStore {
+    /**
+     * Create a RecipeStore object.
+     * @constructor
+     */
+    constructor() {
+        this.idbService = new IDBService('recipeStore');
+    }
+
+    /**
+     * Adds a recipe to app's IndexedDB database.
+     * @param {Object} data - Recipe data (similar to Google's recipe schema).
+     * @returns {Promise&lt;number>} - A Promise that resolves to new recipe's ID number.
+     */
+    async addRecipe(data) {
+        try {
+            const id = await this.idbService.set(data);
+
+            // Send data information to localStorage
+            const updatedData = { ...data, id };
+            this.syncToLocalStorage(updatedData, 'insert');
+
+            return id;
+        } catch (error) {
+            console.error(`Failed to add recipe to storage: ${error}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Retrieves a recipe from the app's IndexedDB database.
+     * @param {number} id - A number corresponding to the target recipe's id.
+     * @returns {Promise&lt;Object>} - A Promise that resolves to the recipe Object.
+     */
+    async getRecipe(id) {
+        try {
+            const recipe = await this.idbService.get(id);
+            return recipe;
+        } catch (error) {
+            console.error(
+                `Failed to get recipe (ID #${id}) from storage: ${error}`
+            );
+            throw error;
+        }
+    }
+
+    /**
+     * Retrieves a recipe's image from the app's IndexedDB database.
+     * @param {number} id - A number corresponding to the target recipe's id.
+     * @returns {Promise&lt;string>} - A Promise that resolves to an Object URL (via `URL.createObjectURL`) for use in &lt;img> tags.
+     */
+    async getRecipeImageURL(id) {
+        try {
+            const recipe = await this.idbService.get(id);
+
+            if (!recipe || !recipe.image) {
+                throw new Error(`Recipe or recipe image not found (ID #${id})`);
+            }
+
+            return recipe.image;
+        } catch (error) {
+            // console.error(
+            //     `Failed to get recipe image (ID #${id}) from storage: ${error}`
+            // );
+
+            console.error(`[IMAGE ERR]: ${error.message}`);
+
+            // throw error;
+        }
+    }
+
+    /**
+     * Retrieves all recipes from the app's IndexedDB database.
+     * @returns {Promise&lt;Object[]>} - A promise that resolves to an array of recipe Objects.
+     */
+    async getAllRecipes() {
+        try {
+            const recipes = await this.idbService.getAll();
+            return recipes;
+        } catch (error) {
+            console.error(`Failed to retrieve all recipes: ${error}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Updates an existing recipe entry in the app's IndexedDB database.
+     * @param {number} id - A number corresponding to the target recipe's id.
+     * @param {Object} data - New recipe data to replace the old entry's data (similar to Google's recipe schema).
+     * @returns {Promise&lt;number>} - A Promise that resolves to new recipe's ID number.
+     */
+    async updateRecipe(id, data) {
+        try {
+            const doesIdExist = await this.idbService.get(id);
+            if (!doesIdExist) {
+                throw new Error(`Recipe with ID #${id} not found`);
+            }
+
+            const updatedData = { ...data, id };
+            const updatedId = await this.idbService.set(updatedData);
+            this.syncToLocalStorage(updatedData, 'update');
+
+            return updatedId;
+        } catch (error) {
+            console.error(`Failed to update recipe: ${error}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Removes an existing recipe entry from the app's IndexedDB database.
+     * @param {Object} data - An object of the target recipe
+     */
+    async deleteRecipe(data) {
+        try {
+            await this.idbService.delete(data.id);
+
+            this.syncToLocalStorage(data, 'delete');
+        } catch (error) {
+            console.error(`Failed to delete recipe: ${error}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Synchronizes localStorage and IndexedDB to hold the equivalent recipe info.
+     * @param {Object} recipe - The full recipe object to sync.
+     * @param {string} mode - The sync mode: 'insert', 'update', or 'delete'.
+     * @private
+     */
+    async syncToLocalStorage(recipe, mode) {
+        if (mode === 'delete') {
+            console.log('recipe ID: ', recipe.id);
+            deleteMetadata(recipe.id);
+        } else if (mode === 'insert' || mode === 'update') {
+            const metadata = {
+                id: recipe.id,
+                name: recipe.name || '',
+                isFavorite: recipe.isFavorite || false,
+                recipeCategory: recipe.recipeCategory || '',
+                recipeCuisine: recipe.recipeCuisine || '',
+                totalTime: recipe.totalTime || 0,
+                recipeIngredient: recipe.recipeIngredient || [],
+                calories: recipe.calories || 0,
+            };
+
+            console.log('METADATA = ', metadata);
+            upsertMetadata(metadata);
+        }
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RecipeCard.html">RecipeCard</a></li><li><a href="RecipeStore.html">RecipeStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createIngredientFilter">createIngredientFilter</a></li><li><a href="global.html#displayRecipes">displayRecipes</a></li><li><a href="global.html#FilterByMealType">FilterByMealType</a></li><li><a href="global.html#filterMetadata">filterMetadata</a></li><li><a href="global.html#getAllMetadata">getAllMetadata</a></li><li><a href="global.html#getFromStorage">getFromStorage</a></li><li><a href="global.html#handleCreate">handleCreate</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadRecipeDetails">loadRecipeDetails</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#renderCardDetails">renderCardDetails</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Jun 09 2025 07:09:13 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

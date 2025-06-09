@@ -60,7 +60,7 @@ body {
   max-width: 40vw;
 }
 
-.search-bar::before {
+/* .search-bar::before {
   content: "🔍";
   position: absolute;
   top: 50%;
@@ -68,7 +68,7 @@ body {
   transform: translateY(-50%);
   font-size: var(--font-md);
   color: #888;
-}
+} */
 
 .search-bar input {
   width: 80%;
@@ -177,7 +177,7 @@ body {
 }
 
 /* Mobile layout */
-@media (max-width: 600px) {
+@media (max-width: 920px) {
   .mobile-search-actions {
     display: flex;
     align-items: center;
@@ -268,19 +268,18 @@ body {
 
 }
 
-@media (max-width: 400px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 
 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   padding: 20px 40px;
-  row-gap: 20px;
+  justify-content: start;
+}
+
+.card-grid recipe-card {
+  flex: 1 1 225px;
+  max-width: 250px;
 }
 
 .darkmode-toggle {
@@ -341,4 +340,92 @@ body {
   --color-image-background-card: rgb(179, 178, 178);
   --color-ing-border: #767676;
   --color-time-and-calorites: white;
+}
+
+#add-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ingredient-dropdown {
+    position: absolute;
+    background-color: var(--color-background);
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 4px;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    z-index: 10;
+    overflow-y: auto;
+}
+
+.ingredient-dropdown-search-bar {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: var(--font-md);
+    box-sizing: border-box;
+}
+
+.ingredient-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredient-results-container{
+    max-height: 130px;
+    overflow-y:scroll 
+}
+.ingredient-results-container li {
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.ingredient-results-container li:hover {
+    background-color: var(--color-accent-light);
+    color: white;
+}
+
+.ingredient-dropdown-content {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.ingredient-dropdown-left {
+    flex: 1;
+  }
+  
+  .ingredient-dropdown-right {
+    border-left: 1px solid #ddd;
+    padding-left: 0.5rem;
+  }
+
+  .ingredient-dropdown-right.hidden {
+    display: none;
+}
+
+
+.ingredient-tags-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.ingredient-tag {
+    background-color: #eee;
+    border-radius: 999px;
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    gap: 0.3rem;
 }

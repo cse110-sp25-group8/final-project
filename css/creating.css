@@ -7,7 +7,14 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     gap: 10px;
+}
+
+.labelrows {
+    width: 100%;
+    display: flex;
+    gap: 20px;
 }
 
 .input-text {
@@ -28,7 +35,7 @@
     font-size: 16px;
     box-sizing: border-box;
     border: solid 1.8px;
-    border-color: #86d0ce;
+    border-color: var(--color-accent-light);
     background-color: var(--color-background-card);
 }
 
@@ -39,6 +46,8 @@
     justify-content: center;
     align-items: flex-start;
     padding: 40px 0;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .left-side {
@@ -70,17 +79,7 @@
     margin-right: 10px;
 }
 
-.ingredient-box {
-    height: 40px;
-    width: 45%;
-    padding: 10px 20px;
-    font-size: 16px;
-    box-sizing: border-box;
-    border: none;
-    border-radius: 30px;
-    background-color: #f7f7f7;
 
-}
 
 fieldset {
     all: unset;
@@ -134,7 +133,7 @@ fieldset {
 
 .button-group {
     display: flex;
-    /* justify-content: space-evenly; */
+    justify-content: start;
     margin-top: 1rem;
     gap: 1rem;
 }
@@ -154,13 +153,82 @@ fieldset {
 
 .photo-box {
     width: min(400px, 90vw);
-    height: 300px;
-    background-color: #C0BFBF;
+    height: 270px;
+    background-color: transparent;
+    border: none !important; /* 강제 적용 */
+    outline: none !important; /* outline 제거 */
+    box-shadow: none !important;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='13' ry='13' stroke='%23bcc3c9' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='3' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 13px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
+.upload-icon {
+    width: 80px;
+    margin-bottom: -20px;
+}
+
+.photo-preview {
+    display: block;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.custom-upload-btn {
+    width: 40%;
+    height: 50px;
+    padding: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
+    color: var(--color-accent-light);
+    font-weight: 600;
+    z-index: 2;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+.custom-upload-btn:hover {
+    background-color: #efefef;
+}
+
+.photo-labeling {
+    font-size: 15px;
+    color: var(--color-text);
+}
+
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background-color: white;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    color: var(--color-accent-light);
+    width: 35px;
+    height: 35px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #efefef;
+}
 
 .form-to-fill {
     width: 100%
@@ -174,9 +242,10 @@ fieldset {
     background-color: #dd4a4a;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 920px) {
     .parent {
         flex-direction: column;
+        align-items: center;
         padding: 1rem;
         gap: 0.2rem;
     }
@@ -189,6 +258,8 @@ fieldset {
     .right-side {
         display: flex;
         flex-direction: column;
+        align-self: center;
+        max-width: 100%;
     }
 
     .right-side .button-group {
@@ -203,7 +274,9 @@ fieldset {
         order: 0;
     }
 
-
+    .photo-box {
+        width: 100%;
+    }
 }
 
 .drag-indicator {
@@ -211,4 +284,69 @@ fieldset {
     background-color: #9bd1d0;
     margin: 2px 0;
     border-radius: 2px;
+}
+
+#ingredient-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    list-style: decimal;
+    list-style-position: outside;
+    counter-reset: ingred-counter;
+    padding-inline-start: 0;
+}
+
+#ingredient-list li {
+    counter-increment: ingred-counter;
+}
+
+#ingredient-list li::before {
+    content: counter(ingred-counter);
+    width: 1.3rem;
+    height: 1.3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+.ingredient-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 0.5rem;
+}
+
+.ingredient-quantity {
+    width: 25%;
+    height: 40px;
+    padding: 5px;
+    font-size: var(--font-sm);
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
+}
+
+.unit-dropdown {
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
+    /* appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
+}
+
+.ingredient-name {
+    width: 47%;
+    height: 40px;
+    padding: 5px;
+    font-size: var(--font-sm);
+    box-sizing: border-box;
+    border: solid 1.8px;
+    border-color: var(--color-accent-light);
+    background-color: var(--color-background-card);
 }

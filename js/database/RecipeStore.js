@@ -19,7 +19,11 @@ export class RecipeStore {
     async addRecipe(data) {
         try {
             const id = await this.idbService.set(data);
-            this.syncToLocalStorage(id, 'insert');
+
+            // Send data information to localStorage
+            const updatedData = { ...data, id };
+            this.syncToLocalStorage(updatedData, 'insert');
+
             return id;
         } catch (error) {
             console.error(`Failed to add recipe to storage: ${error}`);
@@ -59,10 +63,13 @@ export class RecipeStore {
 
             return recipe.image;
         } catch (error) {
-            console.error(
-                `Failed to get recipe image (ID #${id}) from storage: ${error}`
-            );
-            throw error;
+            // console.error(
+            //     `Failed to get recipe image (ID #${id}) from storage: ${error}`
+            // );
+
+            console.error(`[IMAGE ERR]: ${error.message}`);
+
+            // throw error;
         }
     }
 
@@ -95,7 +102,7 @@ export class RecipeStore {
 
             const updatedData = { ...data, id };
             const updatedId = await this.idbService.set(updatedData);
-            this.syncToLocalStorage(id, 'update');
+            this.syncToLocalStorage(updatedData, 'update');
 
             return updatedId;
         } catch (error) {
@@ -106,12 +113,13 @@ export class RecipeStore {
 
     /**
      * Removes an existing recipe entry from the app's IndexedDB database.
-     * @param {number} id - A number corresponding to the target recipe's id.
+     * @param {Object} data - An object of the target recipe
      */
-    async deleteRecipe(id) {
+    async deleteRecipe(data) {
         try {
-            await this.idbService.delete(id);
-            this.syncToLocalStorage(id, 'delete');
+            await this.idbService.delete(data.id);
+
+            this.syncToLocalStorage(data, 'delete');
         } catch (error) {
             console.error(`Failed to delete recipe: ${error}`);
             throw error;
@@ -122,21 +130,25 @@ export class RecipeStore {
      * Synchronizes localStorage and IndexedDB to hold the equivalent recipe info.
      * @param {Object} recipe - The full recipe object to sync.
      * @param {string} mode - The sync mode: 'insert', 'update', or 'delete'.
-	 * @private
+     * @private
      */
     async syncToLocalStorage(recipe, mode) {
-        const metadata = {
-            id: recipe.id,
-            isFavorite: false,
-            recipeCategory: recipe.recipeCategory,
-            recipeCuisine: recipe.recipeCuisine,
-            estimatedTime: recipe.estimatedTime,
-            recipeIngredient: recipe.recipeIngredient,
-        };
-
         if (mode === 'delete') {
+            console.log('recipe ID: ', recipe.id);
             deleteMetadata(recipe.id);
         } else if (mode === 'insert' || mode === 'update') {
+            const metadata = {
+                id: recipe.id,
+                name: recipe.name || '',
+                isFavorite: recipe.isFavorite || false,
+                recipeCategory: recipe.recipeCategory || '',
+                recipeCuisine: recipe.recipeCuisine || '',
+                totalTime: recipe.totalTime || 0,
+                recipeIngredient: recipe.recipeIngredient || [],
+                calories: recipe.calories || 0,
+            };
+
+            console.log('METADATA = ', metadata);
             upsertMetadata(metadata);
         }
     }

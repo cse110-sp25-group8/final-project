@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/components/RecipeCard.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/components/RecipeCard.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Displays a custom recipe card with image, title, time, calories, and actions.
+ */
+
+import * as RecipeStore from '../database/RecipeStore.js';
+import { renderCardDetails, render, renderEditPage } from '../router.js';
+const RECIPE_STORE = new RecipeStore.RecipeStore();
+
+/**
+ * Custom Web Component that displays a recipe card with image, title,
+ * time, calories, and action buttons for edit, delete, and favorite.
+ */
+
+class RecipeCard extends HTMLElement {
+
+	/**
+	 * Constructs a new RecipeCard custom element.
+	 * Initializes shadow DOM and injects base HTML structure and styles.
+	 */
+
+	constructor() {
+		super();
+		this.attachShadow({ mode: 'open' });
+
+		const articleContainer = document.createElement('article');
+
+		const styleElement = document.createElement('style');
+		styleElement.textContent = `
+			:host {
+				display: block;
+				width: var(--card-width, 250px); 
+				height: var(--card-height, 353px); 
+			}
+
+			article {
+				width: 100%;
+				height: 100%;
+				background-color: var(--color-background-card);
+				box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+				border-radius: 30px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+				font-family: "Inter", sans-serif;
+			}
+
+			.pic-box {
+				position: relative;
+				margin-top: 10px;
+				height: 47%;
+				width: 91%;
+				background-color: var(--color-image-background-card);
+				border-radius: 25px;
+
+				background-size: cover;       
+				background-position: center;  
+				background-repeat: no-repeat;
+			}
+
+			.pic-box button {
+				position: absolute;
+				background: none;
+				border: none;
+				cursor: pointer;
+				padding: 4px;
+			}
+
+			.star-btn {
+				top: 10px;
+				left: 10px;
+			}
+
+			.menu-btn {
+				top: 10px;
+				right: 10px;
+			}
+
+
+			.pic-box img {
+				width: 30px;
+				height: 30px;
+			}
+
+			.recipe-title {
+				font-weight: 550;
+				font-size: 22px;
+				margin: 10px 0 5px 0;
+			}
+
+			.time-and-calories {
+				display: flex;
+				flex-direction: row;
+				text-align: center;
+				align-items: center;
+				margin-top: 7px;
+				gap: 10px;
+				font-size: 14.5px;
+				color: var(--color-time-and-calorites);
+			}
+
+			.time-and-calories time,
+			.time-and-calories .calories {
+				margin: 0;
+				padding: 0;
+			}
+
+			.time-and-calories img {
+				width: 15px;
+			}
+
+			.ingredients {
+				padding: 6px 0 6px 0;
+				font-size: 14px;
+				border: none;
+				border-top: 2.7px solid var(--color-ing-border);
+				border-bottom: 2.7px solid var(--color-ing-border);
+				margin-top: 18px;
+				margin-left: 17px;
+				margin-right: 17px;
+				color: var(--color-text);
+			}
+
+			p {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.drop-down {
+				position: absolute;
+				top: 24%;
+				right: 6%;
+				width: 50%;
+				height: 45%;
+				background-color: white;
+				border-radius: 25px;
+				display: flex;
+				flex-direction: column;
+				// align-items: center;
+				justify-content: center;
+				display: none;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+				z-index:10;
+				overflow: hidden;
+			}
+
+			.delete, .edit {
+				display: flex;
+				align-items: center;
+				font-size: 16px;
+				gap: 8px;
+				color: #525252;
+				margin-left: 0;
+				padding: 6px 15px;
+				cursor: pointer;
+				transition: background-color 0.2s ease;
+			}
+
+			.delete img,
+			.edit img {
+				width: 1.2rem;
+				height: 1.2rem;
+			}
+
+			.delete:hover,
+			.edit:hover
+			 {
+				background-color: #edecec;
+			}
+		`;
+
+		this.shadowRoot.appendChild(articleContainer);
+		this.shadowRoot.appendChild(styleElement);
+	}
+
+	/**
+	 * Sets recipe data and fills the card with info and buttons.
+	 * @param {Object} data - Recipe details like name, time, etc.
+	 */
+
+	set data(data) {
+		// Check to see if nothing was passed in
+		if (!data) {
+			return;
+		}
+
+		const updateCard = async () => {
+			const typeofdata = typeof data.id;
+			// console.log(`data.id value = ${data.id}`);
+			// console.log(`TYPE OF DATA.ID = ${typeofdata}`);
+			// console.clear();
+			console.log(data);
+			const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
+			const imageURL = URL.createObjectURL(imageBlob);
+
+			const article = this.shadowRoot.querySelector('article');
+
+			article.addEventListener('click', function (event) {
+
+				renderCardDetails(data.id);
+			});
+
+			const starImgSrc = data.isFavorite
+				? '../assets/coloredStar.svg'
+				: '../assets/star.svg';
+
+
+			article.innerHTML = `
+								&lt;div class="pic-box">
+					&lt;button class="star-btn">
+						&lt;img src="${starImgSrc}" alt="star" class="star-img">
+					&lt;/button>
+					&lt;!-- &lt;img src="${imageURL}" alt="${data.name}"> -->
+					&lt;button class="menu-btn">
+						&lt;img src="../assets/horizontal.svg" alt="menu">
+					&lt;/button>
+					&lt;div class="drop-down">
+						&lt;div class="edit" role="button">
+							&lt;img src="../assets/edit.svg" alt="edit"> 
+							&lt;p>Edit&lt;/p>
+						&lt;/div>
+
+						&lt;div class="delete" role="button">
+							&lt;img src="../assets/trash.svg" alt="delete"> 
+							&lt;p>Delete&lt;/p>
+						&lt;/div>
+					&lt;/div>
+				&lt;/div>
+				&lt;p class="recipe-title">${data.name}&lt;/p>
+				&lt;section class="time-and-calories">
+					&lt;img src="../assets/time.svg" alt="time">
+					
+					&lt;time>${data.totalTime} min&lt;/time>
+					&lt;img src="../assets/calories.svg" alt="calories">
+					&lt;p class="calories">${data.calories} kcal&lt;/p>
+
+				&lt;/section>
+				&lt;p class="ingredients">${data.recipeCategory}, ${data.recipeCuisine}&lt;/p>
+			`;
+
+			// Add image to pic-box
+			const picBox = this.shadowRoot.querySelector('.pic-box');
+			picBox.style.backgroundImage = `url(${imageURL})`;
+
+			const menuBtn = this.shadowRoot.querySelector('.menu-btn');
+			const dropdown = this.shadowRoot.querySelector('.drop-down');
+			const starBtn = this.shadowRoot.querySelector('.star-btn');
+			const starImg = this.shadowRoot.querySelector('.star-img');
+
+			// Show/hide dropdown
+			menuBtn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				dropdown.style.display =
+					dropdown.style.display === 'flex' ? 'none' : 'flex';
+			});
+
+			// Hide dropdown if clicked outside
+			this.shadowRoot.addEventListener('click', (e) => {
+				const isInsideMenuBtn = menuBtn.contains(e.target);
+				const isInsideDropdown = dropdown.contains(e.target);
+
+				if (!isInsideMenuBtn &amp;&amp; !isInsideDropdown) {
+					dropdown.style.display = 'none';
+				}
+			});
+
+			document.addEventListener('click', (e) => {
+				const path = e.composedPath();
+				const clickedInsideCard = path.includes(this);
+
+				if (!clickedInsideCard) {
+					dropdown.style.display = 'none';
+				}
+			});
+
+
+			// Toggle favorite star
+			starBtn.addEventListener('click', async (e) => {
+
+				e.stopPropagation();
+
+				// toggle the favorite status
+				const newFavoriteStatus = !data.isFavorite;
+				if (newFavoriteStatus) {
+					starImg.src = '../assets/coloredStar.svg';
+				} else {
+					starImg.src = '../assets/star.svg';
+				}
+
+				data.isFavorite = newFavoriteStatus;
+				try {
+					// update in localStorage using the localStorageService
+					const fetchAllMeta =
+						JSON.parse(localStorage.getItem('recipe_metadata')) ||
+						[];
+					const recipeIndex = fetchAllMeta.findIndex(
+						(recipe) => recipe.id === data.id
+					);
+
+					if (recipeIndex >= 0) {
+						fetchAllMeta[recipeIndex].isFavorite =
+							newFavoriteStatus;
+						localStorage.setItem(
+							'recipe_metadata',
+							JSON.stringify(fetchAllMeta)
+						);
+					}
+				} catch (error) {
+					console.error('Failed to update favorite status:', error);
+				}
+			});
+
+			// Edit button click
+			const editBtn = this.shadowRoot.querySelector('.edit');
+			editBtn.addEventListener('click', function (e) {
+				e.stopPropagation();
+				dropdown.style.display = 'none';
+				renderEditPage(data.id);
+			});
+
+			// Delete button click
+			const deleteBtn = this.shadowRoot.querySelector('.delete');
+			deleteBtn.addEventListener('click', async function (e) {
+				e.stopPropagation();
+				await RECIPE_STORE.deleteRecipe(data);
+				// this line make dropdown disapears when button is clicked
+				dropdown.style.display = 'none';
+
+				location.hash = '#/';
+				render();
+			});
+		};
+
+		updateCard();
+	}
+}
+
+// Register the custom element
+customElements.define('recipe-card', RecipeCard);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RecipeCard.html">RecipeCard</a></li><li><a href="RecipeStore.html">RecipeStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createIngredientFilter">createIngredientFilter</a></li><li><a href="global.html#displayRecipes">displayRecipes</a></li><li><a href="global.html#FilterByMealType">FilterByMealType</a></li><li><a href="global.html#filterMetadata">filterMetadata</a></li><li><a href="global.html#getAllMetadata">getAllMetadata</a></li><li><a href="global.html#getFromStorage">getFromStorage</a></li><li><a href="global.html#handleCreate">handleCreate</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadRecipeDetails">loadRecipeDetails</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#renderCardDetails">renderCardDetails</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Jun 09 2025 07:09:13 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+    "source": {
+      "include": ["js", "creating.js", "display.js"],
+      "includePattern": ".+\\.js$",
+      "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+      "destination": "./docs",
+      "recurse": true
+    }
+  }
+  

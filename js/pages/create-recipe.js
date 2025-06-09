@@ -27,82 +27,129 @@ export default function () {
     nameLabel.innerHTML = 'Name of Recipe <span class="red-text">*</span>';
 
     const nameInput = document.createElement('input');
+    nameInput.required = true;
     nameInput.className = 'input-text';
-    nameInput.name = 'recipe';
+    nameInput.name = 'name';
     nameInput.id = 'recipe-name';
     nameInput.type = 'text';
 
     nameField.append(nameLabel, nameInput);
 
-    // Time & Calories Section
-    const rowWrapper = document.createElement('div');
-    rowWrapper.className = 'rows';
-
-    const timeField = document.createElement('fieldset');
-    timeField.className = 'boxes';
-
-    const timeLabel = document.createElement('label');
-    timeLabel.className = 'labeling';
-    timeLabel.textContent = 'Time taken to cook';
-
-    const timeRow = document.createElement('div');
-    timeRow.className = 'rows';
-
-    const timeInput = document.createElement('input');
-    timeInput.className = 'input-text';
-    timeInput.name = 'time';
-    timeInput.id = 'time-cook';
-    timeInput.type = 'text';
-
-    const timeUnit = document.createElement('span');
-    timeUnit.className = 'information';
-    timeUnit.textContent = 'min';
-
-    timeRow.append(timeInput, timeUnit);
-    timeField.append(timeLabel, timeRow);
-
-    const calField = document.createElement('fieldset');
-    calField.className = 'boxes';
-
-    const calLabel = document.createElement('label');
-    calLabel.className = 'labeling';
-    calLabel.textContent = 'Calories';
-
-    const calRow = document.createElement('div');
-    calRow.className = 'rows';
-
-    const calInput = document.createElement('input');
-    calInput.className = 'input-text';
-    calInput.name = 'calories';
-    calInput.id = 'calories';
-    calInput.type = 'text';
-
-    const calUnit = document.createElement('span');
-    calUnit.className = 'information';
-    calUnit.textContent = 'kcal';
-
-    calRow.append(calInput, calUnit);
-    calField.append(calLabel, calRow);
-
-    rowWrapper.append(timeField, calField);
 
     // Ingredients
+    const ingredientField = document.createElement('fieldset');
+    ingredientField.className = 'boxes';
+
     const ingredientLabel = document.createElement('label');
     ingredientLabel.className = 'labeling';
     ingredientLabel.innerHTML = 'Ingredients <span class="red-text">*</span>';
 
-    const ingredientInput = document.createElement('input');
-    ingredientInput.className = 'ingredient-box';
-    ingredientInput.id = 'input-area';
-    ingredientInput.type = 'text';
-    ingredientInput.placeholder = 'Type Ingredients';
+    const ingredientList = document.createElement('ul');
+    ingredientList.id = 'ingredient-list';
 
-    const ingredientList = document.createElement('div');
-    ['Noodle', 'Chicken', 'Carrots'].forEach(item => {
-        const span = document.createElement('span');
-        span.textContent = item;
-        ingredientList.appendChild(span);
+    const METRIC_MEASUREMENTS = [
+        'milliliters (mL)',
+        'liters (L)',
+        'grams (g)',
+        'kilograms (kg)'
+    ];
+
+    const UNIVERSAL_MEASUREMENTS = [
+        'unitless (no units)',
+        'teaspoon (tsp)',
+        'tablespoon (tbsp)'
+    ];
+
+    function addUnitsToDropdown(measurementArray) {
+        // measurementArray = 'Imperial' || 'Metric' -- TBA
+        const dropdown = document.createElement('select');
+        dropdown.placeholder = 'Units';
+
+        const UNIT_MEASUREMENTS = UNIVERSAL_MEASUREMENTS.concat(measurementArray);
+        for (const unit of UNIT_MEASUREMENTS) {
+            const unitOption = document.createElement('option');
+            unitOption.value = unit;
+            unitOption.text = unit;
+            dropdown.appendChild(unitOption);
+        }
+
+        return dropdown;
+    }
+
+    let ingredientCount = 2;
+
+    function createIngredientItem() {
+        const li = document.createElement('li');
+        li.className = 'ingredient-item';
+
+        const currIngredientRow = document.createElement('div');
+        currIngredientRow.className = 'rows';
+
+        const quantityInput = document.createElement('input');
+        quantityInput.name = 'ingredient-quantity';
+        quantityInput.type = 'text';
+        quantityInput.className = 'ingredient-quantity';
+        quantityInput.placeholder = 'Quantity of ingredient(s)';
+        quantityInput.min = 0;
+        quantityInput.max = 10000;
+
+        // const unitDropdown = document.createElement('select');
+        // unitDropdown.placeholder = 'unit';
+        const unitDropdown = addUnitsToDropdown(METRIC_MEASUREMENTS);
+        unitDropdown.name = 'ingredient-unit';
+        unitDropdown.className = 'unit-dropdown';
+
+        const ingredientNameInput = document.createElement('input');
+
+        ingredientNameInput.name = 'ingredient-name';
+        ingredientNameInput.className = 'ingredient-name';
+        ingredientNameInput.type = 'text';
+        ingredientNameInput.placeholder = 'Name of ingredient';
+        ingredientNameInput.required = true;
+
+        const del = document.createElement('button');
+        del.className = 'delete-button';
+        del.type = 'button';
+
+        const trash = document.createElement('img');
+        trash.src = '../../assets/trash.svg';
+        trash.alt = '🗑️';
+
+        del.appendChild(trash);
+
+        del.addEventListener('click', () => {
+            if (ingredientList.children.length > 1) {
+                ingredientList.removeChild(li);
+            }
+            else {
+                alert("At least one ingredient is required.")
+            }
+        });
+
+        // currIngredientRow.append(quantityInput, unitDropdown, ingredientNameInput, del);
+
+        li.append(quantityInput, unitDropdown, ingredientNameInput, del);
+        // li.append(currIngredientRow);
+        return li;
+    }
+
+    for (let i = 1; i <= ingredientCount; i++) {
+        const li = createIngredientItem();
+        ingredientList.appendChild(li);
+    }
+
+    const addIngredientBtn = document.createElement('button');
+    addIngredientBtn.className = 'add-button';
+    addIngredientBtn.type = 'button';
+    addIngredientBtn.textContent = '+';
+
+    addIngredientBtn.addEventListener('click', () => {
+        stepCount += 1;
+        const li = createIngredientItem(stepCount);
+        ingredientList.appendChild(li);
     });
+
+    ingredientField.append(ingredientLabel, ingredientList, addIngredientBtn);
 
     // Instructions
     const instrField = document.createElement('fieldset');
@@ -110,7 +157,7 @@ export default function () {
 
     const instrLabel = document.createElement('label');
     instrLabel.className = 'labeling';
-    instrLabel.textContent = 'Instructions';
+    instrLabel.innerHTML = 'Instructions <span class="red-text">*</span>';
 
     const instrList = document.createElement('ul');
     instrList.id = 'instruction-list';
@@ -146,7 +193,12 @@ export default function () {
         del.appendChild(trash);
 
         del.addEventListener('click', () => {
-            instrList.removeChild(li);
+            if (instrList.children.length > 1) {
+                instrList.removeChild(li);
+            }
+            else {
+                alert("At least one instruction is required.")
+            }
         });
 
         li.append(drag, input, del);
@@ -156,6 +208,13 @@ export default function () {
     for (let i = 1; i <= stepCount; i++) {
         const li = createInstructionItem(i);
         instrList.appendChild(li);
+    }
+
+    function updateInstructionInputNames() {
+        const steps = instrList.querySelectorAll('.instruction-item input');
+        steps.forEach((input, index) => {
+            input.name = `step${index + 1}`;
+        });
     }
 
     // This is the variable to track which item is being dragged
@@ -204,6 +263,8 @@ export default function () {
         }
         draggedItem.style.display = 'flex';
         draggedItem = null;
+
+        updateInstructionInputNames();
     });
 
     // if dragged is finished, then runs
@@ -219,6 +280,8 @@ export default function () {
         if (dragIndicator.parentElement) {
             dragIndicator.parentElement.removeChild(dragIndicator);
         }
+
+        updateInstructionInputNames();
     });
 
     // this is the helper function that helps calculating where to drop
@@ -251,7 +314,9 @@ export default function () {
     instrField.append(instrLabel, instrList, addBtn);
 
     // Assemble left side
-    formToFill.append(nameField, rowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
+    // mealLabel, mealSelection, cuisineLabel, cuisineSelection
+    // formToFill.append(nameField, timeRowWrapper, labelRowWrapper, ingredientLabel, ingredientInput, ingredientList, instrField);
+    formToFill.append(nameField, ingredientField, instrField);
     left.append(heading, formToFill);
 
     // Right Side
@@ -262,15 +327,196 @@ export default function () {
     photoLabel.className = 'labeling';
     photoLabel.textContent = 'Photo';
 
+    const photoConstraint = document.createElement('p');
+    photoConstraint.className = 'photo-labeling';
+    photoConstraint.textContent = '.jpeg, jpg, .png, .raw, .heif';
+
     const photoBox = document.createElement('div');
     photoBox.className = 'photo-box';
 
     const photoInput = document.createElement('input');
     photoInput.type = 'file';
-    photoInput.name = 'recipe-photo';
+    photoInput.accept = '.png, .jpg, .jpeg, .raw, .heif';
+    photoInput.name = 'image';
     photoInput.id = 'myFile';
+    photoInput.style.display = 'none';
 
+    const uploadButton = document.createElement('button');
+    uploadButton.textContent = 'Browse Files';
+    uploadButton.className = 'custom-upload-btn';
+
+    uploadButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        requestAnimationFrame(() => photoInput.click());
+    });
+
+    const photoPreview = document.createElement('img');
+    photoPreview.className = 'photo-preview';
+    photoPreview.style.display = 'none';
+
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'remove-btn';
+    removeButton.textContent = '✖';
+    removeButton.style.display = 'none';
+    removeButton.addEventListener('click', () => {
+        photoPreview.src = '';
+        photoInput.value = ''; // reset file input
+        photoPreview.style.display = 'none';
+        removeButton.style.display = 'none';
+        photoConstraint.style.display = '';
+        uploadButton.style.display = 'block';
+        uploadIcon.style.display = 'block';
+    });
+
+
+    photoInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            photoPreview.src = '';
+            removeButton.style.display = 'none';
+            uploadButton.style.display = 'block';
+            uploadIcon.style.display = 'block';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            photoPreview.style.display = 'block';
+            photoPreview.src = e.target.result;
+            removeButton.style.display = 'block';
+            uploadButton.style.display = 'none';
+            photoConstraint.style.display = 'none';
+            uploadIcon.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    const uploadIcon = document.createElement('img');
+    uploadIcon.src = "../../assets/upload.png";
+    uploadIcon.className = "upload-icon";
+
+    photoBox.appendChild(uploadIcon);
     photoBox.appendChild(photoInput);
+    photoBox.appendChild(uploadButton);
+    photoBox.appendChild(photoPreview);
+    photoBox.appendChild(removeButton);
+    photoBox.appendChild(photoConstraint);
+
+    // Time & Calories Section
+    const timeRowWrapper = document.createElement('div');
+    timeRowWrapper.className = 'rows';
+
+    const timeUnit = document.createElement('span');
+    timeUnit.className = 'information';
+    timeUnit.textContent = 'min';
+
+    // Prep Time
+    const prepTimeField = document.createElement('fieldset');
+    prepTimeField.className = 'boxes';
+
+    const prepTimeLabel = document.createElement('label');
+    prepTimeLabel.className = 'labeling';
+    prepTimeLabel.textContent = 'Time to prep';
+
+    const prepTimeInput = document.createElement('input');
+    prepTimeInput.className = 'input-text';
+    prepTimeInput.name = 'prepTime';
+    prepTimeInput.id = 'time-prep';
+    prepTimeInput.type = 'number';
+    prepTimeInput.min = 0;
+    prepTimeInput.max = 999;
+    prepTimeInput.step = 1;
+    prepTimeInput.value = 0;
+
+    const prepTimeRow = document.createElement('div');
+    prepTimeRow.className = 'rows';
+
+    prepTimeRow.append(prepTimeInput, timeUnit);
+    prepTimeField.append(prepTimeLabel, prepTimeRow);
+
+    // Cook Time
+    const cookTimeField = document.createElement('fieldset');
+    cookTimeField.className = 'boxes';
+
+    const cookTimeLabel = document.createElement('label');
+    cookTimeLabel.className = 'labeling';
+    cookTimeLabel.innerHTML = 'Time to cook <span class="red-text">*</span>';
+
+    const cookTimeInput = document.createElement('input');
+    cookTimeInput.className = 'input-text';
+    cookTimeInput.name = 'cookTime';
+    cookTimeInput.id = 'time-cook';
+    cookTimeInput.type = 'number';
+    cookTimeInput.required = true;
+    cookTimeInput.min = 0;
+    cookTimeInput.max = 999;
+    cookTimeInput.step = 1;
+    cookTimeInput.required = true;
+
+    const cookTimeRow = document.createElement('div');
+    cookTimeRow.className = 'rows';
+
+    cookTimeRow.append(cookTimeInput, timeUnit);
+    cookTimeField.append(cookTimeLabel, cookTimeRow);
+
+    const calField = document.createElement('fieldset');
+    calField.className = 'boxes';
+
+    const calLabel = document.createElement('label');
+    calLabel.className = 'labeling';
+    calLabel.textContent = 'Calories';
+
+    const calRow = document.createElement('div');
+    calRow.className = 'rows';
+
+    const calInput = document.createElement('input');
+    calInput.className = 'input-text';
+    calInput.name = 'calories';
+    calInput.id = 'calories';
+    calInput.type = 'number';
+    calInput.min = 0;
+    calInput.max = 10000;
+    calInput.step = 1;
+    calInput.value = 0;
+
+    const calUnit = document.createElement('span');
+    calUnit.className = 'information';
+    calUnit.textContent = 'kcal';
+
+    calRow.append(calInput, calUnit);
+    calField.append(calLabel, calRow);
+
+    timeRowWrapper.append(prepTimeField, cookTimeField, calField);
+    // Recipe labels row
+    const labelRowWrapper = document.createElement('div');
+    labelRowWrapper.className = 'labelrows';
+
+    // Meal label selection
+    const mealTypeField = document.createElement('fieldset');
+    calField.className = 'boxes';
+
+    const mealLabel = document.createElement('label');
+    mealLabel.className = 'labeling';
+    mealLabel.textContent = 'Meal type';
+    const mealSelect = document.createElement('select');
+    const mealSelection = createOption('recipeCategory', 'Meal', ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage']);
+
+    mealTypeField.append(mealLabel, mealSelection);
+
+    // Cuisine label selection
+    const cuisineField = document.createElement('fieldset');
+    calField.className = 'boxes';
+
+    const cuisineLabel = document.createElement('label');
+    cuisineLabel.className = 'labeling';
+    cuisineLabel.textContent = 'Cuisine type';
+    const cuisineSelect = document.createElement('select');
+    const cuisineSelection = createOption('recipeCuisine', 'Cuisine', ['African', 'Asian', 'European', 'Latin American', 'Middle Eastern', 'North American']);
+
+    cuisineField.append(cuisineLabel, cuisineSelection);
+
+    labelRowWrapper.append(mealTypeField, cuisineField);
 
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'button-group';
@@ -280,6 +526,10 @@ export default function () {
     saveBtn.className = 'Button';
     saveBtn.id = 'save';
     saveBtn.textContent = 'Save Recipe';
+    // saveBtn.addEventListener('click', () => {
+    //     location.hash = '#/';
+    // });
+
 
     const cancelBtn = document.createElement('button');
     cancelBtn.type = 'button';
@@ -291,7 +541,7 @@ export default function () {
     });
 
     buttonGroup.append(saveBtn, cancelBtn);
-    right.append(photoLabel, photoBox, buttonGroup);
+    right.append(labelRowWrapper, timeRowWrapper, photoLabel, photoBox, buttonGroup);
 
     // Final Assembly
     parent.append(left, right);
@@ -395,4 +645,27 @@ export default function () {
     //       </main> 
     // `
 
+}
+
+
+function createOption(name, label, options) {
+    const select = document.createElement('select');
+    select.className = 'btn-filter';
+    select.name = name;
+
+    const defaultOption = document.createElement('option');
+    defaultOption.disabled = false;
+    defaultOption.selected = true;
+    defaultOption.textContent = label;
+    defaultOption.value = '';
+    select.appendChild(defaultOption);
+
+    for (const opt of options) {
+        const option = document.createElement('option');
+        option.textContent = opt;
+        option.value = opt;
+        select.appendChild(option);
+    }
+
+    return select;
 }
