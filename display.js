@@ -15,7 +15,7 @@ function init() {
  * 
  * @param {Array<Object>} recipes - Array of recipe metadata objects.
  */
-function displayRecipes(recipes){
+function displayRecipes(recipes) {
 
     const mainSection = document.querySelector('main');
 
@@ -47,11 +47,11 @@ function displayRecipes(recipes){
  * 
  * @param {string} ingredient - Ingredient to filter recipes by.
  */
-function displayFilteredRecipes(ingredient){
-    const filtered=recipes.filter(recipe=>
-        recipe.recipeIngredient && recipe.recipeIngredient.some(x => x.name.toLowerCase() === ingredient.toLowerCase())
-    );
-}
+// function displayFilteredRecipes(ingredient) {
+//     const filtered = recipes.filter(recipe =>
+//         recipe.recipeIngredient && recipe.recipeIngredient.some(x => x.name.toLowerCase() === ingredient.toLowerCase())
+//     );
+// }
 function FilterByMealType(type) {
     if (type == 'Meal') {
         return displayRecipes(recipes);

@@ -19,33 +19,39 @@ export default function () {
         init();
     });
 
-    // Mobile search and icon row
-    const headerSearch = document.querySelector('.top-nav .search-bar');
-    const searchClone = headerSearch.cloneNode(true);
 
-    // Create a mobile-specific search/action container
-    const mobileSearchActions = document.createElement('div');
-    mobileSearchActions.className = 'mobile-search-actions';
-    mobileSearchActions.appendChild(searchClone);
+    if (!document.querySelector('.mobile-search-actions')) {
+        // Mobile search and icon row
+        const headerSearch = document.querySelector('.top-nav .search-bar');
+        const searchClone = headerSearch.cloneNode(true);
 
-    // Create mobile action icons (shuffle, add)
-    const mobileActions = document.createElement('div');
-    mobileActions.className = 'mobile-actions';
+        const mobileSearchActions = document.createElement('div');
+        mobileSearchActions.className = 'mobile-search-actions';
+        mobileSearchActions.appendChild(searchClone);
 
-    const shuffleIcon = document.createElement('button');
-    shuffleIcon.id = 'shuffle-icon';
-    shuffleIcon.textContent = '🔀';
+        // small icons
+        const mobileActions = document.createElement('div');
+        mobileActions.className = 'mobile-actions';
 
-    const addIcon = document.createElement('button');
-    addIcon.id = 'add-icon';
-    addIcon.textContent = '➕';
+        const shuffleIcon = document.createElement('button');
+        shuffleIcon.id = 'shuffle-icon';
+        shuffleIcon.textContent = '🔀';
 
-    mobileActions.append(shuffleIcon, addIcon);
-    mobileSearchActions.appendChild(mobileActions);
+        const addIcon = document.createElement('button');
+        addIcon.id = 'add-icon';
+        addIcon.textContent = '➕';
 
-    // Insert mobile UI just below the header
-    const siteHeader = document.querySelector('.site-header');
-    siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
+        mobileActions.append(addIcon);
+        mobileSearchActions.appendChild(mobileActions);
+
+        const siteHeader = document.querySelector('.site-header');
+        siteHeader.insertAdjacentElement('afterend', mobileSearchActions);
+
+        // mobile icons have same functionality as "normal" action buttons
+        shuffleIcon.addEventListener('click', () => document.querySelector('.btn-shuffle').click());
+        addIcon.addEventListener('click', () => document.querySelector('.btn-add').click());
+    }
+
 
     // Create filter navigation section
     const section = document.createElement('section');
@@ -54,7 +60,7 @@ export default function () {
     const filters = document.createElement('ul');
     filters.className = 'filters';
 
-     // Add filter dropdowns
+    // Add filter dropdowns
     const mealFilter = createFilter('filter1', 'Meal', [
         'Breakfast',
         'Lunch',
@@ -138,7 +144,7 @@ export default function () {
     section.append(actions);
 
     // mobile icons have same functionality as "normal" action buttons
-    addIcon.addEventListener('click', () => addBtn.click());
+    // addIcon.addEventListener('click', () => addBtn.click());
 
     return section;
 }

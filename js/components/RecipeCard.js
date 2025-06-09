@@ -3,7 +3,7 @@
  */
 
 import * as RecipeStore from '../database/RecipeStore.js';
-import { renderCardDetails } from '../router.js';
+import { renderCardDetails, render, renderEditPage } from '../router.js';
 const RECIPE_STORE = new RecipeStore.RecipeStore();
 
 /**
@@ -12,20 +12,20 @@ const RECIPE_STORE = new RecipeStore.RecipeStore();
  */
 
 class RecipeCard extends HTMLElement {
-	
-    /**
-     * Constructs a new RecipeCard custom element.
-     * Initializes shadow DOM and injects base HTML structure and styles.
-     */
-	
+
+	/**
+	 * Constructs a new RecipeCard custom element.
+	 * Initializes shadow DOM and injects base HTML structure and styles.
+	 */
+
 	constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
+		super();
+		this.attachShadow({ mode: 'open' });
 
-        const articleContainer = document.createElement('article');
+		const articleContainer = document.createElement('article');
 
-        const styleElement = document.createElement('style');
-        styleElement.textContent = `
+		const styleElement = document.createElement('style');
+		styleElement.textContent = `
 			:host {
 				display: block;
 				width: var(--card-width, 250px); 
@@ -53,8 +53,7 @@ class RecipeCard extends HTMLElement {
 				background-color: var(--color-image-background-card);
 				border-radius: 25px;
 
-				background-image: url('../../assets/images/pasta.webp');
-				background-size: contain;       
+				background-size: cover;       
 				background-position: center;  
 				background-repeat: no-repeat;
 			}
@@ -140,7 +139,9 @@ class RecipeCard extends HTMLElement {
 				// align-items: center;
 				justify-content: center;
 				display: none;
-				gap: 8px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+				z-index:10;
+				overflow: hidden;
 			}
 
 			.delete, .edit {
@@ -149,7 +150,10 @@ class RecipeCard extends HTMLElement {
 				font-size: 16px;
 				gap: 8px;
 				color: #525252;
-				margin-left: 14%;
+				margin-left: 0;
+				padding: 6px 15px;
+				cursor: pointer;
+				transition: background-color 0.2s ease;
 			}
 
 			.delete img,
@@ -158,47 +162,51 @@ class RecipeCard extends HTMLElement {
 				height: 1.2rem;
 			}
 
-			.delete::hover {
-				background-color: #edecec;
-			}
-
-			.edit::hover {
+			.delete:hover,
+			.edit:hover
+			 {
 				background-color: #edecec;
 			}
 		`;
 
-        this.shadowRoot.appendChild(articleContainer);
-        this.shadowRoot.appendChild(styleElement);
-    }
+		this.shadowRoot.appendChild(articleContainer);
+		this.shadowRoot.appendChild(styleElement);
+	}
 
-    /**
-     * Sets recipe data and fills the card with info and buttons.
-     * @param {Object} data - Recipe details like name, time, etc.
-     */
+	/**
+	 * Sets recipe data and fills the card with info and buttons.
+	 * @param {Object} data - Recipe details like name, time, etc.
+	 */
 
-    set data(data) {
-        // Check to see if nothing was passed in
-        if (!data) {
-            return;
-        }
+	set data(data) {
+		// Check to see if nothing was passed in
+		if (!data) {
+			return;
+		}
 
-        const updateCard = async () => {
-            const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
-            const imageURL = URL.createObjectURL(imageBlob);
+		const updateCard = async () => {
+			const typeofdata = typeof data.id;
+			// console.log(`data.id value = ${data.id}`);
+			// console.log(`TYPE OF DATA.ID = ${typeofdata}`);
+			// console.clear();
+			console.log(data);
+			const imageBlob = await RECIPE_STORE.getRecipeImageURL(data.id);
+			const imageURL = URL.createObjectURL(imageBlob);
 
-            const article = this.shadowRoot.querySelector('article');
+			const article = this.shadowRoot.querySelector('article');
 
-            article.addEventListener('click', function (event) {
-                alert('clicked');
-                renderCardDetails(data.id);
-            });
+			article.addEventListener('click', function (event) {
 
-            const starImgSrc = data.isFavorite
-                ? '../assets/coloredStar.svg'
-                : '../assets/star.svg';
+				renderCardDetails(data.id);
+			});
 
-            article.innerHTML = `
-				<div class="pic-box">
+			const starImgSrc = data.isFavorite
+				? '../assets/coloredStar.svg'
+				: '../assets/star.svg';
+
+
+			article.innerHTML = `
+								<div class="pic-box">
 					<button class="star-btn">
 						<img src="${starImgSrc}" alt="star" class="star-img">
 					</button>
@@ -230,86 +238,101 @@ class RecipeCard extends HTMLElement {
 				<p class="ingredients">${data.recipeCategory}, ${data.recipeCuisine}</p>
 			`;
 
-            // Add image to pic-box
-            const picBox = this.shadowRoot.querySelector('.pic-box');
-            picBox.style.backgroundImage = `url(${imageURL})`;
+			// Add image to pic-box
+			const picBox = this.shadowRoot.querySelector('.pic-box');
+			picBox.style.backgroundImage = `url(${imageURL})`;
 
-            const menuBtn = this.shadowRoot.querySelector('.menu-btn');
-            const dropdown = this.shadowRoot.querySelector('.drop-down');
-            const starBtn = this.shadowRoot.querySelector('.star-btn');
-            const starImg = this.shadowRoot.querySelector('.star-img');
+			const menuBtn = this.shadowRoot.querySelector('.menu-btn');
+			const dropdown = this.shadowRoot.querySelector('.drop-down');
+			const starBtn = this.shadowRoot.querySelector('.star-btn');
+			const starImg = this.shadowRoot.querySelector('.star-img');
 
-            // Show/hide dropdown
-            menuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                dropdown.style.display =
-                    dropdown.style.display === 'flex' ? 'none' : 'flex';
-            });
+			// Show/hide dropdown
+			menuBtn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				dropdown.style.display =
+					dropdown.style.display === 'flex' ? 'none' : 'flex';
+			});
 
-            // Hide dropdown if clicked outside
-            this.shadowRoot.addEventListener('click', (e) => {
-                const isInsideMenuBtn = menuBtn.contains(e.target);
-                const isInsideDropdown = dropdown.contains(e.target);
+			// Hide dropdown if clicked outside
+			this.shadowRoot.addEventListener('click', (e) => {
+				const isInsideMenuBtn = menuBtn.contains(e.target);
+				const isInsideDropdown = dropdown.contains(e.target);
 
-                if (!isInsideMenuBtn && !isInsideDropdown) {
-                    dropdown.style.display = 'none';
-                }
-            });
+				if (!isInsideMenuBtn && !isInsideDropdown) {
+					dropdown.style.display = 'none';
+				}
+			});
 
-            
-            // Toggle favorite star
-            starBtn.addEventListener('click', async (e) => {
+			document.addEventListener('click', (e) => {
+				const path = e.composedPath();
+				const clickedInsideCard = path.includes(this);
 
-                e.stopPropagation();
+				if (!clickedInsideCard) {
+					dropdown.style.display = 'none';
+				}
+			});
 
-                // toggle the favorite status
-                const newFavoriteStatus = !data.isFavorite;
-                if (newFavoriteStatus) {
-                    starImg.src = '../assets/coloredStar.svg';
-                } else {
-                    starImg.src = '../assets/star.svg';
-                }
 
-                data.isFavorite = newFavoriteStatus;
-                try {
-                    // update in localStorage using the localStorageService
-                    const fetchAllMeta =
-                        JSON.parse(localStorage.getItem('recipe_metadata')) ||
-                        [];
-                    const recipeIndex = fetchAllMeta.findIndex(
-                        (recipe) => recipe.id === data.id
-                    );
+			// Toggle favorite star
+			starBtn.addEventListener('click', async (e) => {
 
-                    if (recipeIndex >= 0) {
-                        fetchAllMeta[recipeIndex].isFavorite =
-                            newFavoriteStatus;
-                        localStorage.setItem(
-                            'recipe_metadata',
-                            JSON.stringify(fetchAllMeta)
-                        );
-                    }
-                } catch (error) {
-                    console.error('Failed to update favorite status:', error);
-                }
-            });
-            
-            // Edit button click
-            const editBtn = this.shadowRoot.querySelector('.edit');
-            editBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                alert('edit button clicked');
-            });
+				e.stopPropagation();
 
-            // Delete button click
-            const deleteBtn = this.shadowRoot.querySelector('.delete');
-            deleteBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                alert('delete button clicked');
-            });
-        };
+				// toggle the favorite status
+				const newFavoriteStatus = !data.isFavorite;
+				if (newFavoriteStatus) {
+					starImg.src = '../assets/coloredStar.svg';
+				} else {
+					starImg.src = '../assets/star.svg';
+				}
 
-        updateCard();
-    }
+				data.isFavorite = newFavoriteStatus;
+				try {
+					// update in localStorage using the localStorageService
+					const fetchAllMeta =
+						JSON.parse(localStorage.getItem('recipe_metadata')) ||
+						[];
+					const recipeIndex = fetchAllMeta.findIndex(
+						(recipe) => recipe.id === data.id
+					);
+
+					if (recipeIndex >= 0) {
+						fetchAllMeta[recipeIndex].isFavorite =
+							newFavoriteStatus;
+						localStorage.setItem(
+							'recipe_metadata',
+							JSON.stringify(fetchAllMeta)
+						);
+					}
+				} catch (error) {
+					console.error('Failed to update favorite status:', error);
+				}
+			});
+
+			// Edit button click
+			const editBtn = this.shadowRoot.querySelector('.edit');
+			editBtn.addEventListener('click', function (e) {
+				e.stopPropagation();
+				dropdown.style.display = 'none';
+				renderEditPage(data.id);
+			});
+
+			// Delete button click
+			const deleteBtn = this.shadowRoot.querySelector('.delete');
+			deleteBtn.addEventListener('click', async function (e) {
+				e.stopPropagation();
+				await RECIPE_STORE.deleteRecipe(data);
+				// this line make dropdown disapears when button is clicked
+				dropdown.style.display = 'none';
+
+				location.hash = '#/';
+				render();
+			});
+		};
+
+		updateCard();
+	}
 }
 
 // Register the custom element

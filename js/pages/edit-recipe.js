@@ -1,11 +1,29 @@
 import { init } from '../../creating.js';
+import { RecipeStore } from '../database/RecipeStore.js';
+
+const RECIPE_STORE = new RecipeStore();
 
 export default function () {
+    const hash = location.hash;
+    const params = new URLSearchParams(hash.split('?')[1]);
+    const recipeIdRaw = params.get('id');
+
+    const recipeId = recipeIdRaw.replace(/[{}]/g, '');
+    const recipeIdNumber = Number(recipeId);
+    console.log(recipeId);
+    console.log(recipeIdNumber);
+
     const main = document.createElement('main');
     main.className = 'main-area';
 
     const parent = document.createElement('form');
     parent.className = 'parent';
+
+    const hiddenIdInput = document.createElement('input');
+    hiddenIdInput.type = 'hidden';
+    hiddenIdInput.name = 'recipeId';
+    hiddenIdInput.value = recipeIdNumber;
+    parent.appendChild(hiddenIdInput);
 
     // left side
     const left = document.createElement('div');
@@ -13,7 +31,7 @@ export default function () {
 
     const heading = document.createElement('h1');
     heading.className = 'heading';
-    heading.textContent = 'Add Recipe';
+    heading.textContent = 'Edit Recipe';
 
     const formToFill = document.createElement('div');
     formToFill.className = 'form-to-fill';
@@ -92,6 +110,7 @@ export default function () {
         quantityInput.placeholder = 'Quantity of ingredient(s)';
         quantityInput.min = 0;
         quantityInput.max = 10000;
+        quantityInput.required = true;
 
         // const unitDropdown = document.createElement('select');
         // unitDropdown.placeholder = 'unit';
@@ -426,8 +445,8 @@ export default function () {
     prepTimeInput.type = 'number';
     prepTimeInput.min = 0;
     prepTimeInput.max = 999;
-    prepTimeInput.step = 1;
     prepTimeInput.value = 0;
+    prepTimeInput.step = 1;
 
     const prepTimeRow = document.createElement('div');
     prepTimeRow.className = 'rows';
@@ -448,7 +467,6 @@ export default function () {
     cookTimeInput.name = 'cookTime';
     cookTimeInput.id = 'time-cook';
     cookTimeInput.type = 'number';
-    cookTimeInput.required = true;
     cookTimeInput.min = 0;
     cookTimeInput.max = 999;
     cookTimeInput.step = 1;
@@ -525,7 +543,7 @@ export default function () {
     saveBtn.type = 'submit';
     saveBtn.className = 'Button';
     saveBtn.id = 'save';
-    saveBtn.textContent = 'Save Recipe';
+    saveBtn.textContent = 'Save Edit';
     // saveBtn.addEventListener('click', () => {
     //     location.hash = '#/';
     // });
@@ -547,104 +565,66 @@ export default function () {
     parent.append(left, right);
     main.appendChild(parent);
 
+    RECIPE_STORE.getRecipe(Number(recipeId)).then(recipe => {
+        if (!recipe) return;
+        console.log(recipe);
+
+        nameInput.value = recipe.name || "";
+        prepTimeInput.value = recipe.prepTime || 0;
+        cookTimeInput.value = recipe.cookTime || 0;
+        calInput.value = recipe.calories || 0;
+        mealSelection.value = recipe.recipeCategory || "";
+        cuisineSelection.value = recipe.recipeCuisine || "";
+        console.log(">>>> Recipe image type = ");
+        console.log(typeof recipe.image);
+
+        ingredientList.innerHTML = "";
+        recipe.recipeIngredient.forEach(ingredient => {
+            const li = createIngredientItem();
+            li.querySelector('.ingredient-quantity').value = ingredient.quantity || '';
+            li.querySelector('.ingredient-name').value = ingredient.name || '';
+            li.querySelector('.unit-dropdown').value = ingredient.units || '';
+            ingredientList.appendChild(li);
+        });
+
+        instrList.innerHTML = "";
+        recipe.recipeInstructions.forEach((instruction, index) => {
+            const li = createInstructionItem(index + 1);
+            li.querySelector('.step').value = instruction.text || '';
+            instrList.appendChild(li);
+        });
+
+        // extension = file_name.split('.').pop();
+
+        console.log("recipe.image here: ", recipe.image)
+
+        if (recipe.image && recipe.image.size > 0) {
+            const imgBlob = new Blob([recipe.image], { type: 'image/jpeg' });
+            const imgUrl = URL.createObjectURL(imgBlob);
+            photoPreview.src = imgUrl;
+            photoPreview.style.display = 'block';
+            removeButton.style.display = 'block';
+            uploadButton.style.display = 'none';
+            photoConstraint.style.display = 'none';
+            uploadIcon.style.display = 'none';
+
+        } else {
+            photoPreview.src = '';
+            photoInput.value = '';
+            photoPreview.style.display = 'none';
+            removeButton.style.display = 'none';
+            photoConstraint.style.display = '';
+            uploadButton.style.display = 'block';
+            uploadIcon.style.display = 'block';
+        }
+
+    });
+
     requestAnimationFrame(() => {
         init();
     });
 
-
     return main;
-
-    // return `
-    //       <main class="main-area">
-
-
-    //         <form class="parent">
-    //           <div class="left-side">
-    //             <h1 class="heading">Add Recipe</h1>
-    //             <div class="form-to-fill">
-    //               <fieldset class="boxes">
-    //                 <label class="labeling" >Name of Recipe <span class="red-text">*</span></label>
-    //                 <input class="input-text" name="recipe" id="recipe-name" type="text">
-    //               </fieldset>
-
-    //                 <div class="rows">
-    //                   <fieldset class="boxes">
-    //                     <label class="labeling">Time taken to cook</label>
-
-    //                     <div class="rows">
-    //                       <input class="input-text" name="time" id="time-cook" type="text">
-    //                       <span class="information">min</span>
-    //                     </div>
-    //                   </fieldset>
-
-    //                   <fieldset class="boxes">
-    //                     <label class="labeling">Calories</label>
-
-    //                     <div class="rows">
-    //                       <input class="input-text" name="calories" id="calories" type="text">
-    //                       <span class="information">kcal</span>
-    //                     </div>
-    //                   </fieldset>
-    //                 </div>
-
-    //               <fieldset class="boxes">
-
-    //               <label class="labeling">Instructions</label>
-    //               <ul id="instruction-list">
-
-    //                 <li class="instruction-item" draggable="true">
-    //                   <span class="drag-handle">
-    //                     <img src="../../assets/instruction_row.svg" draggable="false">
-    //                   </span>
-    //                   <input class="step1" name="step1" type="text">
-    //                   <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
-    //                 </li>
-
-    //                 <li class="instruction-item" draggable="true">
-    //                   <span class="drag-handle">
-    //                     <img src="../../assets/instruction_row.svg" draggable="false">
-    //                   </span>
-    //                   <input class="step2" name="step2" type="text">
-    //                   <button class="delete-button"><img src="../../assets/trash.svg" alt="🗑️"></button>
-    //                 </li>
-
-    //               </ul>
-
-    //               <button class="add-button" type="button">+</button><br>
-
-
-    //               </fieldset>
-
-    //             </div>
-
-
-    //           </div>
-
-
-    //           <div class="right-side">
-    //             <div class="button-group">
-    //               <button type="submit" class="Button" id="save">Save Recipe</button>
-    //               <button class="Button" type="button" id="cancel" onclick="location.hash = '#/'">Cancel</button>
-    //             </div>
-
-
-    //             <label class="labeling">Photo</label>
-    //             <div class="photo-box">
-    //               <input type="file" id="myFile" name="recipe">
-    //             </div>
-
-    //             <label class="labeling">Ingredients <span class="red-text">*</span></label> 
-    //             <input class="search-box"  id="input-area" type="text" placeholder="Search for Ingredients">
-    //             <div>
-    //                 <span>Noodle</span>
-    //                 <span>Chicken</span>
-    //                 <span>Carrots</span>
-    //             </div>
-    //           </div>
-    //         </form>
-    //       </main> 
-    // `
-
 }
 
 
