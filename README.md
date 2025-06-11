@@ -104,4 +104,5 @@ Let Me Cook was made with ❤️ by Team Ate.
 👤 **Shashwat Dudeja** - Github: [@shash31](https://github.com/shash31)
 
 ## Videos
-[Here is a link to our public demo and retrospective video for this project](https://youtu.be/E_IANp1SsKU)
+- [Here is a link to our **public demo** and retrospective video for this project](https://youtu.be/E_IANp1SsKU).
+- [Here is a link to our **private retrospective** of this project and quarter](https://www.youtube.com/watch?v=-jX6OiMZvoQ).
