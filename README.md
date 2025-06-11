@@ -18,6 +18,7 @@ Let Me Cook helps users save their favorite recipes by storing them digitally an
 | [Setup](#setup) |
 | [Documentation](#documentation) |
 | [Authors](#authors) |
+| [Videos](#videos) |
 
 ## Features
 ### Creating Recipe
@@ -101,3 +102,6 @@ Let Me Cook was made with ❤️ by Team Ate.
 👤 **Samson Gebrekidan** - Github: [@Samat4E](https://github.com/Samat4E)
 
 👤 **Shashwat Dudeja** - Github: [@shash31](https://github.com/shash31)
+
+## Videos
+[Here is a link to our public demo and retrospective video for this project](https://youtu.be/E_IANp1SsKU)
